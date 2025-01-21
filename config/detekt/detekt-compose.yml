@@ -25,6 +25,8 @@ Compose:
     active: true
   PreviewPublic:
     active: true
+    excludes:
+      - '**/screenshotTest/**'
   RememberMissing:
     active: true
   UnstableCollections:

@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sonarqube)
+    alias(libs.plugins.screenshot)
     jacoco
 }
 
@@ -73,8 +74,18 @@ android {
                 "-Xshare:off",
             )
         }
+        screenshotTests {
+            imageDifferenceThreshold = 0.0001f // 0.01%
+        }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.4"
+    }
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
+
+project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
+project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
 
 tasks {
     getByName("check") {
@@ -193,11 +204,21 @@ dependencies {
 
             androidTestImplementation(junit)
             androidTestImplementation(espresso.core)
+            androidTestImplementation(espresso.contrib)
             androidTestImplementation(platform(compose.bom))
             androidTestImplementation(ui.test.junit4)
 
             debugImplementation(ui.tooling)
             debugImplementation(ui.test.manifest)
+
+            ui.apply {
+                debugImplementation(test.manifest)
+                androidTestImplementation(test.junit4)
+                androidTestImplementation(test)
+            }
+
+            androidTestImplementation(arch.core.test)
+            screenshotTestImplementation(compose.ui.tooling)
         }
 
         kotlinx.apply {
