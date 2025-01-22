@@ -55,6 +55,7 @@ androidxNavigation = "2.8.5"
 googleReview = "2.0.2"
 retrofitBom = "2.11.0"
 fonts = "1.7.6"
+robolectric = "4.14.1"
 
 [libraries]
 
@@ -100,6 +101,7 @@ google-play-review = { module = "com.google.android.play:review", version.ref = 
 arch-core-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCore" }
 square-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+robolectric-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 # endregion
 
 # region kotlinx

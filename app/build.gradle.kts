@@ -267,9 +267,16 @@ dependencies {
         testImplementation(mockk.kotlin)
         androidTestImplementation(mockk.android)
 
+        // testImplementation(robolectric.robolectric)
+        // androidTestImplementation(robolectric.robolectric)
+
         junit5.apply {
             testImplementation(api)
             testImplementation(params)
+
+            androidTestImplementation(api)
+            androidTestImplementation(params)
+
             testRuntimeOnly(jupiterEngine)
             testRuntimeOnly(vintageEngine)
         }
