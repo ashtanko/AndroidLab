@@ -206,8 +206,8 @@ dependencies {
             implementation(hilt.navigation.compose)
 
             androidTestImplementation(junit)
-            androidTestImplementation(espresso.core)
-            androidTestImplementation(espresso.contrib)
+            // androidTestImplementation(espresso.core)
+            // androidTestImplementation(espresso.contrib)
             androidTestImplementation(platform(compose.bom))
             androidTestImplementation(ui.test.junit4)
 
