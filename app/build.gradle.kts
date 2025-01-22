@@ -223,6 +223,12 @@ dependencies {
 
         kotlinx.apply {
             implementation(collections.immutable)
+            implementation(coroutines.android)
+            implementation(coroutines.core)
+            implementation(serialization)
+
+            testImplementation(coroutines.test)
+            testImplementation(coroutines.debug)
         }
 
         detekt.apply {
@@ -237,6 +243,7 @@ dependencies {
             kspAndroidTest(compiler)
             testImplementation(android.testing)
         }
+
         implementation(jacoco.core)
 
         implementation(okhttp)
