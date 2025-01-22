@@ -244,6 +244,11 @@ dependencies {
             testImplementation(android.testing)
         }
 
+        implementation(room.runtime)
+        implementation(room.ktx)
+        implementation(room.paging)
+        ksp(room.compiler)
+
         implementation(jacoco.core)
 
         implementation(square.okhttp)
