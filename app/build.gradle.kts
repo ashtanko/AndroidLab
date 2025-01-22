@@ -233,8 +233,23 @@ dependencies {
         google.hilt.apply {
             implementation(android)
             ksp(compiler)
+            kspTest(compiler)
+            kspAndroidTest(compiler)
+            testImplementation(android.testing)
         }
         implementation(jacoco.core)
+
+        implementation(okhttp)
+        implementation(okhttp.logging)
+        implementation(retrofit.core)
+        implementation(sandwich.retrofit)
+        implementation(retrofit.kotlin.serialization)
+
+        testImplementation(square.turbine)
+        testImplementation(mockito)
+        testImplementation(mockito.kotlin2)
+        testImplementation(mockk.kotlin)
+        androidTestImplementation(mockk.android)
 
         junit5.apply {
             testImplementation(api)
