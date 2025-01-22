@@ -3,6 +3,7 @@ package dev.shtanko.androidlab.github.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.shtanko.androidlab.github.presentation.model.UserResource
 
 @Entity(tableName = "users")
 data class UserEntity(
@@ -27,3 +28,12 @@ data class UserEntity(
     @ColumnInfo(name = "user_view_type") val userViewType: String? = null,
     @ColumnInfo(name = "site_admin") val siteAdmin: Boolean? = null,
 )
+
+fun UserEntity.asExternalModel(): UserResource {
+    return UserResource(
+        id = id,
+        login = login,
+        avatarUrl = avatarUrl,
+        type = type,
+    )
+}

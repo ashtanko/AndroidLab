@@ -1,10 +1,11 @@
 package dev.shtanko.androidlab.github.data.model
 
+import dev.shtanko.androidlab.github.data.db.entity.UserEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserDto(
+data class NetworkUser(
     @SerialName("id") val id: Int,
     @SerialName("login") val login: String? = null,
     @SerialName("node_id") val nodeId: String? = null,
@@ -24,4 +25,26 @@ data class UserDto(
     @SerialName("type") val type: String? = null,
     @SerialName("user_view_type") val userViewType: String? = null,
     @SerialName("site_admin") val siteAdmin: Boolean? = null,
+)
+
+fun NetworkUser.asEntity() = UserEntity(
+    id = id,
+    login = login,
+    nodeId = nodeId,
+    avatarUrl = avatarUrl,
+    gravatarId = gravatarId,
+    url = url,
+    htmlUrl = htmlUrl,
+    followersUrl = followersUrl,
+    followingUrl = followingUrl,
+    gistsUrl = gistsUrl,
+    starredUrl = starredUrl,
+    subscriptionsUrl = subscriptionsUrl,
+    organizationsUrl = organizationsUrl,
+    reposUrl = reposUrl,
+    eventsUrl = eventsUrl,
+    receivedEventsUrl = receivedEventsUrl,
+    type = type,
+    userViewType = userViewType,
+    siteAdmin = siteAdmin,
 )

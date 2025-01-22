@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
+import dev.shtanko.androidlab.github.presentation.UsersScreen
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 
 @AndroidEntryPoint
@@ -19,10 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AndroidLabTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding),
-                    )
+                    UsersScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

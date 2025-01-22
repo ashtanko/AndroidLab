@@ -239,6 +239,12 @@ dependencies {
             detektPlugins(formatting)
         }
 
+        coil.apply {
+            implementation(kt)
+            implementation(kt.compose)
+            implementation(kt.svg)
+        }
+
         google.hilt.apply {
             implementation(android)
             ksp(compiler)

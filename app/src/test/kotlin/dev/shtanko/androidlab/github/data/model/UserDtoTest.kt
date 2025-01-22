@@ -10,7 +10,7 @@ class UserDtoTest {
 
     @Test
     fun `serialize UserDto to JSON`() {
-        val userDto = UserDto(
+        val networkUser = NetworkUser(
             login = "testuser",
             id = 12_345,
             nodeId = "MDQ6VXNlcjEyMzQ1",
@@ -32,7 +32,7 @@ class UserDtoTest {
             siteAdmin = false,
         )
 
-        val serialized = jsonFormat.encodeToString(UserDto.serializer(), userDto)
+        val serialized = jsonFormat.encodeToString(NetworkUser.serializer(), networkUser)
 
         val expectedJson = """
             {
@@ -87,9 +87,9 @@ class UserDtoTest {
             }
         """.trimIndent()
 
-        val deserialized = jsonFormat.decodeFromString(UserDto.serializer(), jsonInput)
+        val deserialized = jsonFormat.decodeFromString(NetworkUser.serializer(), jsonInput)
 
-        val expected = UserDto(
+        val expected = NetworkUser(
             login = "testuser",
             id = 12_345,
             nodeId = "MDQ6VXNlcjEyMzQ1",
@@ -116,16 +116,16 @@ class UserDtoTest {
 
     @Test
     fun `serialize and deserialize empty fields`() {
-        val userDto = UserDto(
+        val networkUser = NetworkUser(
             id = 12_345,
             login = "testuser",
             nodeId = null,
         )
 
-        val json = jsonFormat.encodeToString(UserDto.serializer(), userDto)
-        val deserialized = jsonFormat.decodeFromString(UserDto.serializer(), json)
+        val json = jsonFormat.encodeToString(NetworkUser.serializer(), networkUser)
+        val deserialized = jsonFormat.decodeFromString(NetworkUser.serializer(), json)
 
-        assertEquals(userDto, deserialized)
+        assertEquals(networkUser, deserialized)
         assertTrue(json.contains("testuser"))
     }
 }
