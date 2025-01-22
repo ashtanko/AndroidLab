@@ -136,11 +136,11 @@ room-paging = { group = "androidx.room", name = "room-paging", version.ref = "ro
 # endregion
 
 # networking
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
-retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-sandwich-retrofit = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
+square-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+square-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+square-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+square-retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+skydoves-sandwich-retrofit = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
 square-okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
 square-retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofitBom" }
 # endregion

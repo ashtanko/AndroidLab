@@ -246,11 +246,12 @@ dependencies {
 
         implementation(jacoco.core)
 
-        implementation(okhttp)
-        implementation(okhttp.logging)
-        implementation(retrofit.core)
-        implementation(sandwich.retrofit)
-        implementation(retrofit.kotlin.serialization)
+        implementation(square.okhttp)
+        implementation(square.okhttp.logging)
+        implementation(square.okhttp.mockwebserver)
+        implementation(square.retrofit.core)
+        implementation(skydoves.sandwich.retrofit)
+        implementation(square.retrofit.kotlin.serialization)
 
         testImplementation(square.turbine)
         testImplementation(mockito)
