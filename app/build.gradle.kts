@@ -215,6 +215,7 @@ dependencies {
             debugImplementation(ui.test.manifest)
 
             ui.apply {
+                implementation(text.google.fonts)
                 debugImplementation(test.manifest)
                 androidTestImplementation(test.junit4)
                 androidTestImplementation(test)
