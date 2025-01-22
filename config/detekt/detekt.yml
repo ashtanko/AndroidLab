@@ -285,7 +285,7 @@ formatting:
   ImportOrdering:
     active: true
     autoCorrect: true
-    layout: '*,^'
+    layout: 'idea'
   Indentation:
     active: false
     autoCorrect: true

@@ -1,5 +1,3 @@
-@file:Suppress("ImportOrdering")
-
 package dev.shtanko.androidlab.github.data.service
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
