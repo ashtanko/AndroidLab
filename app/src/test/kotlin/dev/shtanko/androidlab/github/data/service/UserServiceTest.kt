@@ -22,33 +22,34 @@ import java.net.HttpURLConnection
 class UserServiceTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var userService: UserService
-    private val json = Json { ignoreUnknownKeys = true }
+    private val jsonConfig = Json { ignoreUnknownKeys = true }
 
     @BeforeEach
     @Throws(IOException::class)
-    fun setUp() {
+    fun initialize() {
         mockWebServer = MockWebServer()
         userService = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/").toString())
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(jsonConfig.asConverterFactory("application/json".toMediaType()))
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
-            .build().create<UserService>(UserService::class.java)
+            .build()
+            .create(UserService::class.java)
     }
 
     @AfterEach
     @Throws(IOException::class)
-    fun tearDown() {
+    fun cleanUp() {
         mockWebServer.shutdown()
     }
 
     @Test
-    fun `check user service is not null`() {
+    fun `userService instance should not be null`() {
         assertNotNull(userService)
     }
 
     @Test
-    fun `get users should return successful response`() = runTest {
-        val rawMockResponse = """
+    fun `fetchUsers should return successful response`() = runTest {
+        val mockJsonResponse = """
             [
               {
                 "id": 1,
@@ -58,45 +59,45 @@ class UserServiceTest {
            ]
         """.trimIndent()
 
-        val mockResponse = MockResponse().setBody(rawMockResponse)
+        val successfulResponse = MockResponse().setBody(mockJsonResponse)
 
-        mockWebServer.enqueue(mockResponse.setResponseCode(HttpURLConnection.HTTP_OK))
+        mockWebServer.enqueue(successfulResponse.setResponseCode(HttpURLConnection.HTTP_OK))
 
-        val result = userService.fetchUsers()
-        if (result is ApiResponse.Success) {
-            val data = result.data
-            assertNotNull(data)
-            assertFalse(data.isEmpty())
-            assertEquals("mojombo", data.first().login)
+        val response = userService.fetchUsers()
+        if (response is ApiResponse.Success) {
+            val users = response.data
+            assertNotNull(users)
+            assertFalse(users.isEmpty())
+            assertEquals("mojombo", users.first().login)
         }
     }
 
     @Test
-    fun `get users should return failure response`() = runTest {
+    fun `fetchUsers should return failure response`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST))
-        val result = userService.fetchUsers()
+        val response = userService.fetchUsers()
         assertTrue(
-            (result as ApiResponse.Failure<*>).toString()
+            (response as ApiResponse.Failure<*>).toString()
                 .contains(HttpURLConnection.HTTP_BAD_REQUEST.toString()),
         )
     }
 
     @Test
-    fun `get users should return empty response`() = runTest {
-        val rawMockResponse = """
+    fun `fetchUsers should return empty response`() = runTest {
+        val emptyJsonResponse = """
             [
             ]
         """.trimIndent()
 
-        val mockResponse = MockResponse().setBody(rawMockResponse)
+        val emptyResponse = MockResponse().setBody(emptyJsonResponse)
 
-        mockWebServer.enqueue(mockResponse.setResponseCode(HttpURLConnection.HTTP_OK))
+        mockWebServer.enqueue(emptyResponse.setResponseCode(HttpURLConnection.HTTP_OK))
 
-        val result = userService.fetchUsers()
-        if (result is ApiResponse.Success) {
-            val data = result.data
-            assertNotNull(data)
-            assertTrue(data.isEmpty())
+        val response = userService.fetchUsers()
+        if (response is ApiResponse.Success) {
+            val users = response.data
+            assertNotNull(users)
+            assertTrue(users.isEmpty())
         }
     }
 }

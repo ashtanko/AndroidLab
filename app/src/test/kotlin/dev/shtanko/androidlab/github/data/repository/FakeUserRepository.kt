@@ -13,7 +13,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     override fun fetchUsers(force: Boolean): Flow<Result<List<UserResource>>> = userResourcesFlow
 
-    fun sendUserResources(newsResources: Result<List<UserResource>>) {
+    fun emitUserResources(newsResources: Result<List<UserResource>>) {
         userResourcesFlow.tryEmit(newsResources)
     }
 }

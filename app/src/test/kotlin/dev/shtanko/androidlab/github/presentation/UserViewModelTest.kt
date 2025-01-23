@@ -22,30 +22,28 @@ class UserViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var viewModel: UserViewModel
-    private var userRepository = FakeUserRepository()
+    private lateinit var userViewModel: UserViewModel
+    private val fakeUserRepository = FakeUserRepository()
 
     @BeforeEach
-    fun setup() {
-        viewModel = UserViewModel(
-            userRepository,
-        )
+    fun initializeViewModel() {
+        userViewModel = UserViewModel(fakeUserRepository)
     }
 
     @Test
-    fun `initial state is Loading`() = runTest {
-        viewModel.uiState.test {
+    fun `uiState should initially be Loading`() = runTest {
+        userViewModel.uiState.test {
             assertEquals(UserUiState.Loading, awaitItem())
         }
     }
 
     @Test
-    fun `fetchUsers emits Success state when repository fetch succeeds`() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
-        userRepository.sendUserResources(mockSuccessfulResult)
-        viewModel.retry()
+    fun `retry fetch emits Success state when repository returns users`() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        fakeUserRepository.emitUserResources(mockSuccessResult)
+        userViewModel.retry()
 
-        viewModel.uiState.test {
+        userViewModel.uiState.test {
             assertEquals(UserUiState.Loading, awaitItem())
             val successState = awaitItem() as UserUiState.Success
             assertEquals(mockUsers.toImmutableList(), successState.users)
@@ -53,11 +51,11 @@ class UserViewModelTest {
     }
 
     @Test
-    fun `fetchUsers emits Error state when repository fetch fails`() = runTest {
-        userRepository.sendUserResources(Result.failure(Exception("Network error")))
-        viewModel.retry()
+    fun `retry fetch emits Error state when repository fetch fails`() = runTest {
+        fakeUserRepository.emitUserResources(Result.failure(Exception("Network error")))
+        userViewModel.retry()
 
-        viewModel.uiState.test {
+        userViewModel.uiState.test {
             assertEquals(UserUiState.Loading, awaitItem())
             assertEquals(UserUiState.Error, awaitItem())
         }
@@ -65,13 +63,13 @@ class UserViewModelTest {
 
     @Test
     @Disabled("This test is flaky")
-    fun `refresh sets isRefreshing to true during fetch`() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) { viewModel.uiState.collect() }
-        userRepository.sendUserResources(mockSuccessfulResult)
+    fun `refresh updates isRefreshing state correctly`() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        fakeUserRepository.emitUserResources(mockSuccessResult)
 
-        viewModel.isRefreshing.test(timeout = 3.seconds) {
+        userViewModel.isRefreshing.test(timeout = 3.seconds) {
             assertEquals(false, awaitItem())
-            viewModel.refresh()
+            userViewModel.refresh()
             assertEquals(true, awaitItem())
             assertEquals(false, awaitItem())
             assertEquals(true, awaitItem())
@@ -80,11 +78,11 @@ class UserViewModelTest {
     }
 
     @Test
-    fun `fetchUsers emits Empty state when no users are fetched`() = runTest {
-        userRepository.sendUserResources(Result.success(emptyList()))
-        viewModel.retry()
+    fun `retry fetch emits Empty state when no users are fetched`() = runTest {
+        fakeUserRepository.emitUserResources(Result.success(emptyList()))
+        userViewModel.retry()
 
-        viewModel.uiState.test {
+        userViewModel.uiState.test {
             assertEquals(UserUiState.Loading, awaitItem())
             assertEquals(UserUiState.Empty, awaitItem())
         }
@@ -98,5 +96,5 @@ class UserViewModelTest {
         ),
     )
 
-    private val mockSuccessfulResult = Result.success(mockUsers)
+    private val mockSuccessResult = Result.success(mockUsers)
 }
