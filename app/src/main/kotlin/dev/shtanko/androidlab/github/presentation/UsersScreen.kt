@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package dev.shtanko.androidlab.github.presentation
 
 import androidx.compose.foundation.background
@@ -284,6 +286,22 @@ private fun UsersListContentPreview(
             uiState = UserUiState.Success(
                 users = preview,
             ),
+            isRefreshing = false,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UsersListContentRefreshingPreview(
+    @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,
+) {
+    AndroidLabTheme {
+        UsersContent(
+            uiState = UserUiState.Success(
+                users = preview,
+            ),
+            isRefreshing = true,
         )
     }
 }

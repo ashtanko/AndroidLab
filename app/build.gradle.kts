@@ -106,6 +106,7 @@ android {
 
 project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
 project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
+project.gradle.startParameter.excludedTaskNames.add("testBenchmarkReleaseScreenshotTest")
 
 tasks {
     getByName("check") {
