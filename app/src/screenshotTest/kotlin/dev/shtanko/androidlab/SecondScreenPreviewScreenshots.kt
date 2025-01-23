@@ -7,7 +7,7 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 class SecondScreenPreviewScreenshots {
     @Preview(showBackground = true)
     @Composable
-    fun GreetingPreview() {
+    fun SecondScreenPreview() {
         AndroidLabTheme {
             SecondScreen(onNavigateToNextScreen = {})
         }

@@ -1,5 +1,6 @@
 package dev.shtanko.androidlab.github.presentation
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,12 +9,15 @@ import dev.shtanko.androidlab.github.presentation.model.UserResource
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -22,44 +26,48 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
-    val uiState: StateFlow<UserUiState> =
-        MutableStateFlow<UserUiState>(UserUiState.Loading).flatMapLatest {
-            userRepository.fetchUsers().distinctUntilChanged().map {
-                if (it.isSuccess) {
-                    val list = it.getOrNull() ?: emptyList()
-                    if (list.isEmpty()) {
-                        UserUiState.Empty
-                    } else {
-                        UserUiState.Success(list.toImmutableList())
-                    }
-                } else {
-                    UserUiState.Error
-                }
-            }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UserUiState.Loading,
-        )
 
-    var isRefreshing: StateFlow<Boolean> = uiState.map {
-        it == UserUiState.Loading
+    private val fetchTrigger = MutableSharedFlow<Boolean>(replay = 1)
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    val uiState: StateFlow<UserUiState> = fetchTrigger.flatMapLatest { force ->
+        _isRefreshing.value = true
+        userRepository.fetchUsers(force = force).map {
+            _isRefreshing.value = false
+            if (it.isSuccess) {
+                val list = it.getOrNull() ?: emptyList()
+                if (list.isEmpty()) {
+                    UserUiState.Empty
+                } else {
+                    UserUiState.Success(list.toImmutableList())
+                }
+            } else {
+                UserUiState.Error
+            }
+        }.distinctUntilChanged().onCompletion {
+            _isRefreshing.value = false
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = true,
+        initialValue = UserUiState.Loading,
     )
 
+    init {
+        fetchTrigger.tryEmit(false)
+    }
+
     fun refresh() {
-        userRepository.fetchUsers(force = true)
-        (uiState as? MutableStateFlow)?.value = UserUiState.Loading
+        fetchTrigger.tryEmit(true)
     }
 
     fun retry() {
-        (uiState as? MutableStateFlow)?.value = UserUiState.Loading
+        fetchTrigger.tryEmit(false)
     }
 }
 
+@Immutable
 sealed interface UserUiState {
 
     data object Loading : UserUiState

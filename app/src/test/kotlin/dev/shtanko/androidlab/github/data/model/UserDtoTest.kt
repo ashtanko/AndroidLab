@@ -13,23 +13,7 @@ class UserDtoTest {
         val networkUser = NetworkUser(
             login = "testuser",
             id = 12_345,
-            nodeId = "MDQ6VXNlcjEyMzQ1",
             avatarUrl = "https://avatars.githubusercontent.com/u/12345?v=4",
-            gravatarId = "",
-            url = "https://api.github.com/users/testuser",
-            htmlUrl = "https://github.com/testuser",
-            followersUrl = "https://api.github.com/users/testuser/followers",
-            followingUrl = "https://api.github.com/users/testuser/following{/other_user}",
-            gistsUrl = "https://api.github.com/users/testuser/gists{/gist_id}",
-            starredUrl = "https://api.github.com/users/testuser/starred{/owner}{/repo}",
-            subscriptionsUrl = "https://api.github.com/users/testuser/subscriptions",
-            organizationsUrl = "https://api.github.com/users/testuser/orgs",
-            reposUrl = "https://api.github.com/users/testuser/repos",
-            eventsUrl = "https://api.github.com/users/testuser/events{/privacy}",
-            receivedEventsUrl = "https://api.github.com/users/testuser/received_events",
-            type = "User",
-            userViewType = "Public",
-            siteAdmin = false,
         )
 
         val serialized = jsonFormat.encodeToString(NetworkUser.serializer(), networkUser)
@@ -38,23 +22,7 @@ class UserDtoTest {
             {
                 "id": 12345,
                 "login": "testuser",
-                "node_id": "MDQ6VXNlcjEyMzQ1",
-                "avatar_url": "https://avatars.githubusercontent.com/u/12345?v=4",
-                "gravatar_id": "",
-                "url": "https://api.github.com/users/testuser",
-                "html_url": "https://github.com/testuser",
-                "followers_url": "https://api.github.com/users/testuser/followers",
-                "following_url": "https://api.github.com/users/testuser/following{/other_user}",
-                "gists_url": "https://api.github.com/users/testuser/gists{/gist_id}",
-                "starred_url": "https://api.github.com/users/testuser/starred{/owner}{/repo}",
-                "subscriptions_url": "https://api.github.com/users/testuser/subscriptions",
-                "organizations_url": "https://api.github.com/users/testuser/orgs",
-                "repos_url": "https://api.github.com/users/testuser/repos",
-                "events_url": "https://api.github.com/users/testuser/events{/privacy}",
-                "received_events_url": "https://api.github.com/users/testuser/received_events",
-                "type": "User",
-                "user_view_type": "Public",
-                "site_admin": false
+                "avatar_url": "https://avatars.githubusercontent.com/u/12345?v=4"
             }
         """.trimIndent().replace("\n", "").replace(" ", "")
 
@@ -65,25 +33,9 @@ class UserDtoTest {
     fun `deserialize JSON to UserDto`() {
         val jsonInput = """
             {
-                "login": "testuser",
                 "id": 12345,
-                "node_id": "MDQ6VXNlcjEyMzQ1",
-                "avatar_url": "https://avatars.githubusercontent.com/u/12345?v=4",
-                "gravatar_id": "",
-                "url": "https://api.github.com/users/testuser",
-                "html_url": "https://github.com/testuser",
-                "followers_url": "https://api.github.com/users/testuser/followers",
-                "following_url": "https://api.github.com/users/testuser/following{/other_user}",
-                "gists_url": "https://api.github.com/users/testuser/gists{/gist_id}",
-                "starred_url": "https://api.github.com/users/testuser/starred{/owner}{/repo}",
-                "subscriptions_url": "https://api.github.com/users/testuser/subscriptions",
-                "organizations_url": "https://api.github.com/users/testuser/orgs",
-                "repos_url": "https://api.github.com/users/testuser/repos",
-                "events_url": "https://api.github.com/users/testuser/events{/privacy}",
-                "received_events_url": "https://api.github.com/users/testuser/received_events",
-                "type": "User",
-                "user_view_type": "Public",
-                "site_admin": false
+                "login": "testuser",
+                "avatar_url": "https://avatars.githubusercontent.com/u/12345?v=4"
             }
         """.trimIndent()
 
@@ -92,23 +44,7 @@ class UserDtoTest {
         val expected = NetworkUser(
             login = "testuser",
             id = 12_345,
-            nodeId = "MDQ6VXNlcjEyMzQ1",
             avatarUrl = "https://avatars.githubusercontent.com/u/12345?v=4",
-            gravatarId = "",
-            url = "https://api.github.com/users/testuser",
-            htmlUrl = "https://github.com/testuser",
-            followersUrl = "https://api.github.com/users/testuser/followers",
-            followingUrl = "https://api.github.com/users/testuser/following{/other_user}",
-            gistsUrl = "https://api.github.com/users/testuser/gists{/gist_id}",
-            starredUrl = "https://api.github.com/users/testuser/starred{/owner}{/repo}",
-            subscriptionsUrl = "https://api.github.com/users/testuser/subscriptions",
-            organizationsUrl = "https://api.github.com/users/testuser/orgs",
-            reposUrl = "https://api.github.com/users/testuser/repos",
-            eventsUrl = "https://api.github.com/users/testuser/events{/privacy}",
-            receivedEventsUrl = "https://api.github.com/users/testuser/received_events",
-            type = "User",
-            userViewType = "Public",
-            siteAdmin = false,
         )
 
         assertEquals(expected, deserialized)
@@ -119,7 +55,6 @@ class UserDtoTest {
         val networkUser = NetworkUser(
             id = 12_345,
             login = "testuser",
-            nodeId = null,
         )
 
         val json = jsonFormat.encodeToString(NetworkUser.serializer(), networkUser)

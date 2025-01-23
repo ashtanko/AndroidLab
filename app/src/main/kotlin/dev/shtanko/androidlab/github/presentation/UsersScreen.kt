@@ -3,9 +3,9 @@ package dev.shtanko.androidlab.github.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,12 +24,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -38,7 +39,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,9 +48,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.presentation.model.UserResource
+import dev.shtanko.androidlab.github.presentation.preview.UsersPreviewDataProvider
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun UsersScreen(
@@ -58,6 +59,7 @@ fun UsersScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+
     UsersContent(
         uiState = uiState,
         modifier = modifier,
@@ -94,7 +96,7 @@ fun UsersContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UsersListContent(
+private fun UsersListContent(
     users: ImmutableList<UserResource>,
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = true,
@@ -115,36 +117,48 @@ fun UsersListContent(
         },
         indicator = {
             Indicator(
-                modifier = Modifier.align(Alignment.TopCenter),
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .testTag("PullToRefreshIndicator"),
                 isRefreshing = isRefreshing,
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 state = state,
             )
         },
-        modifier = modifier,
+        modifier = modifier.testTag("PullToRefreshBox"),
     ) {
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             items(
                 users.size,
-                key = { index -> users[index].id },
+                key = { index -> users[index].id + index },
             ) { index ->
                 val item = users[index]
-                UserItem(item, modifier = Modifier.clickable {
-                    onUserClick.invoke(item.id)
-                })
+                UserItem(
+                    item,
+                    modifier = Modifier
+                        .animateItem()
+                        .clickable(
+                            onClick = {
+                                onUserClick.invoke(item.id)
+                            },
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = ripple(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                            ),
+                        ),
+                )
             }
         }
     }
 }
 
 @Composable
-fun UsersLoadingContent(
+private fun UsersLoadingContent(
     modifier: Modifier = Modifier,
     circularProgressSize: Dp = 32.dp,
 ) {
@@ -158,14 +172,15 @@ fun UsersLoadingContent(
             modifier = Modifier
                 .size(size = circularProgressSize)
                 .testTag("loadingCircularProgress"),
-            color = Color.Red,
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
             strokeWidth = 4.dp,
         )
     }
 }
 
 @Composable
-fun UsersEmptyContent(
+private fun UsersEmptyContent(
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -173,14 +188,16 @@ fun UsersEmptyContent(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            modifier = Modifier.padding(all = 32.dp),
-            text = "No photos",
+            modifier = Modifier
+                .padding(all = 32.dp)
+                .testTag("EmptyUsersContent"),
+            text = stringResource(R.string.empty_users_title),
         )
     }
 }
 
 @Composable
-fun UsersErrorContent(
+private fun UsersErrorContent(
     modifier: Modifier = Modifier,
     onTryAgainClick: () -> Unit = {},
 ) {
@@ -201,34 +218,35 @@ fun UsersErrorContent(
 }
 
 @Composable
-fun UserItem(
+private fun UserItem(
     user: UserResource,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CircularAvatarImage(
             sizeDp = 32.dp,
             imageUrl = user.avatarUrl,
-            contentDescription = "Android",
         )
         Text(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = 8.dp),
-            text = user.login.orEmpty(),
+            text = user.login,
         )
     }
 }
 
 @Composable
-fun CircularAvatarImage(
+private fun CircularAvatarImage(
     imageUrl: String?,
-    contentDescription: String,
     modifier: Modifier = Modifier,
     sizeDp: Dp = 64.dp,
+    borderDp: Dp = 1.dp,
     placeholderIcon: ImageVector = Icons.Default.Person,
     errorIcon: ImageVector = Icons.Default.Person,
 ) {
@@ -237,7 +255,7 @@ fun CircularAvatarImage(
             .size(sizeDp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.surface)
-            .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
+            .border(borderDp, MaterialTheme.colorScheme.primary, CircleShape),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -245,10 +263,66 @@ fun CircularAvatarImage(
                 .crossfade(true)
                 .build(),
             placeholder = rememberVectorPainter(placeholderIcon),
-            contentDescription = contentDescription,
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             error = rememberVectorPainter(errorIcon),
             modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UsersListContentPreview(
+    @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,
+) {
+    AndroidLabTheme {
+        UsersContent(
+            uiState = UserUiState.Success(
+                users = preview,
+            ),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UsersErrorContentPreview() {
+    AndroidLabTheme {
+        UsersContent(
+            uiState = UserUiState.Error,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UsersLoadingContentPreview() {
+    AndroidLabTheme {
+        UsersContent(
+            uiState = UserUiState.Loading,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UsersEmptyContentPreview() {
+    AndroidLabTheme {
+        UsersContent(
+            uiState = UserUiState.Empty,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun UserItemPreview(
+    @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,
+) {
+    AndroidLabTheme {
+        UserItem(
+            user = preview.first(),
         )
     }
 }
@@ -260,67 +334,6 @@ private fun CircularAvatarImagePreview() {
         CircularAvatarImage(
             sizeDp = 32.dp,
             imageUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-            contentDescription = "Android",
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UsersErrorContentPreview() {
-    AndroidLabTheme {
-        UsersErrorContent()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UsersLoadingContentPreview() {
-    AndroidLabTheme {
-        UsersLoadingContent()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UserItemPreview() {
-    AndroidLabTheme {
-        UserItem(
-            user = UserResource(
-                id = 1,
-                login = LoremIpsum(50).values.first(),
-                avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-                type = "User",
-            ),
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun UsersListContentPreview() {
-    AndroidLabTheme {
-        UsersListContent(
-            users = persistentListOf(
-                UserResource(
-                    id = 1,
-                    login = LoremIpsum(10).values.first(),
-                    avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-                    type = "User",
-                ),
-                UserResource(
-                    id = 2,
-                    login = LoremIpsum(5).values.first(),
-                    avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-                    type = "User",
-                ),
-                UserResource(
-                    id = 3,
-                    login = LoremIpsum(50).values.first(),
-                    avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-                    type = "User",
-                ),
-            ),
         )
     }
 }

@@ -17,7 +17,7 @@ jacoco:
 
 # Run code style check + update the README.md file in accordance with the detekt report
 default:
-	make spotless && make check && make repo && make md
+	./gradlew build && ./gradlew test && ./gradlew lint && ./gradlew detekt && ./gradlew updateDebugScreenshotTest && ./gradlew validateDebugScreenshotTest
 
 # Build the project
 run:

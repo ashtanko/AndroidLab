@@ -10,7 +10,6 @@ class MapperTest {
             id = 1,
             login = "testUser",
             avatarUrl = "http://example.com/avatar.png",
-            type = "User",
         )
 
         val userResource = userEntity.asExternalModel()
@@ -18,6 +17,5 @@ class MapperTest {
         assertEquals(userEntity.id, userResource.id)
         assertEquals(userEntity.login, userResource.login)
         assertEquals(userEntity.avatarUrl, userResource.avatarUrl)
-        assertEquals(userEntity.type, userResource.type)
     }
 }

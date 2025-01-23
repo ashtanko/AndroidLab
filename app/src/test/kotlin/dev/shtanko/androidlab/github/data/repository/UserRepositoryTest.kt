@@ -43,17 +43,7 @@ class UserRepositoryTest {
     @Test
     fun `GIVEN users present in DAO WHEN fetchUsers THEN return data from storage and don't call backend`() =
         runTest {
-            val mockUsers = listOf(
-                UserEntity(
-                    id = 1,
-                    login = "alex",
-                ),
-                UserEntity(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
-            whenever(dao.getUsers()).thenReturn(mockUsers)
+            whenever(dao.getUsers()).thenReturn(mockUserEntities)
             repository.fetchUsers().test {
                 val actualItem = awaitItem()
                 assertNotNull(actualItem)
@@ -67,32 +57,12 @@ class UserRepositoryTest {
     @Test
     fun `GIVEN users present in DAO WHEN fetchUsers force THEN return data from backend and update storage`() =
         runTest {
-            val mockUsers = listOf(
-                UserEntity(
-                    id = 1,
-                    login = "alex",
-                ),
-                UserEntity(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
-            val mockNetworkUsers = listOf(
-                NetworkUser(
-                    id = 1,
-                    login = "alex",
-                ),
-                NetworkUser(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
             val mockApiResponse = ApiResponse.responseOf {
                 Response.success(
                     mockNetworkUsers,
                 )
             }
-            whenever(dao.getUsers()).thenReturn(mockUsers)
+            whenever(dao.getUsers()).thenReturn(mockUserEntities)
             whenever(service.fetchUsers()).thenReturn(mockApiResponse)
             repository.fetchUsers(force = true).test {
                 val actualItem = awaitItem()
@@ -108,16 +78,6 @@ class UserRepositoryTest {
     @Test
     fun `GIVEN empty list present in DAO WHEN fetchUsers THEN fetch data from backend and save to db`() =
         runTest {
-            val mockNetworkUsers = listOf(
-                NetworkUser(
-                    id = 1,
-                    login = "alex",
-                ),
-                NetworkUser(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
             val mockApiResponse = ApiResponse.responseOf {
                 Response.success(
                     mockNetworkUsers,
@@ -139,16 +99,6 @@ class UserRepositoryTest {
     @Test
     fun `GIVEN data is not present in DAO WHEN fetchUsers THEN fetch data from backend`() =
         runTest {
-            val mockNetworkUsers = listOf(
-                NetworkUser(
-                    id = 1,
-                    login = "alex",
-                ),
-                NetworkUser(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
             val mockApiResponse = ApiResponse.responseOf {
                 Response.success(
                     mockNetworkUsers,
@@ -170,16 +120,6 @@ class UserRepositoryTest {
     @Test
     fun `GIVEN users are not present in DAO WHEN fetchUsers THEN return an error from backend`() =
         runTest {
-            val mockNetworkUsers = listOf(
-                NetworkUser(
-                    id = 1,
-                    login = "alex",
-                ),
-                NetworkUser(
-                    id = 2,
-                    login = "oleksii",
-                ),
-            )
             whenever(dao.getUsers()).thenReturn(null)
             whenever(service.fetchUsers()).thenReturn(
                 ApiResponse.responseOf {
@@ -198,4 +138,26 @@ class UserRepositoryTest {
             verify(service, times(1)).fetchUsers()
             verify(dao, never()).insertAll(mockNetworkUsers.map(NetworkUser::asEntity))
         }
+
+    val mockUserEntities = listOf(
+        UserEntity(
+            id = 1,
+            login = "alex",
+        ),
+        UserEntity(
+            id = 2,
+            login = "oleksii",
+        ),
+    )
+
+    private val mockNetworkUsers = listOf(
+        NetworkUser(
+            id = 1,
+            login = "alex",
+        ),
+        NetworkUser(
+            id = 2,
+            login = "oleksii",
+        ),
+    )
 }

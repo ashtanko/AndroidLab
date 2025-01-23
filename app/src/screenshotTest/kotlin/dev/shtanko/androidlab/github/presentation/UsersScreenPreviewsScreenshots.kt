@@ -2,15 +2,19 @@ package dev.shtanko.androidlab.github.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
+import kotlinx.collections.immutable.persistentListOf
 
 class UsersScreenPreviewsScreenshots {
     @Preview(showBackground = true)
     @Composable
     fun UsersErrorContentPreview() {
         AndroidLabTheme {
-            UsersErrorContent()
+            UsersContent(
+                uiState = UserUiState.Error,
+            )
         }
     }
 
@@ -18,7 +22,9 @@ class UsersScreenPreviewsScreenshots {
     @Composable
     private fun UsersLoadingContentPreview() {
         AndroidLabTheme {
-            UsersLoadingContent()
+            UsersContent(
+                uiState = UserUiState.Loading,
+            )
         }
     }
 
@@ -26,12 +32,53 @@ class UsersScreenPreviewsScreenshots {
     @Composable
     private fun UserItemPreview() {
         AndroidLabTheme {
-            UserItem(
-                user = UserResource(
-                    id = 1,
-                    login = "Android",
-                    avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
-                    type = "User",
+            UsersContent(
+                uiState = UserUiState.Success(
+                    persistentListOf(
+                        UserResource(
+                            id = 1,
+                            login = LoremIpsum(10).values.first(),
+                            avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
+                        ),
+                    ),
+                ),
+            )
+        }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun UsersEmptyContentPreview() {
+        AndroidLabTheme {
+            UsersContent(
+                uiState = UserUiState.Empty,
+            )
+        }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun UsersListContentPreview() {
+        AndroidLabTheme {
+            UsersContent(
+                uiState = UserUiState.Success(
+                    users = persistentListOf(
+                        UserResource(
+                            id = 1,
+                            login = LoremIpsum(10).values.first(),
+                            avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
+                        ),
+                        UserResource(
+                            id = 2,
+                            login = LoremIpsum(5).values.first(),
+                            avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
+                        ),
+                        UserResource(
+                            id = 3,
+                            login = LoremIpsum(50).values.first(),
+                            avatarUrl = "https://avatars.githubusercontent.com/u/32689599?v=4",
+                        ),
+                    ),
                 ),
             )
         }

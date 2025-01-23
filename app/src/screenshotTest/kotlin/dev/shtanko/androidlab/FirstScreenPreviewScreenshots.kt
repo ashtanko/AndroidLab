@@ -7,7 +7,7 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 class FirstScreenPreviewScreenshots {
     @Preview(showBackground = true)
     @Composable
-    fun GreetingPreview() {
+    fun FirstScreenPreview() {
         AndroidLabTheme {
             FirstScreen(onNavigateToNextScreen = {})
         }
