@@ -23,25 +23,26 @@ interface UserRepository {
 class OfflineFirstUserRepository @Inject constructor(
     private val userDao: UserDao,
     private val userService: UserService,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : UserRepository {
     override fun fetchUsers(force: Boolean): Flow<Result<List<UserResource>>> = flow {
-        val users = userDao.getUsers()?.map(UserEntity::asExternalModel)
-        if (users != null && users.isNotEmpty() && !force) {
-            emit(Result.success(users))
+        val cachedUsers = userDao.getUsers()?.map(UserEntity::asExternalModel)
+
+        if (cachedUsers != null && cachedUsers.isNotEmpty() && !force) {
+            emit(Result.success(cachedUsers))
         } else {
-            val response = userService.fetchUsers()
-            if (response.isSuccess) {
-                response.suspendOnSuccess {
-                    val mappedResponse = data.map(NetworkUser::asEntity)
-                    userDao.insertAll(mappedResponse)
-                    val final = userDao.getUsers()?.map(UserEntity::asExternalModel)
-                        ?: mappedResponse.map { it.asExternalModel() }
-                    emit(Result.success(final))
+            val apiResponse = userService.fetchUsers()
+            if (apiResponse.isSuccess) {
+                apiResponse.suspendOnSuccess {
+                    val userEntities = data.map(NetworkUser::asEntity)
+                    userDao.insertAll(userEntities)
+                    val finalUsers = userDao.getUsers()?.map(UserEntity::asExternalModel)
+                        ?: userEntities.map { it.asExternalModel() }
+                    emit(Result.success(finalUsers))
                 }
             } else {
                 emit(Result.failure(Error("Error fetching users from API")))
             }
         }
-    }.flowOn(dispatcher)
+    }.flowOn(ioDispatcher)
 }

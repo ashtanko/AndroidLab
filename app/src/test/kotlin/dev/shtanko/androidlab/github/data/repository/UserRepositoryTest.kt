@@ -36,7 +36,7 @@ class UserRepositoryTest {
         repository = OfflineFirstUserRepository(
             userService = service,
             userDao = dao,
-            dispatcher = coroutinesRule.testDispatcher,
+            ioDispatcher = coroutinesRule.testDispatcher,
         )
     }
 

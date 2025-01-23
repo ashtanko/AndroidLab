@@ -11,7 +11,7 @@ import dev.shtanko.androidlab.github.data.db.dao.UserDao
 @InstallIn(SingletonComponent::class)
 internal object DaoModule {
     @Provides
-    fun providesPhotosDao(
+    fun providesUserDao(
         database: GithubDatabase,
     ): UserDao = database.userDao()
 }
