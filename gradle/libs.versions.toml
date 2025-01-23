@@ -64,6 +64,7 @@ androidx-baselineprofile = "1.3.3"
 uiautomator = "2.3.0"
 runtime-tracing = "1.7.6"
 desugar_jdk_libs = "2.1.4"
+uiautomatorVersion = "2.3.0"
 
 [libraries]
 
@@ -185,6 +186,7 @@ google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", ver
 # region code style
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "formattingDetekt" }
 detekt-rules = { module = "io.nlopez.compose.rules:detekt", version.ref = "composeDetekt" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomatorVersion" }
 # endregion
 
 [plugins]
@@ -206,3 +208,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-baselineprofile" }
+android-test = { id = "com.android.test", version.ref = "agp" }

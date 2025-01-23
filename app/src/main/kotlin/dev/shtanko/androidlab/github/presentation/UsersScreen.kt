@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tracing.trace
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.shtanko.androidlab.R
@@ -130,7 +131,9 @@ private fun UsersListContent(
     ) {
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("user_list"),
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             items(
@@ -221,7 +224,7 @@ private fun UsersErrorContent(
 private fun UserItem(
     user: UserResource,
     modifier: Modifier = Modifier,
-) {
+) = trace("user_item") {
     Row(
         modifier = modifier
             .fillMaxWidth()

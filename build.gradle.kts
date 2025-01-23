@@ -10,4 +10,6 @@ plugins {
     alias(libs.plugins.kover) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.baselineprofile) apply false
 }

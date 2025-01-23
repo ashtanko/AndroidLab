@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.screenshot)
+    alias(libs.plugins.baselineprofile)
     jacoco
 }
 
@@ -40,11 +41,17 @@ android {
                 "proguard-rules.pro"
             )
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            signingConfig = signingConfigs.getByName("debug")
 
             // To publish on the Play store a private signing key is required, but to allow anyone
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.named("debug").get()
+        }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+            proguardFiles("benchmark-rules.pro")
         }
     }
     compileOptions {
@@ -52,7 +59,7 @@ android {
         targetCompatibility(libs.versions.jvmTarget.get())
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
         buildConfig = true
@@ -214,7 +221,8 @@ dependencies {
             implementation(ui.tooling.preview)
             implementation(material3)
             implementation(hilt.navigation.compose)
-
+            implementation(runtime.tracing)
+            implementation(tracing.ktx)
             androidTestImplementation(junit)
             // androidTestImplementation(espresso.core)
             // androidTestImplementation(espresso.contrib)
@@ -234,6 +242,8 @@ dependencies {
             androidTestImplementation(arch.core.test)
             screenshotTestImplementation(compose.ui.tooling)
         }
+
+        implementation(libs.profileinstaller)
 
         kotlinx.apply {
             implementation(collections.immutable)
@@ -263,6 +273,8 @@ dependencies {
             kspAndroidTest(compiler)
             testImplementation(android.testing)
         }
+
+        implementation(profileinstaller)
 
         implementation(room.runtime)
         implementation(room.ktx)
