@@ -108,6 +108,7 @@ project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
 project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
 project.gradle.startParameter.excludedTaskNames.add("testBenchmarkReleaseScreenshotTest")
 project.gradle.startParameter.excludedTaskNames.add("testBenchmarkScreenshotTest")
+project.gradle.startParameter.excludedTaskNames.add("testNonMinifiedReleaseScreenshotTest")
 
 tasks {
     getByName("check") {

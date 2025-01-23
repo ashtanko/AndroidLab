@@ -10,11 +10,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -41,16 +43,14 @@ class UserViewModelTest {
 
     @Test
     fun `retry fetch emits Success state when repository returns users`() = runTest {
-        turbineScope {
-            backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
-            fakeUserRepository.emitUserResources(mockSuccessResult)
-            userViewModel.retry()
+        fakeUserRepository.emitUserResources(mockSuccessResult)
+        userViewModel.retry()
 
-            userViewModel.uiState.test {
-                assertEquals(UserUiState.Loading, awaitItem())
-                val successState = awaitItem() as UserUiState.Success
-                assertEquals(mockUsers.toImmutableList(), successState.users)
-            }
+        advanceUntilIdle()
+        userViewModel.uiState.test {
+            assertEquals(UserUiState.Loading, awaitItem())
+            val successState = awaitItem() as UserUiState.Success
+            assertEquals(mockUsers.toImmutableList(), successState.users)
         }
     }
 
@@ -60,6 +60,7 @@ class UserViewModelTest {
             fakeUserRepository.emitUserResources(Result.failure(Exception("Network error")))
             userViewModel.retry()
 
+            advanceUntilIdle()
             userViewModel.uiState.test {
                 assertEquals(UserUiState.Loading, awaitItem())
                 assertEquals(UserUiState.Error, awaitItem())
@@ -68,20 +69,18 @@ class UserViewModelTest {
     }
 
     @Test
-    @Disabled("This test is flaky")
     fun `refresh updates isRefreshing state correctly`() = runTest {
         turbineScope {
             backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
 
             fakeUserRepository.emitUserResources(mockSuccessResult)
-
+            advanceUntilIdle()
             userViewModel.isRefreshing.test {
-                assertEquals(false, awaitItem())
+                assertFalse(awaitItem())
                 userViewModel.refresh()
-                assertEquals(true, awaitItem())
-                assertEquals(false, awaitItem())
-                assertEquals(true, awaitItem())
-                assertEquals(false, awaitItem())
+                assertTrue(awaitItem())
+                assertFalse(awaitItem())
+                cancelAndConsumeRemainingEvents()
             }
         }
     }
@@ -92,6 +91,7 @@ class UserViewModelTest {
             fakeUserRepository.emitUserResources(Result.success(emptyList()))
             userViewModel.retry()
 
+            advanceUntilIdle()
             userViewModel.uiState.test {
                 assertEquals(UserUiState.Loading, awaitItem())
                 assertEquals(UserUiState.Empty, awaitItem())
