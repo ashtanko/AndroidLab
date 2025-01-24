@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.shtanko.androidlab.github.data.service.RepositoryService
 import dev.shtanko.androidlab.github.data.service.UserService
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -66,4 +67,10 @@ internal object NetworkModule {
     fun provideUserService(
         retrofit: Retrofit,
     ): UserService = retrofit.create<UserService>(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRepositoryService(
+        retrofit: Retrofit,
+    ): RepositoryService = retrofit.create<RepositoryService>(RepositoryService::class.java)
 }

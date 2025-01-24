@@ -3,7 +3,7 @@ package dev.shtanko.androidlab.github.data.db.entity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class MapperTest {
+class UserEntityTest {
     @Test
     fun `test mapping UserEntity to UserResource`() {
         val userEntity = UserEntity(

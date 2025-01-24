@@ -105,11 +105,29 @@ android {
     }
 }
 
-project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
-project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
-project.gradle.startParameter.excludedTaskNames.add("testBenchmarkReleaseScreenshotTest")
-project.gradle.startParameter.excludedTaskNames.add("testBenchmarkScreenshotTest")
-project.gradle.startParameter.excludedTaskNames.add("testNonMinifiedReleaseScreenshotTest")
+val isGithubActions = System.getenv("GITHUB_ACTIONS")?.toBoolean() == true
+
+project.gradle.startParameter.excludedTaskNames.apply {
+    val excludedTasks = listOf(
+        "testDebugScreenshotTest",
+        "testReleaseScreenshotTest",
+        "testBenchmarkReleaseScreenshotTest",
+        "testBenchmarkScreenshotTest",
+        "testNonMinifiedReleaseScreenshotTest",
+        "testBenchmarkUnitTest",
+    )
+    println("TEST_CI_ENV: ${providers.environmentVariable("CI").isPresent} isGithubActions: $isGithubActions")
+    if (providers.environmentVariable("CI").isPresent || isGithubActions) {
+        excludedTasks.forEach(::add)
+    }
+}
+
+// project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
+// project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
+// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkReleaseScreenshotTest")
+// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkScreenshotTest")
+// project.gradle.startParameter.excludedTaskNames.add("testNonMinifiedReleaseScreenshotTest")
+// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkUnitTest")
 
 tasks {
     getByName("check") {
@@ -248,7 +266,10 @@ dependencies {
             screenshotTestImplementation(compose.ui.tooling)
         }
 
-        implementation(libs.profileinstaller)
+        implementation(profileinstaller)
+
+        implementation(paging.runtime)
+        implementation(paging.compose)
 
         kotlinx.apply {
             implementation(collections.immutable)

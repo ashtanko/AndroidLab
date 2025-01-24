@@ -1,5 +1,6 @@
 package dev.shtanko.androidlab.github.data.model
 
+import dev.shtanko.androidlab.github.data.db.entity.RepositoryEntity
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -12,6 +13,7 @@ class NetworkRepositoryTest {
     fun `serialize NetworkRepository to JSON`() {
         val networkRepository = NetworkRepository(
             id = 1,
+            repositoryId = "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
             name = "Sample Repo",
             fullName = "sample/sample-repo",
             isPrivate = false,
@@ -36,6 +38,7 @@ class NetworkRepositoryTest {
         val expectedJson = """
             {
                 "id": 1,
+                "node_id" : "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
                 "name": "Sample Repo",
                 "full_name": "sample/sample-repo",
                 "private": false,
@@ -63,6 +66,7 @@ class NetworkRepositoryTest {
         val repositoryJson = """
             {
                 "id": 2,
+                "node_id" : "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
                 "name": "Another Repo",
                 "full_name": "another/another-repo",
                 "private": true,
@@ -87,6 +91,7 @@ class NetworkRepositoryTest {
         // Assert deserialized values
         assertNotNull(repository)
         assertEquals(2, repository.id)
+        assertEquals("MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=", repository.repositoryId)
         assertEquals("Another Repo", repository.name)
         assertEquals("another/another-repo", repository.fullName)
         assertEquals(true, repository.isPrivate)
@@ -110,6 +115,7 @@ class NetworkRepositoryTest {
         val repositoryJson = """
             {
                 "id": 3,
+                "node_id" : "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
                 "name": "Minimal Repo"
             }
         """.trimIndent()
@@ -118,6 +124,7 @@ class NetworkRepositoryTest {
 
         assertNotNull(repository)
         assertEquals(3, repository.id)
+        assertEquals("MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=", repository.repositoryId)
         assertEquals("Minimal Repo", repository.name)
         assertEquals(null, repository.fullName)
         assertEquals(null, repository.isPrivate)
@@ -134,5 +141,52 @@ class NetworkRepositoryTest {
         assertEquals(null, repository.disabled)
         assertEquals(null, repository.openIssues)
         assertEquals(null, repository.isTemplate)
+    }
+
+    @Test
+    fun `map network repository model to dao entity`() {
+        val networkRepository = NetworkRepository(
+            id = 1,
+            repositoryId = "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
+            name = "Sample Repo",
+            fullName = "sample/sample-repo",
+            isPrivate = false,
+            description = "A sample repository",
+            isFork = false,
+            size = 1024,
+            stars = 150,
+            watchers = 75,
+            forks = 10,
+            language = "Kotlin",
+            hasIssues = true,
+            hasProjects = true,
+            archived = false,
+            disabled = false,
+            openIssues = 5,
+            isTemplate = 1,
+        )
+
+        val expectedRepositoryEntity = RepositoryEntity(
+            id = 1,
+            repositoryId = "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
+            name = "Sample Repo",
+            fullName = "sample/sample-repo",
+            isPrivate = false,
+            description = "A sample repository",
+            isFork = false,
+            size = 1024,
+            stars = 150,
+            watchers = 75,
+            forks = 10,
+            language = "Kotlin",
+            hasIssues = true,
+            hasProjects = true,
+            archived = false,
+            disabled = false,
+            openIssues = 5,
+            isTemplate = 1,
+        )
+
+        assertEquals(expectedRepositoryEntity, networkRepository.asEntity())
     }
 }
