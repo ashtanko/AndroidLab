@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.screenshot)
     alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.roborazzi)
     jacoco
 }
 
@@ -231,6 +232,7 @@ dependencies {
             // androidTestImplementation(espresso.contrib)
             androidTestImplementation(platform(compose.bom))
             androidTestImplementation(ui.test.junit4)
+            testImplementation(ui.test.junit4)
 
             debugImplementation(ui.tooling)
             debugImplementation(ui.test.manifest)
@@ -299,8 +301,10 @@ dependencies {
         testImplementation(mockk.kotlin)
         androidTestImplementation(mockk.android)
 
-        // testImplementation(robolectric.robolectric)
-        // androidTestImplementation(robolectric.robolectric)
+        testImplementation(robolectric.robolectric)
+        testImplementation(roborazzi)
+        testImplementation(roborazzi.accessibility.check)
+        testImplementation(androidx.activity.compose)
 
         junit5.apply {
             testImplementation(api)

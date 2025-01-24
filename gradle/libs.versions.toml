@@ -65,6 +65,7 @@ uiautomator = "2.3.0"
 runtime-tracing = "1.7.6"
 desugar_jdk_libs = "2.1.4"
 uiautomatorVersion = "2.3.0"
+roborazzi = "1.39.0"
 
 [libraries]
 
@@ -118,6 +119,8 @@ arch-core-test = { group = "androidx.arch.core", name = "core-testing", version.
 square-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 robolectric-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-accessibility-check = { group = "io.github.takahirom.roborazzi", name = "roborazzi-accessibility-check", version.ref = "roborazzi" }
 # endregion
 
 # region kotlinx
@@ -209,3 +212,4 @@ sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-baselineprofile" }
 android-test = { id = "com.android.test", version.ref = "agp" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

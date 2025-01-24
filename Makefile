@@ -1,4 +1,4 @@
-.PHONY: check run test lines md default jacoco spotless kover diktat cloc jar repo screenshot
+.PHONY: check run test lines md default jacoco spotless kover diktat cloc jar repo screenshot robo
 
 # Run detekt + ktlint
 check:
@@ -48,5 +48,8 @@ repo:
 
 screenshot:
 	./gradlew updateDebugScreenshotTest && ./gradlew validateDebugScreenshotTest
+
+robo:
+	./gradlew recordRoborazziDebug && ./gradlew compareRoborazziDebug && ./gradlew verifyRoborazziDebug
 
 .DEFAULT_GOAL := default
