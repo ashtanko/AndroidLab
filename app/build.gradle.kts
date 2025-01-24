@@ -115,19 +115,14 @@ project.gradle.startParameter.excludedTaskNames.apply {
         "testBenchmarkScreenshotTest",
         "testNonMinifiedReleaseScreenshotTest",
         "testBenchmarkUnitTest",
+        "testReleaseUnitTest",
+        "finalizeTestRoborazziRelease",
     )
     println("TEST_CI_ENV: ${providers.environmentVariable("CI").isPresent} isGithubActions: $isGithubActions")
     if (providers.environmentVariable("CI").isPresent || isGithubActions) {
         excludedTasks.forEach(::add)
     }
 }
-
-// project.gradle.startParameter.excludedTaskNames.add("testDebugScreenshotTest")
-// project.gradle.startParameter.excludedTaskNames.add("testReleaseScreenshotTest")
-// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkReleaseScreenshotTest")
-// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkScreenshotTest")
-// project.gradle.startParameter.excludedTaskNames.add("testNonMinifiedReleaseScreenshotTest")
-// project.gradle.startParameter.excludedTaskNames.add("testBenchmarkUnitTest")
 
 tasks {
     getByName("check") {
