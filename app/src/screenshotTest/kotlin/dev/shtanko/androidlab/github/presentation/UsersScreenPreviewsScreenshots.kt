@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import dev.shtanko.androidlab.github.presentation.model.UserResource
+import dev.shtanko.androidlab.github.presentation.users.UserUiState
+import dev.shtanko.androidlab.github.presentation.users.UsersContent
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.persistentListOf
 

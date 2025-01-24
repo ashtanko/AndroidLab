@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.users
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel

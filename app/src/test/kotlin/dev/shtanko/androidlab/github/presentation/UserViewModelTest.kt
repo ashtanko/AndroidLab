@@ -3,6 +3,8 @@ package dev.shtanko.androidlab.github.presentation
 import app.cash.turbine.test
 import dev.shtanko.androidlab.github.data.repository.FakeUserRepository
 import dev.shtanko.androidlab.github.presentation.model.UserResource
+import dev.shtanko.androidlab.github.presentation.users.UserUiState
+import dev.shtanko.androidlab.github.presentation.users.UserViewModel
 import dev.shtanko.androidlab.util.MainDispatcherRule
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi

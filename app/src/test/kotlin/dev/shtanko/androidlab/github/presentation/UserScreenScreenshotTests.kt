@@ -4,6 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.shtanko.androidlab.github.presentation.preview.UsersPreviewDataProvider
+import dev.shtanko.androidlab.github.presentation.users.UserUiState
+import dev.shtanko.androidlab.github.presentation.users.UsersContent
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.util.captureMultiDevice
 import org.junit.Rule

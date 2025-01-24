@@ -1,6 +1,6 @@
 @file:Suppress("TooManyFunctions")
 
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.users
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

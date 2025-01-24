@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import dagger.hilt.android.AndroidEntryPoint
-import dev.shtanko.androidlab.github.presentation.UsersScreen
+import dev.shtanko.androidlab.github.presentation.users.UsersScreen
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 
 @OptIn(ExperimentalComposeUiApi::class)

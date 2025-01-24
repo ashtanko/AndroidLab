@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.users
 
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
