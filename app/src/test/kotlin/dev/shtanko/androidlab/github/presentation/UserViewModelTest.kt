@@ -1,7 +1,6 @@
 package dev.shtanko.androidlab.github.presentation
 
 import app.cash.turbine.test
-import app.cash.turbine.turbineScope
 import dev.shtanko.androidlab.github.data.repository.FakeUserRepository
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.util.MainDispatcherRule
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -35,72 +33,67 @@ class UserViewModelTest {
 
     @Test
     fun `uiState should initially be Loading`() = runTest {
-        turbineScope {
-            userViewModel.uiState.test {
-                assertEquals(UserUiState.Loading, awaitItem())
-            }
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        advanceUntilIdle()
+        userViewModel.uiState.test {
+            assertEquals(UserUiState.Loading, awaitItem())
+            cancelAndConsumeRemainingEvents()
         }
     }
 
     @Test
-    @Disabled("This test is flaky")
     fun `retry fetch emits Success state when repository returns users`() = runTest {
-        fakeUserRepository.emitUserResources(mockSuccessResult)
-        userViewModel.retry()
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.isRefreshing.collect() }
 
         advanceUntilIdle()
         userViewModel.uiState.test {
             assertEquals(UserUiState.Loading, awaitItem())
+            fakeUserRepository.emitUserResources(mockSuccessResult)
+            userViewModel.retry()
             val successState = awaitItem() as UserUiState.Success
             assertEquals(mockUsers.toImmutableList(), successState.users)
+            cancelAndConsumeRemainingEvents()
         }
     }
 
     @Test
-    @Disabled("This test is flaky")
     fun `retry fetch emits Error state when repository fetch fails`() = runTest {
-        turbineScope {
+        advanceUntilIdle()
+        userViewModel.uiState.test {
+            assertEquals(UserUiState.Loading, awaitItem())
             fakeUserRepository.emitUserResources(Result.failure(Exception("Network error")))
             userViewModel.retry()
-
-            advanceUntilIdle()
-            userViewModel.uiState.test {
-                assertEquals(UserUiState.Loading, awaitItem())
-                assertEquals(UserUiState.Error, awaitItem())
-            }
+            assertEquals(UserUiState.Error, awaitItem())
         }
     }
 
     @Test
-    @Disabled("This test is flaky")
     fun `refresh updates isRefreshing state correctly`() = runTest {
-        turbineScope {
-            backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.isRefreshing.collect() }
 
+        advanceUntilIdle()
+        userViewModel.isRefreshing.test {
+            assertTrue(awaitItem())
             fakeUserRepository.emitUserResources(mockSuccessResult)
-            advanceUntilIdle()
-            userViewModel.isRefreshing.test {
-                assertFalse(awaitItem())
-                userViewModel.refresh()
-                assertTrue(awaitItem())
-                assertFalse(awaitItem())
-                cancelAndConsumeRemainingEvents()
-            }
+            userViewModel.refresh()
+
+            assertFalse(awaitItem())
+            cancelAndConsumeRemainingEvents()
         }
     }
 
     @Test
-    @Disabled("This test is flaky")
     fun `retry fetch emits Empty state when no users are fetched`() = runTest {
-        turbineScope {
+        backgroundScope.launch(UnconfinedTestDispatcher()) { userViewModel.uiState.collect() }
+
+        advanceUntilIdle()
+        userViewModel.uiState.test {
+            assertEquals(UserUiState.Loading, awaitItem())
             fakeUserRepository.emitUserResources(Result.success(emptyList()))
             userViewModel.retry()
-
-            advanceUntilIdle()
-            userViewModel.uiState.test {
-                assertEquals(UserUiState.Loading, awaitItem())
-                assertEquals(UserUiState.Empty, awaitItem())
-            }
+            assertEquals(UserUiState.Empty, awaitItem())
         }
     }
 

@@ -1,6 +1,6 @@
 package dev.shtanko.androidlab.github.presentation
 
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -45,7 +45,7 @@ class UserViewModel @Inject constructor(
             } else {
                 UserUiState.Error
             }
-        }.distinctUntilChanged().onCompletion {
+        }.onCompletion {
             _isRefreshing.value = false
         }
     }.stateIn(
@@ -59,15 +59,19 @@ class UserViewModel @Inject constructor(
     }
 
     fun refresh() {
-        fetchTrigger.tryEmit(true)
+        viewModelScope.launch {
+            fetchTrigger.emit(true)
+        }
     }
 
     fun retry() {
-        fetchTrigger.tryEmit(false)
+        viewModelScope.launch {
+            fetchTrigger.emit(false)
+        }
     }
 }
 
-@Immutable
+@Stable
 sealed interface UserUiState {
 
     data object Loading : UserUiState
