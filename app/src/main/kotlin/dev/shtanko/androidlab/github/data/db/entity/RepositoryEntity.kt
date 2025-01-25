@@ -1,6 +1,7 @@
 package dev.shtanko.androidlab.github.data.db.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
@@ -25,9 +26,11 @@ data class RepositoryEntity(
     @ColumnInfo("archived") val archived: Boolean? = null,
     @ColumnInfo("disabled") val disabled: Boolean? = null,
     @ColumnInfo("open_issues_count") val openIssues: Int? = null,
-    @ColumnInfo("is_template") val isTemplate: Int? = null,
+    @ColumnInfo("is_template") val isTemplate: Boolean? = null,
     @ColumnInfo(name = "page")
     val page: Int = 0,
+    @Embedded(prefix = "owner_")
+    val owner: UserEntity? = null,
 )
 
 @Entity(tableName = "repos_remote_key")
@@ -61,4 +64,5 @@ fun RepositoryEntity.asExternalModel() = RepositoryResource(
     disabled = disabled,
     openIssues = openIssues,
     isTemplate = isTemplate,
+    owner = owner?.asExternalModel(),
 )

@@ -10,4 +10,5 @@
     <string name="second_screen_detail_text">This is the description of the second screen.</string>
     <string name="try_again">Try again</string>
     <string name="empty_users_title">No users found</string>
+    <string name="empty_repos_title">No repositories found</string>
 </resources>

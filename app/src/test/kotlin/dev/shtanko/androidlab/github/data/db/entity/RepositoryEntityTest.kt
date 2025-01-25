@@ -52,7 +52,12 @@ class RepositoryEntityTest {
             archived = false,
             disabled = false,
             openIssues = 3,
-            isTemplate = 0,
+            isTemplate = false,
+            owner = UserEntity(
+                id = 1,
+                login = "sample",
+                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+            ),
         )
 
         val externalModel = repositoryEntity.asExternalModel()
@@ -75,6 +80,9 @@ class RepositoryEntityTest {
         assertEquals(repositoryEntity.disabled, externalModel.disabled)
         assertEquals(repositoryEntity.openIssues, externalModel.openIssues)
         assertEquals(repositoryEntity.isTemplate, externalModel.isTemplate)
+        assertEquals(repositoryEntity.owner?.id, externalModel.owner?.id)
+        assertEquals(repositoryEntity.owner?.login, externalModel.owner?.login)
+        assertEquals(repositoryEntity.owner?.avatarUrl, externalModel.owner?.avatarUrl)
     }
 
     @Test

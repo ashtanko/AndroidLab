@@ -23,7 +23,8 @@ data class NetworkRepository(
     @SerialName("archived") val archived: Boolean? = null,
     @SerialName("disabled") val disabled: Boolean? = null,
     @SerialName("open_issues_count") val openIssues: Int? = null,
-    @SerialName("is_template") val isTemplate: Int? = null,
+    @SerialName("is_template") val isTemplate: Boolean? = null,
+    @SerialName("owner") val owner: NetworkUser? = null,
 )
 
 fun NetworkRepository.asEntity() = RepositoryEntity(
@@ -45,4 +46,5 @@ fun NetworkRepository.asEntity() = RepositoryEntity(
     disabled = disabled,
     openIssues = openIssues,
     isTemplate = isTemplate,
+    owner = owner?.asEntity(),
 )

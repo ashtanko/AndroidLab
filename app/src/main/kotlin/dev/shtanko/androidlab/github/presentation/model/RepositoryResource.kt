@@ -21,5 +21,6 @@ data class RepositoryResource(
     val archived: Boolean? = null,
     val disabled: Boolean? = null,
     val openIssues: Int? = null,
-    val isTemplate: Int? = null,
+    val isTemplate: Boolean? = false,
+    val owner: UserResource? = null,
 )

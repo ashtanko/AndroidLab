@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
@@ -72,7 +73,7 @@ class RepositoryMediatorTest {
         val mockResponse = ApiResponse.responseOf {
             Response.success(emptyList<NetworkRepository>())
         }
-        `when`(service.fetchRepos(anyInt(), anyInt())).thenReturn(mockResponse)
+        `when`(service.fetchRepos(anyString(), anyInt(), anyInt())).thenReturn(mockResponse)
 
         val result = mediator.load(LoadType.APPEND, pagingState)
         assertTrue(result is RemoteMediator.MediatorResult.Success)
@@ -99,7 +100,7 @@ class RepositoryMediatorTest {
         val mockNetworkResponse = ApiResponse.responseOf {
             Response.success(mockResponse)
         }
-        `when`(service.fetchRepos(anyInt(), anyInt())).thenReturn(mockNetworkResponse)
+        `when`(service.fetchRepos(anyString(), anyInt(), anyInt())).thenReturn(mockNetworkResponse)
         // `when`(db.transactionExecutor).thenReturn(Executors.newSingleThreadExecutor())
 
         // Prepare PagingState
@@ -157,6 +158,7 @@ class RepositoryMediatorTest {
         )
         given(
             service.fetchRepos(
+                anyString(),
                 anyInt(),
                 anyInt(),
             ),
@@ -178,6 +180,7 @@ class RepositoryMediatorTest {
         )
         `when`(
             service.fetchRepos(
+                anyString(),
                 anyInt(),
                 anyInt(),
             ),

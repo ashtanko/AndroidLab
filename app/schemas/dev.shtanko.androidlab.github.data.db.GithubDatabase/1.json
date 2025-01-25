@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4fce7a67fba082bcdf19f1f2e7fdd543",
+    "identityHash": "beb212fdc45d5521bc4f11920bc954f7",
     "entities": [
       {
         "tableName": "users",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `repository_id` TEXT NOT NULL, `name` TEXT, `full_name` TEXT, `private` INTEGER, `description` TEXT, `fork` INTEGER, `size` INTEGER, `stargazers_count` INTEGER, `watchers_count` INTEGER, `forks_count` INTEGER, `language` TEXT, `has_issues` INTEGER, `has_projects` INTEGER, `archived` INTEGER, `disabled` INTEGER, `open_issues_count` INTEGER, `is_template` INTEGER, `page` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `repository_id` TEXT NOT NULL, `name` TEXT, `full_name` TEXT, `private` INTEGER, `description` TEXT, `fork` INTEGER, `size` INTEGER, `stargazers_count` INTEGER, `watchers_count` INTEGER, `forks_count` INTEGER, `language` TEXT, `has_issues` INTEGER, `has_projects` INTEGER, `archived` INTEGER, `disabled` INTEGER, `open_issues_count` INTEGER, `is_template` INTEGER, `page` INTEGER NOT NULL, `owner_id` INTEGER, `owner_login` TEXT, `owner_avatar_url` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -153,6 +153,24 @@
             "columnName": "page",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "owner.id",
+            "columnName": "owner_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "owner.login",
+            "columnName": "owner_login",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "owner.avatarUrl",
+            "columnName": "owner_avatar_url",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -212,7 +230,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4fce7a67fba082bcdf19f1f2e7fdd543')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'beb212fdc45d5521bc4f11920bc954f7')"
     ]
   }
 }

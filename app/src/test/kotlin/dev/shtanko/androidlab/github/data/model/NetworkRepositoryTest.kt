@@ -1,6 +1,7 @@
 package dev.shtanko.androidlab.github.data.model
 
 import dev.shtanko.androidlab.github.data.db.entity.RepositoryEntity
+import dev.shtanko.androidlab.github.data.db.entity.UserEntity
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -29,7 +30,12 @@ class NetworkRepositoryTest {
             archived = false,
             disabled = false,
             openIssues = 5,
-            isTemplate = 1,
+            isTemplate = false,
+            owner = NetworkUser(
+                id = 1,
+                login = "sample",
+                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+            ),
         )
 
         val serialized =
@@ -54,7 +60,12 @@ class NetworkRepositoryTest {
                 "archived": false,
                 "disabled": false,
                 "open_issues_count": 5,
-                "is_template": 1
+                "is_template": false,
+                "owner": {
+                    "id": 1,
+                    "login": "sample",
+                    "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
+                }
             }
         """.trimIndent().replace("\n", "").replace(" ", "")
 
@@ -82,7 +93,12 @@ class NetworkRepositoryTest {
                 "archived": true,
                 "disabled": true,
                 "open_issues_count": 10,
-                "is_template": 0
+                "is_template": false,
+                "owner": {
+                    "id": 1,
+                    "login": "sample",
+                    "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
+                }
             }
         """.trimIndent()
 
@@ -107,7 +123,10 @@ class NetworkRepositoryTest {
         assertEquals(true, repository.archived)
         assertEquals(true, repository.disabled)
         assertEquals(10, repository.openIssues)
-        assertEquals(0, repository.isTemplate)
+        assertEquals(false, repository.isTemplate)
+        assertEquals(1, repository.owner?.id)
+        assertEquals("sample", repository.owner?.login)
+        assertEquals("https://avatars.githubusercontent.com/u/1?v=4", repository.owner?.avatarUrl)
     }
 
     @Test
@@ -163,7 +182,12 @@ class NetworkRepositoryTest {
             archived = false,
             disabled = false,
             openIssues = 5,
-            isTemplate = 1,
+            isTemplate = false,
+            owner = NetworkUser(
+                id = 1,
+                login = "sample",
+                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+            ),
         )
 
         val expectedRepositoryEntity = RepositoryEntity(
@@ -184,7 +208,12 @@ class NetworkRepositoryTest {
             archived = false,
             disabled = false,
             openIssues = 5,
-            isTemplate = 1,
+            isTemplate = false,
+            owner = UserEntity(
+                id = 1,
+                login = "sample",
+                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+            ),
         )
 
         assertEquals(expectedRepositoryEntity, networkRepository.asEntity())

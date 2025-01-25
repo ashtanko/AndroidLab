@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dev.shtanko.androidlab.github.data.model.NetworkRepository
+import dev.shtanko.androidlab.github.data.model.NetworkUser
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -48,6 +49,7 @@ class RepositoryServiceTest {
         assertNotNull(repositoryService)
     }
 
+    @Suppress("LongMethod")
     @Test
     fun `fetchRepos should return successful response`() = runTest {
         val mockJsonResponse = """
@@ -70,7 +72,12 @@ class RepositoryServiceTest {
                 "archived": false,
                 "disabled": false,
                 "open_issues_count": 5,
-                "is_template": 1
+                "is_template": false,
+                "owner": {
+                    "id": 1,
+                    "login": "sample",
+                    "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4"
+                }
             }
            ]
         """.trimIndent()
@@ -98,7 +105,12 @@ class RepositoryServiceTest {
                 archived = false,
                 disabled = false,
                 openIssues = 5,
-                isTemplate = 1,
+                isTemplate = false,
+                owner = NetworkUser(
+                    id = 1,
+                    login = "sample",
+                    avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+                ),
             ),
         )
 
