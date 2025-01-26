@@ -2,6 +2,7 @@
 
 package dev.shtanko.androidlab.github.presentation.repositories
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -56,6 +57,25 @@ fun RepositoriesScreen(
 ) {
     val uiState = viewModel.uiState.collectAsLazyPagingItems()
 
+    RepositoriesScreen(
+        modifier = modifier,
+        uiState = uiState,
+        isRefreshing = false,
+        navigateBack = navigateBack,
+        onRefresh = { viewModel.refresh() },
+    )
+}
+
+@Composable
+fun RepositoriesScreen(
+    uiState: LazyPagingItems<RepositoryResource>,
+    modifier: Modifier = Modifier,
+    isRefreshing: Boolean = true,
+    onTryAgainClick: () -> Unit = {},
+    navigateBack: () -> Unit = {},
+    onClick: (Int) -> Unit = {},
+    onRefresh: () -> Unit = {},
+) {
     ScreenBackground(
         modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
     ) {
@@ -69,32 +89,15 @@ fun RepositoriesScreen(
             },
             containerColor = Color.Transparent,
         ) { contentPadding ->
-            RepositoriesScreen(
+            RepositoriesList(
+                pagingItems = uiState,
+                isRefreshing = isRefreshing,
                 modifier = Modifier.padding(contentPadding),
-                uiState = uiState,
-                isRefreshing = false,
-                onRefresh = { viewModel.refresh() },
+                onClick = onClick,
+                onRefresh = onRefresh,
             )
         }
     }
-}
-
-@Composable
-fun RepositoriesScreen(
-    uiState: LazyPagingItems<RepositoryResource>,
-    modifier: Modifier = Modifier,
-    isRefreshing: Boolean = true,
-    onTryAgainClick: () -> Unit = {},
-    onClick: (Int) -> Unit = {},
-    onRefresh: () -> Unit = {},
-) {
-    RepositoriesList(
-        pagingItems = uiState,
-        isRefreshing = isRefreshing,
-        modifier = modifier,
-        onClick = onClick,
-        onRefresh = onRefresh,
-    )
 }
 
 @Composable
@@ -249,7 +252,16 @@ fun RepositoriesTopAppBar(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun RepositoriesTopAppBarPreview() {
     AndroidLabTheme {
@@ -257,7 +269,16 @@ private fun RepositoriesTopAppBarPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun RepositoriesScreenItemsPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,
@@ -271,7 +292,16 @@ private fun RepositoriesScreenItemsPreview(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun RepositoryItemPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,

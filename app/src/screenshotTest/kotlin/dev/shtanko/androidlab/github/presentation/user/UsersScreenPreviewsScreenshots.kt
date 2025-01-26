@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.user
 
 import android.content.res.Configuration
 import androidx.compose.runtime.Composable
