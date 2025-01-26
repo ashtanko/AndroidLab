@@ -2,14 +2,12 @@
 
 package dev.shtanko.androidlab.github.data.mediator
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.skydoves.sandwich.getOrNull
-import com.skydoves.sandwich.isException
 import com.skydoves.sandwich.isSuccess
 import dev.shtanko.androidlab.github.data.db.GithubDatabase
 import dev.shtanko.androidlab.github.data.db.entity.RepositoryEntity
@@ -60,21 +58,10 @@ class RepositoryMediator(
             val perPage = state.config.pageSize
             val response = service.fetchRepos(user = username, page = page, perPage = perPage)
 
-            Log.d(
-                "RepositoryMediator",
-                "username: $username response: $response ${response.isException}",
-            )
-
             if (response.isSuccess) {
                 val responseList = response.getOrNull() ?: emptyList()
                 val entities = responseList.map(NetworkRepository::asEntity)
                 val isEndOfList = responseList.isEmpty()
-
-                Log.d(
-                    "RepositoryMediator",
-                    "username: $username $entities isEndOfList: $isEndOfList",
-                )
-
                 database.withTransaction {
                     if (loadType == LoadType.REFRESH) {
                         database.repositoryRemoteKeysDao().clearRemoteKeys()
