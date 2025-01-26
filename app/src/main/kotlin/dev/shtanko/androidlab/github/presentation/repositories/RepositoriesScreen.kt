@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,11 +31,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -44,6 +47,8 @@ import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
+import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
+import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -63,6 +68,7 @@ fun RepositoriesScreen(
         isRefreshing = false,
         navigateBack = navigateBack,
         onRefresh = { viewModel.refresh() },
+        onTryAgainClick = { viewModel.retry() },
     )
 }
 
@@ -89,13 +95,20 @@ fun RepositoriesScreen(
             },
             containerColor = Color.Transparent,
         ) { contentPadding ->
-            RepositoriesList(
-                pagingItems = uiState,
-                isRefreshing = isRefreshing,
-                modifier = Modifier.padding(contentPadding),
-                onClick = onClick,
-                onRefresh = onRefresh,
-            )
+            when (uiState.loadState.refresh) {
+                is LoadState.Loading -> LoadingContent()
+                is LoadState.Error -> ErrorContent(
+                    onTryAgainClick = onTryAgainClick,
+                )
+
+                is LoadState.NotLoading -> RepositoriesList(
+                    pagingItems = uiState,
+                    isRefreshing = isRefreshing,
+                    modifier = Modifier.padding(contentPadding),
+                    onClick = onClick,
+                    onRefresh = onRefresh,
+                )
+            }
         }
     }
 }
@@ -135,6 +148,26 @@ private fun RepositoriesList(
                                 onClick = onClick,
                                 modifier = Modifier.fillMaxWidth(),
                             )
+                        }
+                    }
+
+                    pagingItems.apply {
+                        when (loadState.append) {
+                            is LoadState.Loading -> {
+                                item { CircularProgressIndicator() }
+                            }
+
+                            is LoadState.Error -> {
+                                item {
+                                    Text(
+                                        text = "Failed to load more items.",
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.fillMaxWidth(),
+                                    )
+                                }
+                            }
+
+                            is LoadState.NotLoading -> item { Box(modifier = Modifier) }
                         }
                     }
                 },

@@ -30,8 +30,8 @@ class OfflineFirstRepositoriesRepository @Inject constructor(
 ) : RepositoriesRepository {
     override fun getRepos(username: String): Flow<PagingData<RepositoryResource>> = Pager(
         config = PagingConfig(
-            pageSize = 20,
-            prefetchDistance = 2,
+            pageSize = 10,
+            prefetchDistance = 1,
             maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
             jumpThreshold = Int.MIN_VALUE,
             enablePlaceholders = true,
