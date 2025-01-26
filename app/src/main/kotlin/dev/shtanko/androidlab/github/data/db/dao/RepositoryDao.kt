@@ -28,8 +28,11 @@ interface RepositoryRemoteKeysDao {
     @Query("SELECT * FROM repos_remote_key WHERE repository_id = :id")
     suspend fun getRemoteKeyById(id: String): RepositoryRemoteKeysEntity?
 
-    @Query("Select created_at FROM repos_remote_key ORDER BY created_at DESC LIMIT 1")
+    @Query("SELECT created_at FROM repos_remote_key ORDER BY created_at DESC LIMIT 1")
     suspend fun getCreationTime(): Long?
+
+    @Query("SELECT user FROM repos_remote_key")
+    suspend fun getUsers(): List<String>?
 
     @Query("DELETE FROM repos_remote_key")
     suspend fun clearRemoteKeys()

@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface RepositoriesRepository {
-    fun getRepos(): Flow<PagingData<RepositoryResource>>
+    fun getRepos(username: String = "google"): Flow<PagingData<RepositoryResource>>
 }
 
 @OptIn(ExperimentalPagingApi::class)
@@ -28,7 +28,7 @@ class OfflineFirstRepositoriesRepository @Inject constructor(
     private val db: GithubDatabase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : RepositoriesRepository {
-    override fun getRepos(): Flow<PagingData<RepositoryResource>> = Pager(
+    override fun getRepos(username: String): Flow<PagingData<RepositoryResource>> = Pager(
         config = PagingConfig(
             pageSize = 20,
             prefetchDistance = 2,
@@ -40,8 +40,9 @@ class OfflineFirstRepositoriesRepository @Inject constructor(
             db.repositoryDao().getRepositories()
         },
         remoteMediator = RepositoryMediator(
-            service,
-            db,
+            service = service,
+            database = db,
+            username = username,
         ),
     ).flow.map { pagingData ->
         pagingData.map(RepositoryEntity::asExternalModel)

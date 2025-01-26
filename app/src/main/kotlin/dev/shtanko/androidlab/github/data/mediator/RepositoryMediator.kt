@@ -25,12 +25,16 @@ class RepositoryMediator(
     private val service: RepositoryService,
     private val database: GithubDatabase,
     private val cacheTimeout: Long = TimeUnit.MILLISECONDS.convert(10, TimeUnit.HOURS),
+    private val username: String = "google",
 ) : RemoteMediator<Int, RepositoryEntity>() {
 
     override suspend fun initialize(): InitializeAction {
-        return if (System.currentTimeMillis() - (database.repositoryRemoteKeysDao()
-                .getCreationTime() ?: 0) < cacheTimeout
-        ) {
+        val users = database.repositoryRemoteKeysDao().getUsers()
+        val isUserExist = users?.contains(username) == true
+        val creationTime = database.repositoryRemoteKeysDao().getCreationTime() ?: 0
+        val currentTime = System.currentTimeMillis()
+        val timeDiff = currentTime - creationTime
+        return if (timeDiff < cacheTimeout && isUserExist) {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
             InitializeAction.SKIP_INITIAL_REFRESH
@@ -54,16 +58,22 @@ class RepositoryMediator(
 
         try {
             val perPage = state.config.pageSize
-            val response = service.fetchRepos(page = page, perPage = perPage)
+            val response = service.fetchRepos(user = username, page = page, perPage = perPage)
 
-            Log.d("RepositoryMediator", "response: $response ${response.isException}")
+            Log.d(
+                "RepositoryMediator",
+                "username: $username response: $response ${response.isException}",
+            )
 
             if (response.isSuccess) {
                 val responseList = response.getOrNull() ?: emptyList()
                 val entities = responseList.map(NetworkRepository::asEntity)
                 val isEndOfList = responseList.isEmpty()
 
-                Log.d("RepositoryMediator", "$entities isEndOfList: $isEndOfList")
+                Log.d(
+                    "RepositoryMediator",
+                    "username: $username $entities isEndOfList: $isEndOfList",
+                )
 
                 database.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -76,6 +86,7 @@ class RepositoryMediator(
                     val remoteKeys = entities.map {
                         RepositoryRemoteKeysEntity(
                             repositoryId = it.repositoryId,
+                            user = it.owner?.login.orEmpty(),
                             prevKey = prevKey,
                             currentPage = page,
                             nextKey = nextKey,

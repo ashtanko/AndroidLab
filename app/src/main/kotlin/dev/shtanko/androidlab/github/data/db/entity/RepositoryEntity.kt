@@ -38,8 +38,13 @@ data class RepositoryRemoteKeysEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "repository_id")
     val repositoryId: String,
+    @ColumnInfo(name = "user")
+    val user: String,
+    @ColumnInfo(name = "prev_key")
     val prevKey: Int?,
+    @ColumnInfo(name = "current_page")
     val currentPage: Int,
+    @ColumnInfo(name = "next_key")
     val nextKey: Int?,
     @ColumnInfo(name = "created_at")
     val createdAt: Long = System.currentTimeMillis(),

@@ -1,11 +1,13 @@
 package dev.shtanko.androidlab.github.presentation.repositories
 
 import androidx.compose.runtime.Stable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.shtanko.androidlab.github.GithubScreenRoutes
 import dev.shtanko.androidlab.github.data.repository.RepositoriesRepository
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,12 +24,16 @@ import javax.inject.Inject
 @HiltViewModel
 class RepositoriesViewModel @Inject constructor(
     private val repository: RepositoriesRepository,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+
+    private val username: String =
+        savedStateHandle.get<String>(GithubScreenRoutes.ARG_USERNAME).orEmpty()
 
     private val fetchTrigger = MutableSharedFlow<Boolean>(replay = 1)
 
     val uiState: StateFlow<PagingData<RepositoryResource>> = fetchTrigger.flatMapLatest {
-        repository.getRepos().cachedIn(viewModelScope)
+        repository.getRepos(username = username).cachedIn(viewModelScope)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),

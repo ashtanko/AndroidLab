@@ -109,6 +109,7 @@ class RepositoryRemoteKeysDaoTest : DatabaseTest() {
     fun insertAndRetrieveRemoteKeyById() = runTest {
         val remoteKey = RepositoryRemoteKeysEntity(
             repositoryId = "repo1",
+            user = "user1",
             prevKey = null,
             currentPage = 1,
             nextKey = 2,
@@ -129,6 +130,7 @@ class RepositoryRemoteKeysDaoTest : DatabaseTest() {
         val remoteKeys = listOf(
             RepositoryRemoteKeysEntity(
                 repositoryId = "repo1",
+                user = "user1",
                 prevKey = null,
                 currentPage = 1,
                 nextKey = 2,
@@ -136,6 +138,7 @@ class RepositoryRemoteKeysDaoTest : DatabaseTest() {
             ),
             RepositoryRemoteKeysEntity(
                 repositoryId = "repo2",
+                user = "user1",
                 prevKey = 1,
                 currentPage = 2,
                 nextKey = 3,
@@ -151,16 +154,46 @@ class RepositoryRemoteKeysDaoTest : DatabaseTest() {
     }
 
     @Test
+    fun retrieveUsers() = runTest {
+        val remoteKeys = listOf(
+            RepositoryRemoteKeysEntity(
+                repositoryId = "repo1",
+                user = "user1",
+                prevKey = null,
+                currentPage = 1,
+                nextKey = 2,
+                createdAt = 1000L,
+            ),
+            RepositoryRemoteKeysEntity(
+                repositoryId = "repo2",
+                user = "user2",
+                prevKey = 1,
+                currentPage = 2,
+                nextKey = 3,
+                createdAt = 2000L,
+            ),
+        )
+
+        repositoryRemoteKeysDao.insertAll(remoteKeys)
+        val users = repositoryRemoteKeysDao.getUsers()
+
+        assertNotNull(users)
+        assertEquals(listOf("user1", "user2"), users)
+    }
+
+    @Test
     fun clearRemoteKeys() = runTest {
         val remoteKeys = listOf(
             RepositoryRemoteKeysEntity(
                 repositoryId = "repo1",
+                user = "user1",
                 prevKey = null,
                 currentPage = 1,
                 nextKey = 2,
             ),
             RepositoryRemoteKeysEntity(
                 repositoryId = "repo2",
+                user = "user2",
                 prevKey = 1,
                 currentPage = 2,
                 nextKey = 3,

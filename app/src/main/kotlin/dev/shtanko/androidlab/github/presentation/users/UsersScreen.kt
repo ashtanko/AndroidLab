@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
 import androidx.window.core.layout.WindowSizeClass
 import dev.shtanko.androidlab.R
+import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.github.presentation.preview.UsersPreviewDataProvider
 import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
@@ -42,7 +43,6 @@ import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
 import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
 import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
-import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -50,7 +50,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun UsersScreen(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
-    onUserClick: (Int) -> Unit = {},
+    onUserClick: (String) -> Unit = {},
     viewModel: UserViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -80,7 +80,7 @@ fun UsersContent(
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = true,
     onTryAgainClick: () -> Unit = {},
-    onUserClick: (Int) -> Unit = {},
+    onUserClick: (String) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
     when (uiState) {
@@ -107,7 +107,7 @@ private fun UsersListContent(
     users: ImmutableList<UserResource>,
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = true,
-    onUserClick: (Int) -> Unit = {},
+    onUserClick: (String) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
     val listState = rememberLazyListState(
@@ -150,14 +150,14 @@ private fun UsersListContent(
 private fun UserItem(
     user: UserResource,
     modifier: Modifier = Modifier,
-    onUserClick: (Int) -> Unit = {},
+    onUserClick: (String) -> Unit = {},
 ) = trace("user_item") {
     Box(modifier = modifier.padding(vertical = 2.dp, horizontal = 12.dp)) {
         Surface(
             shape = MaterialTheme.shapes.large,
             color = MaterialTheme.colorScheme.surfaceContainer,
             onClick = {
-                onUserClick.invoke(user.id)
+                onUserClick.invoke(user.login)
             },
             modifier = modifier,
         ) {

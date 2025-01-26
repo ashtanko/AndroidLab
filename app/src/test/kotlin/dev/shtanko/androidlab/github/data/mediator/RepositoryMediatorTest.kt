@@ -37,7 +37,7 @@ class RepositoryMediatorTest {
     private val db: GithubDatabase = mock()
     private val repositoryRemoteKeysDao: RepositoryRemoteKeysDao = mock()
     private val repositoryDao: RepositoryDao = mock()
-    private val mediator = RepositoryMediator(service, db)
+    private val mediator = RepositoryMediator(service, db, username = "google")
 
     @Test
     fun `mediator instance should not be null`() {
@@ -48,6 +48,7 @@ class RepositoryMediatorTest {
     fun initialize_withUpToDateCache_returnsSkipInitialRefresh() = runTest {
         `when`(db.repositoryRemoteKeysDao()).thenReturn(repositoryRemoteKeysDao)
         `when`(repositoryRemoteKeysDao.getCreationTime()).thenReturn(System.currentTimeMillis())
+        `when`(repositoryRemoteKeysDao.getUsers()).thenReturn(listOf("google"))
 
         val result = mediator.initialize()
         assertEquals(RemoteMediator.InitializeAction.SKIP_INITIAL_REFRESH, result)

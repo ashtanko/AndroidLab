@@ -15,7 +15,7 @@ import dev.shtanko.androidlab.github.data.db.entity.UserEntity
         RepositoryEntity::class,
         RepositoryRemoteKeysEntity::class,
     ],
-    version = 2,
+    version = 3,
     autoMigrations = [],
     exportSchema = true,
 )

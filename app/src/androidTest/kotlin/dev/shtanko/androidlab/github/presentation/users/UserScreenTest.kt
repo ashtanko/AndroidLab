@@ -109,12 +109,12 @@ class UserScreenTest {
 
     @Test
     fun whenUserClicked_thenOnUserClickCallbackIsInvoked() {
-        val clickedUserId = mutableStateOf<Int?>(null)
+        val clickedUsername = mutableStateOf<String?>(null)
         composeTestRule.activity.setContent {
             UsersContent(
                 uiState = UserUiState.Success(mockUsers),
                 isRefreshing = false,
-                onUserClick = { clickedUserId.value = it },
+                onUserClick = { clickedUsername.value = it },
             )
         }
 
@@ -122,7 +122,7 @@ class UserScreenTest {
         composeTestRule.onNodeWithText("User 2").performClick()
 
         // Assert that the correct user ID was passed
-        assert(clickedUserId.value == 2)
+        assert(clickedUsername.value == "User 2")
     }
 
     @Test
