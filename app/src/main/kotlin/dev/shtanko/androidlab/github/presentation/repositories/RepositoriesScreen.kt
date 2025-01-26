@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 @file:OptIn(ExperimentalMaterial3Api::class)
 
 package dev.shtanko.androidlab.github.presentation.repositories
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -51,12 +53,14 @@ import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
+import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
 import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
 import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun RepositoriesScreen(
@@ -138,43 +142,47 @@ private fun RepositoriesList(
         testTag = "RepositoriesPullToRefreshBox",
         testIndicatorTag = "RepositoriesPullToRefreshIndicator",
         content = {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier,
-                content = {
-                    items(
-                        count = pagingItems.itemCount,
-                        key = pagingItems.itemKey { it.id },
-                        contentType = pagingItems.itemContentType { "Item" },
-                    ) { i ->
+            if (pagingItems.itemCount == 0) {
+                EmptyContent(stringResource(R.string.empty_repos_title))
+            } else {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier,
+                    content = {
+                        items(
+                            count = pagingItems.itemCount,
+                            key = pagingItems.itemKey { it.id },
+                            contentType = pagingItems.itemContentType { "Item" },
+                        ) { index ->
 
-                        val item = pagingItems[i]
-                        item?.let {
-                            RepositoryItem(
-                                item = it,
-                                onClick = onClick,
-                                modifier = Modifier.fillMaxWidth(),
-                            )
-                        }
-                    }
-
-                    pagingItems.apply {
-                        when (loadState.append) {
-                            is LoadState.Loading -> {
-                                item { RepositoryItemLoading() }
+                            val item = pagingItems[index]
+                            item?.let {
+                                RepositoryItem(
+                                    item = it,
+                                    onClick = onClick,
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
                             }
+                        }
 
-                            is LoadState.Error -> {
-                                item {
-                                    RepositoryNoMoreItems()
+                        pagingItems.apply {
+                            when (loadState.append) {
+                                is LoadState.Loading -> {
+                                    item { RepositoryItemLoading() }
                                 }
-                            }
 
-                            is LoadState.NotLoading -> item { Box(modifier = Modifier) }
+                                is LoadState.Error -> {
+                                    item {
+                                        RepositoryNoMoreItems()
+                                    }
+                                }
+
+                                is LoadState.NotLoading -> item { Box(modifier = Modifier) }
+                            }
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
         },
     )
 }
@@ -398,6 +406,81 @@ private fun RepositoriesScreenItemsPreview(
 ) {
     AndroidLabTheme {
         val pagingData = PagingData.from(preview)
+        val flow = MutableStateFlow(pagingData)
+        RepositoriesScreen(
+            uiState = flow.collectAsLazyPagingItems(),
+            isRefreshing = false,
+        )
+    }
+}
+
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun RepositoriesScreenItemsLoadingPreview(
+    @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,
+) {
+    AndroidLabTheme {
+        val pagingData = PagingData.from(preview)
+        val flow = flowOf(pagingData)
+        RepositoriesScreen(
+            uiState = flow.collectAsLazyPagingItems(),
+            isRefreshing = false,
+        )
+    }
+}
+
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun RepositoriesScreenItemsEmptyPreview() {
+    AndroidLabTheme {
+        val pagingData = PagingData.empty<RepositoryResource>()
+        val flow = MutableStateFlow(pagingData)
+        RepositoriesScreen(
+            uiState = flow.collectAsLazyPagingItems(),
+            isRefreshing = false,
+        )
+    }
+}
+
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun RepositoriesScreenItemsErrorPreview() {
+    AndroidLabTheme {
+        val pagingData = PagingData.from(
+            data = emptyList<RepositoryResource>(),
+            sourceLoadStates = LoadStates(
+                LoadState.Error(Exception("Error")),
+                LoadState.Error(Exception("Error")),
+                LoadState.Error(Exception("Error")),
+            ),
+        )
         val flow = MutableStateFlow(pagingData)
         RepositoriesScreen(
             uiState = flow.collectAsLazyPagingItems(),
