@@ -42,7 +42,7 @@ import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
 import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
 import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
-import dev.shtanko.androidlab.github.presentation.shared.ScreenBackground
+import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
 

@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation.shared
+package dev.shtanko.androidlab.github.designsystem
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
