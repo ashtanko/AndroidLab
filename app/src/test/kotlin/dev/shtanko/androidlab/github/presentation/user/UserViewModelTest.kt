@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.user
 
 import app.cash.turbine.test
 import dev.shtanko.androidlab.github.data.repository.FakeUserRepository

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,15 +18,17 @@ fun ScreenBackground(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background),
-    ) {
+    Surface {
         Box(
-            modifier = Modifier
-                .fillMaxSize(),
-        )
-        content()
+            modifier = modifier
+                .background(MaterialTheme.colorScheme.background),
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+            )
+            content()
+        }
     }
 }
 
@@ -42,7 +46,7 @@ fun ScreenBackground(
 private fun ScreenBackgroundPreview() {
     AndroidLabTheme {
         ScreenBackground {
-            // Empty content
+            Text("Background")
         }
     }
 }

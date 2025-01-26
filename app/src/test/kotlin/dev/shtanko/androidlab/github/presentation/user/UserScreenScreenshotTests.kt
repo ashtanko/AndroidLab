@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation
+package dev.shtanko.androidlab.github.presentation.user
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
