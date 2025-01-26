@@ -240,6 +240,10 @@ dependencies {
             implementation(hilt.navigation.compose)
             implementation(runtime.tracing)
             implementation(tracing.ktx)
+            implementation(libs.androidx.compose.material3.adaptive)
+            implementation(libs.androidx.compose.material3.adaptive.layout)
+            implementation(libs.androidx.compose.material3.adaptive.navigation)
+
             androidTestImplementation(junit)
             // androidTestImplementation(espresso.core)
             // androidTestImplementation(espresso.contrib)
@@ -296,6 +300,11 @@ dependencies {
         }
 
         implementation(profileinstaller)
+
+        implementation(accompanist.adaptive)
+
+        implementation(libs.androidx.window)
+        implementation(libs.androidx.window.core)
 
         implementation(room.runtime)
         implementation(room.ktx)

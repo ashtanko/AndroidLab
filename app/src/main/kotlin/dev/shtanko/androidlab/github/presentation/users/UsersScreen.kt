@@ -2,24 +2,28 @@
 
 package dev.shtanko.androidlab.github.presentation.users
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tracing.trace
+import androidx.window.core.layout.WindowSizeClass
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.github.presentation.preview.UsersPreviewDataProvider
@@ -37,11 +42,13 @@ import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
 import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
 import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
+import dev.shtanko.androidlab.github.presentation.shared.ScreenBackground
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun UsersScreen(
+    windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
     onUserClick: (Int) -> Unit = {},
     viewModel: UserViewModel = hiltViewModel(),
@@ -49,14 +56,22 @@ fun UsersScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    UsersContent(
-        uiState = uiState,
-        modifier = modifier,
-        isRefreshing = isRefreshing,
-        onTryAgainClick = { viewModel.retry() },
-        onUserClick = onUserClick,
-        onRefresh = { viewModel.refresh() },
-    )
+    ScreenBackground(
+        modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+        ) { contentPadding ->
+            UsersContent(
+                uiState = uiState,
+                modifier = Modifier.padding(contentPadding),
+                isRefreshing = isRefreshing,
+                onTryAgainClick = { viewModel.retry() },
+                onUserClick = onUserClick,
+                onRefresh = { viewModel.refresh() },
+            )
+        }
+    }
 }
 
 @Composable
@@ -120,17 +135,10 @@ private fun UsersListContent(
                     val item = users[index]
                     UserItem(
                         item,
+                        onUserClick = onUserClick,
                         modifier = Modifier
                             .animateItem()
-                            .clickable(
-                                onClick = {
-                                    onUserClick.invoke(item.id)
-                                },
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = ripple(
-                                    color = MaterialTheme.colorScheme.primaryContainer,
-                                ),
-                            ),
+                            .fillMaxWidth(),
                     )
                 }
             }
@@ -142,23 +150,35 @@ private fun UsersListContent(
 private fun UserItem(
     user: UserResource,
     modifier: Modifier = Modifier,
+    onUserClick: (Int) -> Unit = {},
 ) = trace("user_item") {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        CircularAvatarImage(
-            sizeDp = 32.dp,
-            imageUrl = user.avatarUrl,
-        )
-        Text(
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(start = 8.dp),
-            text = user.login,
-        )
+    Box(modifier = modifier.padding(vertical = 2.dp, horizontal = 12.dp)) {
+        Surface(
+            shape = MaterialTheme.shapes.large,
+            color = MaterialTheme.colorScheme.surfaceContainer,
+            onClick = {
+                onUserClick.invoke(user.id)
+            },
+            modifier = modifier,
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                CircularAvatarImage(
+                    sizeDp = 32.dp,
+                    imageUrl = user.avatarUrl,
+                )
+                Text(
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelLarge,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = user.login,
+                )
+            }
+        }
     }
 }
 
@@ -222,7 +242,16 @@ private fun UsersEmptyContentPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun UserItemPreview(
     @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,

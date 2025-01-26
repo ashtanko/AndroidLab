@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
+import dev.shtanko.androidlab.utils.forwardingPainter
 
 @Composable
 fun CircularAvatarImage(
@@ -44,7 +46,10 @@ fun CircularAvatarImage(
                 .data(imageUrl)
                 .crossfade(true)
                 .build(),
-            placeholder = rememberVectorPainter(placeholderIcon),
+            placeholder = forwardingPainter(
+                painter = rememberVectorPainter(placeholderIcon),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+            ),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             error = rememberVectorPainter(errorIcon),

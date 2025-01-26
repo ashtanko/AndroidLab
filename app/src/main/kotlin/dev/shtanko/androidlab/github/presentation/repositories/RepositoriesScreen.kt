@@ -2,22 +2,33 @@
 
 package dev.shtanko.androidlab.github.presentation.repositories
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -32,6 +43,7 @@ import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
+import dev.shtanko.androidlab.github.presentation.shared.ScreenBackground
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.flowOf
@@ -39,16 +51,32 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun RepositoriesScreen(
     modifier: Modifier = Modifier,
+    navigateBack: () -> Unit = {},
     viewModel: RepositoriesViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsLazyPagingItems()
 
-    RepositoriesScreen(
-        modifier = modifier,
-        uiState = uiState,
-        isRefreshing = false,
-        onRefresh = { viewModel.refresh() },
-    )
+    ScreenBackground(
+        modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                RepositoriesTopAppBar(
+                    navigateBack = navigateBack,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            },
+            containerColor = Color.Transparent,
+        ) { contentPadding ->
+            RepositoriesScreen(
+                modifier = Modifier.padding(contentPadding),
+                uiState = uiState,
+                isRefreshing = false,
+                onRefresh = { viewModel.refresh() },
+            )
+        }
+    }
 }
 
 @Composable
@@ -101,9 +129,8 @@ private fun RepositoriesList(
                         item?.let {
                             RepositoryItem(
                                 item = it,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable(onClick = { onClick(it.id) }),
+                                onClick = onClick,
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
                     }
@@ -117,70 +144,116 @@ private fun RepositoriesList(
 fun RepositoryItem(
     item: RepositoryResource,
     modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit = {},
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+    Box(modifier = modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+        Surface(
+            shape = MaterialTheme.shapes.large,
+            color = MaterialTheme.colorScheme.surfaceContainer,
+            onClick = {
+                onClick(item.id)
+            },
+            modifier = Modifier,
         ) {
-            CircularAvatarImage(
-                sizeDp = 16.dp,
-                borderDp = 0.dp,
-                imageUrl = item.owner?.avatarUrl,
-            )
-            Text(
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 8.dp),
-                text = item.owner?.login.orEmpty(),
-            )
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier,
-                text = item.name.orEmpty(),
-            )
-        }
-        item.description.takeIf { it?.isNotEmpty() == true }?.let { description ->
-            Text(
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier,
-                text = description,
-            )
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
             ) {
+                Row(
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CircularAvatarImage(
+                        sizeDp = 16.dp,
+                        borderDp = 0.dp,
+                        imageUrl = item.owner?.avatarUrl,
+                    )
+                    Text(
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = item.owner?.login.orEmpty(),
+                    )
+                }
+                Row(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier,
+                        text = item.name.orEmpty(),
+                    )
+                }
+                item.description.takeIf { it?.isNotEmpty() == true }?.let { description ->
+                    Text(
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 2.dp),
+                        text = description,
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(16.dp),
+                            imageVector = Icons.Rounded.Star,
+                            contentDescription = null,
+                        )
+                        Text(
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier,
+                            text = item.stars.toString(),
+                        )
+                    }
+                    Text(
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(start = 4.dp),
+                        text = item.language.orEmpty(),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RepositoriesTopAppBar(
+    modifier: Modifier = Modifier,
+    navigateBack: () -> Unit = {},
+) {
+    TopAppBar(
+        title = { },
+        navigationIcon = {
+            IconButton(onClick = navigateBack) {
                 Icon(
-                    modifier = Modifier.size(16.dp),
-                    imageVector = Icons.Rounded.Star,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = null,
                 )
-                Text(
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier,
-                    text = item.stars.toString(),
-                )
             }
-            Text(
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 4.dp),
-                text = item.language.orEmpty(),
-            )
-        }
+        },
+        modifier = modifier,
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RepositoriesTopAppBarPreview() {
+    AndroidLabTheme {
+        RepositoriesTopAppBar()
     }
 }
 

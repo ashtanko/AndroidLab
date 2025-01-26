@@ -50,6 +50,6 @@ screenshot:
 	./gradlew updateDebugScreenshotTest && ./gradlew validateDebugScreenshotTest
 
 robo:
-	./gradlew recordRoborazziDebug && ./gradlew compareRoborazziDebug && ./gradlew verifyRoborazziDebug
+	 ./gradlew clearRoborazziDebug && ./gradlew recordRoborazziDebug && ./gradlew compareRoborazziDebug && ./gradlew verifyRoborazziDebug
 
 .DEFAULT_GOAL := default

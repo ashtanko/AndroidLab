@@ -1,5 +1,6 @@
 package dev.shtanko.androidlab.github.presentation
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -10,7 +11,16 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.persistentListOf
 
 class UsersScreenPreviewsScreenshots {
-    @Preview(showBackground = true)
+    @Preview(
+        name = "Light Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+    )
+    @Preview(
+        name = "Dark Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+    )
     @Composable
     fun UsersErrorContentPreview() {
         AndroidLabTheme {
@@ -20,7 +30,16 @@ class UsersScreenPreviewsScreenshots {
         }
     }
 
-    @Preview(showBackground = true)
+    @Preview(
+        name = "Light Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+    )
+    @Preview(
+        name = "Dark Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+    )
     @Composable
     private fun UsersLoadingContentPreview() {
         AndroidLabTheme {
@@ -30,7 +49,16 @@ class UsersScreenPreviewsScreenshots {
         }
     }
 
-    @Preview(showBackground = true)
+    @Preview(
+        name = "Light Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+    )
+    @Preview(
+        name = "Dark Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+    )
     @Composable
     private fun UserItemPreview() {
         AndroidLabTheme {
@@ -48,7 +76,16 @@ class UsersScreenPreviewsScreenshots {
         }
     }
 
-    @Preview(showBackground = true)
+    @Preview(
+        name = "Light Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+    )
+    @Preview(
+        name = "Dark Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+    )
     @Composable
     private fun UsersEmptyContentPreview() {
         AndroidLabTheme {
@@ -58,7 +95,16 @@ class UsersScreenPreviewsScreenshots {
         }
     }
 
-    @Preview(showBackground = true)
+    @Preview(
+        name = "Light Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+    )
+    @Preview(
+        name = "Dark Mode",
+        showBackground = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+    )
     @Composable
     private fun UsersListContentPreview() {
         AndroidLabTheme {
