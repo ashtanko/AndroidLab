@@ -9,7 +9,7 @@ import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvid
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesScreen
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.util.captureMultiTheme
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,8 +33,9 @@ class RepositoriesScreenThemesScreenshotTests {
         composeTestRule.captureMultiTheme("RepositoryScreenPopulatedItemsThemes") { description ->
             AndroidLabTheme {
                 val pagingData = PagingData.from(repoResources)
+                val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    uiState = flowOf(pagingData).collectAsLazyPagingItems(),
+                    uiState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }

@@ -13,7 +13,7 @@ import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesTopAp
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoryItem
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class RepositoryScreenPreviewsScreenshots {
     @Preview(
@@ -49,8 +49,9 @@ class RepositoryScreenPreviewsScreenshots {
     ) {
         AndroidLabTheme {
             val pagingData = PagingData.from(preview)
+            val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                uiState = flowOf(pagingData).collectAsLazyPagingItems(),
+                uiState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }

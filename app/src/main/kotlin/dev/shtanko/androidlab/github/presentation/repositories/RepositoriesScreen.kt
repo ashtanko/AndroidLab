@@ -56,7 +56,7 @@ import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun RepositoriesScreen(
@@ -87,32 +87,34 @@ fun RepositoriesScreen(
     onClick: (Int) -> Unit = {},
     onRefresh: () -> Unit = {},
 ) {
-    ScreenBackground(
-        modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
-    ) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                RepositoriesTopAppBar(
-                    navigateBack = navigateBack,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            },
-            containerColor = Color.Transparent,
-        ) { contentPadding ->
-            when (uiState.loadState.refresh) {
-                is LoadState.Loading -> LoadingContent()
-                is LoadState.Error -> ErrorContent(
-                    onTryAgainClick = onTryAgainClick,
-                )
+    Surface {
+        ScreenBackground(
+            modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
+        ) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    RepositoriesTopAppBar(
+                        navigateBack = navigateBack,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                },
+                containerColor = Color.Transparent,
+            ) { contentPadding ->
+                when (uiState.loadState.refresh) {
+                    is LoadState.Loading -> LoadingContent()
+                    is LoadState.Error -> ErrorContent(
+                        onTryAgainClick = onTryAgainClick,
+                    )
 
-                is LoadState.NotLoading -> RepositoriesList(
-                    pagingItems = uiState,
-                    isRefreshing = isRefreshing,
-                    modifier = Modifier.padding(contentPadding),
-                    onClick = onClick,
-                    onRefresh = onRefresh,
-                )
+                    is LoadState.NotLoading -> RepositoriesList(
+                        pagingItems = uiState,
+                        isRefreshing = isRefreshing,
+                        modifier = Modifier.padding(contentPadding),
+                        onClick = onClick,
+                        onRefresh = onRefresh,
+                    )
+                }
             }
         }
     }
@@ -396,8 +398,9 @@ private fun RepositoriesScreenItemsPreview(
 ) {
     AndroidLabTheme {
         val pagingData = PagingData.from(preview)
+        val flow = MutableStateFlow(pagingData)
         RepositoriesScreen(
-            uiState = flowOf(pagingData).collectAsLazyPagingItems(),
+            uiState = flow.collectAsLazyPagingItems(),
             isRefreshing = false,
         )
     }
