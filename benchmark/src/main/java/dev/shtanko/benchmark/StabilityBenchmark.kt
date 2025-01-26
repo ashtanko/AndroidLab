@@ -43,7 +43,7 @@ fun MacrobenchmarkScope.scrollDown() {
     val list = device.findObject(By.res("user_list"))
     device.waitForIdle()
     list.setGestureMargin(device.displayWidth / 5)
-    repeat(10) {
+    repeat(2) {
         list.fling(Direction.DOWN)
         list.fling(Direction.UP)
     }
