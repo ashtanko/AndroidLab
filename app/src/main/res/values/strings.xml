@@ -11,4 +11,5 @@
     <string name="try_again">Try again</string>
     <string name="empty_users_title">No users found</string>
     <string name="empty_repos_title">No repositories found</string>
+    <string name="end_of_list_title">No more items</string>
 </resources>

@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.data.repository
+package dev.shtanko.androidlab.github.data.repository.user
 
 import app.cash.turbine.test
 import com.nhaarman.mockitokotlin2.never
@@ -11,6 +11,8 @@ import dev.shtanko.androidlab.github.data.db.dao.UserDao
 import dev.shtanko.androidlab.github.data.db.entity.UserEntity
 import dev.shtanko.androidlab.github.data.model.NetworkUser
 import dev.shtanko.androidlab.github.data.model.asEntity
+import dev.shtanko.androidlab.github.data.repository.OfflineFirstUserRepository
+import dev.shtanko.androidlab.github.data.repository.UserRepository
 import dev.shtanko.androidlab.github.data.service.UserService
 import dev.shtanko.androidlab.util.MainDispatcherRule
 import kotlinx.coroutines.test.runTest

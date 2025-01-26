@@ -1,7 +1,7 @@
 package dev.shtanko.androidlab.github.presentation.user
 
 import app.cash.turbine.test
-import dev.shtanko.androidlab.github.data.repository.FakeUserRepository
+import dev.shtanko.androidlab.github.data.repository.user.FakeUserRepository
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.github.presentation.users.UserUiState
 import dev.shtanko.androidlab.github.presentation.users.UserViewModel

@@ -1,5 +1,6 @@
-package dev.shtanko.androidlab.github.data.repository
+package dev.shtanko.androidlab.github.data.repository.user
 
+import dev.shtanko.androidlab.github.data.repository.UserRepository
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

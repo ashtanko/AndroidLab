@@ -31,18 +31,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
@@ -61,11 +65,12 @@ fun RepositoriesScreen(
     viewModel: RepositoriesViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsLazyPagingItems()
+    val isRefreshing = viewModel.isRefreshing.collectAsStateWithLifecycle().value
 
     RepositoriesScreen(
         modifier = modifier,
         uiState = uiState,
-        isRefreshing = false,
+        isRefreshing = uiState.loadState.refresh is LoadState.Loading,
         navigateBack = navigateBack,
         onRefresh = { viewModel.refresh() },
         onTryAgainClick = { viewModel.retry() },
@@ -154,16 +159,12 @@ private fun RepositoriesList(
                     pagingItems.apply {
                         when (loadState.append) {
                             is LoadState.Loading -> {
-                                item { CircularProgressIndicator() }
+                                item { RepositoryItemLoading() }
                             }
 
                             is LoadState.Error -> {
                                 item {
-                                    Text(
-                                        text = "Failed to load more items.",
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.fillMaxWidth(),
-                                    )
+                                    RepositoryNoMoreItems()
                                 }
                             }
 
@@ -174,6 +175,49 @@ private fun RepositoriesList(
             )
         },
     )
+}
+
+@Composable
+fun RepositoryNoMoreItems(
+    modifier: Modifier = Modifier,
+) {
+    Surface(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                maxLines = 1,
+                style = MaterialTheme.typography.labelLarge,
+                text = stringResource(R.string.end_of_list_title),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+@Composable
+fun RepositoryItemLoading(
+    modifier: Modifier = Modifier,
+    circularProgressSize: Dp = 22.dp,
+) {
+    Surface(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(size = circularProgressSize),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        }
+    }
 }
 
 @Composable
@@ -283,6 +327,40 @@ fun RepositoriesTopAppBar(
         },
         modifier = modifier,
     )
+}
+
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun RepositoryNoMoreItemsPreview() {
+    AndroidLabTheme {
+        RepositoryNoMoreItems()
+    }
+}
+
+@Preview(
+    name = "Light Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun RepositoryItemLoadingPreview() {
+    AndroidLabTheme {
+        RepositoryItemLoading()
+    }
 }
 
 @Preview(
