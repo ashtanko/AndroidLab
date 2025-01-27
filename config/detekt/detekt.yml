@@ -644,6 +644,7 @@ style:
     ignoreExtensionFunctions: true
     ignoreAnnotated:
       - 'Preview'
+      - 'ThemesPreviews'
   BracesOnIfStatements:
     singleLine: 'always'
     multiLine: 'always'
@@ -722,7 +723,7 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: '(_|ignored|expected|serialVersionUID)'
-    ignoreAnnotated: [ 'Preview' ]
+    ignoreAnnotated: [ 'Preview', 'ThemesPreviews' ]
   UseArrayLiteralsInAnnotations:
     active: false
   UseCheckNotNull:

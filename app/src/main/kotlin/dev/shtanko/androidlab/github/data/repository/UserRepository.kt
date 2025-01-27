@@ -9,6 +9,7 @@ import dev.shtanko.androidlab.github.data.di.IoDispatcher
 import dev.shtanko.androidlab.github.data.model.NetworkUser
 import dev.shtanko.androidlab.github.data.model.asEntity
 import dev.shtanko.androidlab.github.data.service.UserService
+import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,8 @@ import javax.inject.Inject
 
 interface UserRepository {
     fun fetchUsers(force: Boolean = false): Flow<Result<List<UserResource>>>
+
+    fun getFullUser(force: Boolean = false, login: String): Flow<Result<UserFullResource>>
 }
 
 class OfflineFirstUserRepository @Inject constructor(
@@ -42,6 +45,27 @@ class OfflineFirstUserRepository @Inject constructor(
                 }
             } else {
                 emit(Result.failure(Error("Error fetching users from API")))
+            }
+        }
+    }.flowOn(ioDispatcher)
+
+    override fun getFullUser(force: Boolean, login: String): Flow<Result<UserFullResource>> = flow {
+        val cachedUser = userDao.getFullUserByLogin(login)?.asExternalModel()
+
+        if (cachedUser != null && !force) {
+            emit(Result.success(cachedUser))
+        } else {
+            val apiResponse = userService.getFullUser(login)
+            if (apiResponse.isSuccess) {
+                apiResponse.suspendOnSuccess {
+                    val userEntity = data.asEntity()
+                    userDao.insertFullUser(userEntity)
+                    val finalUser = userDao.getFullUserByLogin(login)?.asExternalModel()
+                        ?: userEntity.asExternalModel()
+                    emit(Result.success(finalUser))
+                }
+            } else {
+                emit(Result.failure(Error("Error fetching full user $login from API")))
             }
         }
     }.flowOn(ioDispatcher)

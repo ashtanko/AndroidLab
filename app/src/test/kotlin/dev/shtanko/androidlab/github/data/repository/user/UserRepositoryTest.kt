@@ -9,15 +9,20 @@ import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.retrofit.responseOf
 import dev.shtanko.androidlab.github.data.db.dao.UserDao
 import dev.shtanko.androidlab.github.data.db.entity.UserEntity
+import dev.shtanko.androidlab.github.data.db.entity.UserEntityFull
+import dev.shtanko.androidlab.github.data.db.entity.asExternalModel
 import dev.shtanko.androidlab.github.data.model.NetworkUser
+import dev.shtanko.androidlab.github.data.model.NetworkUserFull
 import dev.shtanko.androidlab.github.data.model.asEntity
 import dev.shtanko.androidlab.github.data.repository.OfflineFirstUserRepository
 import dev.shtanko.androidlab.github.data.repository.UserRepository
 import dev.shtanko.androidlab.github.data.service.UserService
 import dev.shtanko.androidlab.util.MainDispatcherRule
+import dev.shtanko.androidlab.utils.toDate
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Rule
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -41,6 +46,93 @@ class UserRepositoryTest {
             ioDispatcher = coroutinesRule.testDispatcher,
         )
     }
+
+    @Test
+    fun `GIVEN full user present in DAO WHEN getFullUser THEN return data from storage and don't call backend`() =
+        runTest {
+            val mockUserLogin = "testUser"
+            whenever(dao.getFullUserByLogin(mockUserLogin)).thenReturn(mockFullUserEntity)
+            repository.getFullUser(login = mockUserLogin).test {
+                val actualItem = awaitItem()
+                assertNotNull(actualItem)
+                assertTrue(actualItem.isSuccess)
+                assertEquals(mockFullUserEntity.asExternalModel(), actualItem.getOrNull())
+                awaitComplete()
+            }
+            verify(dao, times(1)).getFullUserByLogin(mockUserLogin)
+            verify(service, never()).getFullUser(mockUserLogin)
+        }
+
+    @Test
+    fun `GIVEN full user present in DAO WHEN getFullUser force THEN return data from backend and update storage`() =
+        runTest {
+            val mockUserLogin = "testUser"
+            whenever(dao.getFullUserByLogin(mockUserLogin)).thenReturn(mockFullUserEntity)
+            whenever(service.getFullUser(mockUserLogin)).thenReturn(
+                ApiResponse.responseOf {
+                    Response.success(
+                        mockNetworkUserFull,
+                    )
+                },
+            )
+            repository.getFullUser(login = mockUserLogin, force = true).test {
+                val actualItem = awaitItem()
+                assertNotNull(actualItem)
+                assertTrue(actualItem.isSuccess)
+                assertEquals(mockFullUserEntity.asExternalModel(), actualItem.getOrNull())
+                awaitComplete()
+            }
+            verify(dao, times(2)).getFullUserByLogin(mockUserLogin)
+            verify(dao, times(1)).insertFullUser(mockFullUserEntity)
+            verify(service, times(1)).getFullUser(mockUserLogin)
+        }
+
+    @Test
+    fun `GIVEN no full user present in DAO WHEN getFullUser THEN fetch data from backend`() =
+        runTest {
+            val mockUserLogin = "testUser"
+            val mockApiResponse = ApiResponse.responseOf {
+                Response.success(
+                    mockNetworkUserFull,
+                )
+            }
+
+            whenever(dao.getFullUser()).thenReturn(null)
+            whenever(service.getFullUser(mockUserLogin)).thenReturn(mockApiResponse)
+            repository.getFullUser(login = mockUserLogin).test {
+                val actualItem = awaitItem()
+                assertNotNull(actualItem)
+                assertTrue(actualItem.isSuccess)
+                assertEquals(mockFullUserEntity.asExternalModel(), actualItem.getOrNull())
+                awaitComplete()
+            }
+            verify(dao, times(2)).getFullUserByLogin(mockUserLogin)
+            verify(dao, times(1)).insertFullUser(mockNetworkUserFull.asEntity())
+            verify(service, times(1)).getFullUser(mockUserLogin)
+        }
+
+    @Test
+    fun `GIVEN no full user present in DAO WHEN getFullUser THEN return an error from backend`() =
+        runTest {
+            val mockUserLogin = "testUser"
+            whenever(dao.getFullUser()).thenReturn(null)
+            whenever(service.getFullUser(user = mockUserLogin)).thenReturn(
+                ApiResponse.responseOf {
+                    Response.error(
+                        400,
+                        "No data found".toResponseBody(null),
+                    )
+                },
+            )
+            repository.getFullUser(login = mockUserLogin).test {
+                val actualItem = awaitItem()
+                assertTrue(actualItem.isFailure)
+                awaitComplete()
+            }
+            verify(dao, times(1)).getFullUserByLogin(mockUserLogin)
+            verify(service, times(1)).getFullUser(mockUserLogin)
+            verify(dao, never()).insertFullUser(mockNetworkUserFull.asEntity())
+        }
 
     @Test
     fun `GIVEN users present in DAO WHEN fetchUsers THEN return data from storage and don't call backend`() =
@@ -141,7 +233,7 @@ class UserRepositoryTest {
             verify(dao, never()).insertAll(mockNetworkUsers.map(NetworkUser::asEntity))
         }
 
-    val mockUserEntities = listOf(
+    private val mockUserEntities = listOf(
         UserEntity(
             id = 1,
             login = "alex",
@@ -161,5 +253,41 @@ class UserRepositoryTest {
             id = 2,
             login = "oleksii",
         ),
+    )
+
+    private val mockFullUserEntity = UserEntityFull(
+        id = 1,
+        login = "testUser",
+        avatarUrl = "http://example.com/avatar.png",
+        name = "Test User",
+        company = "Test Company",
+        blog = "http://example.com",
+        location = "Test Location",
+        hireable = true,
+        bio = "Test Bio",
+        twitter = "testUser",
+        publicReposCount = 10,
+        publicGistsCount = 5,
+        followers = 100,
+        following = 50,
+        createdAt = "2021-01-01T00:00:00Z".toDate(),
+    )
+
+    private val mockNetworkUserFull = NetworkUserFull(
+        id = 1,
+        login = "testUser",
+        avatarUrl = "http://example.com/avatar.png",
+        name = "Test User",
+        company = "Test Company",
+        blog = "http://example.com",
+        location = "Test Location",
+        hireable = true,
+        bio = "Test Bio",
+        twitter = "testUser",
+        publicReposCount = 10,
+        publicGistsCount = 5,
+        followers = 100,
+        following = 50,
+        createdAt = "2021-01-01T00:00:00Z".toDate(),
     )
 }

@@ -56,7 +56,7 @@ class RepositoryServiceTest {
             [
                {
                 "id": 1,
-                "node_id" = "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
+                "node_id" : "MDEwOlJlcG9zaXRvcnkzMjAwNDEwNzE=",
                 "name": "Sample Repo",
                 "full_name": "sample/sample-repo",
                 "private": false,
@@ -116,12 +116,11 @@ class RepositoryServiceTest {
 
         val response = repositoryService.fetchRepos()
 
-        if (response is ApiResponse.Success) {
-            val repos = response.data
-            assertNotNull(repos)
-            assertFalse(repos.isEmpty())
-            assertEquals(expectedList, repos)
-        }
+        require(response is ApiResponse.Success) { "Expected a successful response, but got $response" }
+        val repos = response.data
+        assertNotNull(repos)
+        assertFalse(repos.isEmpty())
+        assertEquals(expectedList, repos)
     }
 
     @Test
@@ -146,10 +145,9 @@ class RepositoryServiceTest {
         mockWebServer.enqueue(emptyResponse.setResponseCode(HttpURLConnection.HTTP_OK))
 
         val response = repositoryService.fetchRepos()
-        if (response is ApiResponse.Success) {
-            val users = response.data
-            assertNotNull(users)
-            assertTrue(users.isEmpty())
-        }
+        require(response is ApiResponse.Success) { "Expected a successful response, but got $response" }
+        val users = response.data
+        assertNotNull(users)
+        assertTrue(users.isEmpty())
     }
 }

@@ -9,7 +9,7 @@ import org.junit.Rule
 
 abstract class AbstractBenchmark(
     protected val startupMode: StartupMode = StartupMode.WARM,
-    protected val iterations: Int = 1,
+    protected val iterations: Int = 10,
 ) {
     @get:Rule
     val rule = MacrobenchmarkRule()

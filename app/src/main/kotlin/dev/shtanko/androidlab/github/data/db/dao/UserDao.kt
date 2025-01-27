@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import dev.shtanko.androidlab.github.data.db.entity.UserEntity
+import dev.shtanko.androidlab.github.data.db.entity.UserEntityFull
 
 @Dao
 interface UserDao {
@@ -16,4 +17,16 @@ interface UserDao {
 
     @Query("DELETE FROM users")
     suspend fun clearAllUsers()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFullUser(entity: UserEntityFull)
+
+    @Query(value = "SELECT * FROM full_users ORDER BY id DESC LIMIT 1")
+    fun getFullUser(): UserEntityFull?
+
+    @Query("SELECT * FROM full_users WHERE login = :login")
+    fun getFullUserByLogin(login: String): UserEntityFull?
+
+    @Query("DELETE FROM full_users")
+    fun clearAllFullUsers()
 }

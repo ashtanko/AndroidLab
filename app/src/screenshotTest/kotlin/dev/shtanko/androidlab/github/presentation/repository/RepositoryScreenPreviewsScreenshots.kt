@@ -1,70 +1,58 @@
 package dev.shtanko.androidlab.github.presentation.repository
 
-import android.content.res.Configuration
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
+import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesScreen
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesTopAppBar
-import dev.shtanko.androidlab.github.presentation.repositories.RepositoryItem
-import dev.shtanko.androidlab.github.presentation.repositories.RepositoryItemLoading
-import dev.shtanko.androidlab.github.presentation.repositories.RepositoryNoMoreItems
+import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesUiState
+import dev.shtanko.androidlab.github.presentation.repositories.UserDetailsHeaderItem
+import dev.shtanko.androidlab.github.presentation.repositories.UserDetailsItemIconInfo
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
+import dev.shtanko.androidlab.utils.ThemesPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 
 class RepositoryScreenPreviewsScreenshots {
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
-    private fun RepositoryNoMoreItemsPreview() {
+    private fun UserDetailsItemIconInfoPreview() {
         AndroidLabTheme {
-            RepositoryNoMoreItems()
+            UserDetailsItemIconInfo(
+                icon = Icons.Rounded.Star,
+                text = "150",
+            )
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
-    private fun RepositoryItemLoadingPreview() {
+    private fun UserDetailsHeaderItemPreview() {
         AndroidLabTheme {
-            RepositoryItemLoading()
+            UserDetailsHeaderItem(
+                user = UserFullResource(
+                    id = 1,
+                    login = "login",
+                    avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4",
+                    name = "Name",
+                    company = "Company",
+                    bio = LoremIpsum(100).values.first(),
+                ),
+            )
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
     private fun RepositoriesTopAppBarPreview() {
         AndroidLabTheme {
@@ -72,88 +60,65 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
     private fun RepositoriesScreenItemsPreview(
-        @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,
+        @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
     ) {
         AndroidLabTheme {
-            val pagingData = PagingData.from(preview)
+            val pagingData = PagingData.from(preview.second)
             val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                uiState = flow.collectAsLazyPagingItems(),
+                userState = RepositoriesUiState.Success(
+                    user = preview.first,
+                ),
+                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
     private fun RepositoriesScreenItemsLoadingPreview(
-        @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,
+        @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
     ) {
         AndroidLabTheme {
-            val pagingData = PagingData.from(preview)
+            val pagingData = PagingData.from(preview.second)
             val flow = flowOf(pagingData)
             RepositoriesScreen(
-                uiState = flow.collectAsLazyPagingItems(),
+                userState = RepositoriesUiState.Success(
+                    user = preview.first,
+                ),
+                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
-    private fun RepositoriesScreenItemsEmptyPreview() {
+    private fun RepositoriesScreenItemsEmptyPreview(
+        @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
+    ) {
         AndroidLabTheme {
             val pagingData = PagingData.empty<RepositoryResource>()
             val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                uiState = flow.collectAsLazyPagingItems(),
+                userState = RepositoriesUiState.Success(
+                    user = preview.first,
+                ),
+                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }
     }
 
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
+    @ThemesPreviews
     @Composable
-    private fun RepositoriesScreenItemsErrorPreview() {
+    private fun RepositoriesScreenItemsErrorPreview(
+        @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
+    ) {
         AndroidLabTheme {
             val pagingData = PagingData.from(
                 data = emptyList<RepositoryResource>(),
@@ -165,28 +130,12 @@ class RepositoryScreenPreviewsScreenshots {
             )
             val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                uiState = flow.collectAsLazyPagingItems(),
+                userState = RepositoriesUiState.Success(
+                    user = preview.first,
+                ),
+                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
-        }
-    }
-
-    @Preview(
-        name = "Light Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_NO,
-    )
-    @Preview(
-        name = "Dark Mode",
-        showBackground = true,
-        uiMode = Configuration.UI_MODE_NIGHT_YES,
-    )
-    @Composable
-    private fun RepositoryItemPreview(
-        @PreviewParameter(RepositoriesDataProvider::class) preview: ImmutableList<RepositoryResource>,
-    ) {
-        AndroidLabTheme {
-            RepositoryItem(item = preview.first())
         }
     }
 }

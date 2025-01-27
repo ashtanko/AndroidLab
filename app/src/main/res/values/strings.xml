@@ -12,4 +12,6 @@
     <string name="empty_users_title">No users found</string>
     <string name="empty_repos_title">No repositories found</string>
     <string name="end_of_list_title">No more items</string>
+    <string name="see_more">see more</string>
+    <string name="repositories_title">Repositories</string>
 </resources>

@@ -2,7 +2,6 @@
 
 package dev.shtanko.androidlab.github.presentation.users
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -44,6 +43,7 @@ import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
 import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
 import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
+import dev.shtanko.androidlab.utils.ThemesPreviews
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -242,16 +242,7 @@ private fun UsersEmptyContentPreview() {
     }
 }
 
-@Preview(
-    name = "Light Mode",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "Dark Mode",
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@ThemesPreviews
 @Composable
 private fun UserItemPreview(
     @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,

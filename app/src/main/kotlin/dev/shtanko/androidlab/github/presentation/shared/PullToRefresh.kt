@@ -2,8 +2,11 @@
 
 package dev.shtanko.androidlab.github.presentation.shared
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -11,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
+import dev.shtanko.androidlab.utils.ThemesPreviews
 
 @Composable
 fun PullToRefresh(
@@ -42,5 +47,25 @@ fun PullToRefresh(
         modifier = modifier.testTag(testTag),
     ) {
         content()
+    }
+}
+
+@ThemesPreviews
+@Composable
+private fun PullToRefreshPreview() {
+    AndroidLabTheme {
+        PullToRefresh(
+            content = {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        text = "Pull to refresh",
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
+            },
+        )
     }
 }

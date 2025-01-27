@@ -7,6 +7,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesScreen
+import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesUiState
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.util.captureMultiTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,16 +27,19 @@ class RepositoriesScreenThemesScreenshotTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val repoResources = RepositoriesDataProvider().values.first()
+    private val preview = RepositoriesDataProvider().values.first()
 
     @Test
     fun repositoriesScreenPopulatedItemsMultipleThemes() {
         composeTestRule.captureMultiTheme("RepositoryScreenPopulatedItemsThemes") { description ->
             AndroidLabTheme {
-                val pagingData = PagingData.from(repoResources)
+                val pagingData = PagingData.from(preview.second)
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    uiState = flow.collectAsLazyPagingItems(),
+                    userState = RepositoriesUiState.Success(
+                        user = preview.first,
+                    ),
+                    repositoriesState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }

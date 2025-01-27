@@ -9,7 +9,7 @@ class NetworkUserTest {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     @Test
-    fun `serialize UserDto to JSON`() {
+    fun `serialize NetworkUser to JSON`() {
         val networkUser = NetworkUser(
             login = "testuser",
             id = 12_345,
@@ -30,7 +30,7 @@ class NetworkUserTest {
     }
 
     @Test
-    fun `deserialize JSON to UserDto`() {
+    fun `deserialize JSON to NetworkUser`() {
         val jsonInput = """
             {
                 "id": 12345,
@@ -65,7 +65,7 @@ class NetworkUserTest {
     }
 
     @Test
-    fun `test NetworkUser to UserEntity mapping`() {
+    fun `NetworkUser to UserEntity mapping`() {
         val networkUser = NetworkUser(
             id = 1,
             login = "test_login",
