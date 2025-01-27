@@ -14,4 +14,6 @@
     <string name="end_of_list_title">No more items</string>
     <string name="see_more">see more</string>
     <string name="repositories_title">Repositories</string>
+    <string name="followers_title">%s followers</string>
+    <string name="following_title">%s following</string>
 </resources>

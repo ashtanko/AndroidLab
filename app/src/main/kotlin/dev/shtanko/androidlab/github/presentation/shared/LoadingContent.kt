@@ -18,6 +18,7 @@ import dev.shtanko.androidlab.utils.ThemesPreviews
 
 @Composable
 fun LoadingContent(
+    testTag: String,
     modifier: Modifier = Modifier,
     circularProgressSize: Dp = 32.dp,
 ) {
@@ -31,7 +32,7 @@ fun LoadingContent(
             CircularProgressIndicator(
                 modifier = Modifier
                     .size(size = circularProgressSize)
-                    .testTag("loadingCircularProgress"),
+                    .testTag(testTag),
                 color = MaterialTheme.colorScheme.secondary,
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 strokeWidth = 4.dp,
@@ -44,6 +45,8 @@ fun LoadingContent(
 @Composable
 private fun LoadingContentPreview() {
     AndroidLabTheme {
-        LoadingContent()
+        LoadingContent(
+            testTag = "LoadingContent",
+        )
     }
 }

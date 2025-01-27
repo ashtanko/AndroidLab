@@ -1,7 +1,5 @@
 package dev.shtanko.androidlab.github.presentation.repository
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -9,6 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
@@ -29,7 +28,7 @@ class RepositoryScreenPreviewsScreenshots {
     private fun UserDetailsItemIconInfoPreview() {
         AndroidLabTheme {
             UserDetailsItemIconInfo(
-                icon = Icons.Rounded.Star,
+                iconRes = R.drawable.ic_group,
                 text = "150",
             )
         }

@@ -85,7 +85,11 @@ fun UsersContent(
 ) {
     when (uiState) {
         UserUiState.Error -> ErrorContent(modifier = modifier, onTryAgainClick)
-        UserUiState.Loading -> LoadingContent(modifier = modifier)
+        UserUiState.Loading -> LoadingContent(
+            testTag = "loadingCircularProgress",
+            modifier = modifier,
+        )
+
         is UserUiState.Success -> UsersListContent(
             users = uiState.users,
             modifier = modifier,
@@ -97,6 +101,7 @@ fun UsersContent(
         UserUiState.Empty -> EmptyContent(
             modifier = modifier,
             content = stringResource(R.string.empty_users_title),
+            testTag = "EmptyUsersContent",
         )
     }
 }

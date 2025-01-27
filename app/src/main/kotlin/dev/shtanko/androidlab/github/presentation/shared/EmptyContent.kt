@@ -16,6 +16,7 @@ import dev.shtanko.androidlab.utils.ThemesPreviews
 @Composable
 fun EmptyContent(
     content: String,
+    testTag: String,
     modifier: Modifier = Modifier,
 ) {
     Surface(modifier = modifier) {
@@ -26,7 +27,7 @@ fun EmptyContent(
             Text(
                 modifier = Modifier
                     .padding(all = 32.dp)
-                    .testTag("EmptyUsersContent"),
+                    .testTag(testTag),
                 text = content,
             )
         }
@@ -37,6 +38,9 @@ fun EmptyContent(
 @Composable
 private fun EmptyContentPreview() {
     AndroidLabTheme {
-        EmptyContent(content = "Empty content")
+        EmptyContent(
+            content = "Empty content",
+            testTag = "EmptyContent",
+        )
     }
 }

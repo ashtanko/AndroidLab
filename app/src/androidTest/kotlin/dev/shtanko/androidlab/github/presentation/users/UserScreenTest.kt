@@ -79,8 +79,8 @@ class UserScreenTest {
                 isRefreshing = false,
             )
         }
-        mockUsers.forEachIndexed { index, user ->
-            composeTestRule.onNodeWithText(user.login).assertIsDisplayed()
+        mockUsers.forEach {
+            composeTestRule.onNodeWithText(it.login).assertIsDisplayed()
         }
     }
 

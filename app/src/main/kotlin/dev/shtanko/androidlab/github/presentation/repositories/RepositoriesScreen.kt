@@ -3,6 +3,7 @@
 
 package dev.shtanko.androidlab.github.presentation.repositories
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,7 +23,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,7 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -117,7 +118,10 @@ fun RepositoriesScreen(
             ) { contentPadding ->
 
                 when (repositoriesState.loadState.refresh) {
-                    is LoadState.Loading -> LoadingContent()
+                    is LoadState.Loading -> LoadingContent(
+                        testTag = "RepositoriesLoadingContent",
+                    )
+
                     is LoadState.Error -> ErrorContent(
                         onTryAgainClick = onTryAgainClick,
                     )
@@ -156,7 +160,10 @@ private fun RepositoriesList(
         testIndicatorTag = "RepositoriesPullToRefreshIndicator",
         content = {
             if (pagingItems.itemCount == 0) {
-                EmptyContent(stringResource(R.string.empty_repos_title))
+                EmptyContent(
+                    content = stringResource(R.string.empty_repos_title),
+                    testTag = "EmptyReposContent",
+                )
             } else {
                 LazyColumn(
                     state = listState,
@@ -265,17 +272,21 @@ fun UserDetailsHeaderItem(
                     contentDescription = user.login,
                 )
                 Column(
-                    modifier = Modifier.padding(start = 16.dp),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .heightIn(imageSize),
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(
-                        text = user.name.orEmpty(),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.headlineMedium,
-                    )
 
-                    Column {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        Text(
+                            text = user.name.orEmpty(),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.headlineMedium,
+                        )
                         user.company?.let {
                             Text(
                                 text = it,
@@ -286,21 +297,32 @@ fun UserDetailsHeaderItem(
 
                             Spacer(modifier = Modifier.height(4.dp))
                         }
+                    }
 
-                        Row {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                    ) {
+                        user.company?.let {
                             UserDetailsItemIconInfo(
-                                icon = Icons.Rounded.Star,
-                                text = "150",
-                            )
-                            UserDetailsItemIconInfo(
-                                icon = Icons.Rounded.Star,
-                                text = "150",
-                            )
-                            UserDetailsItemIconInfo(
-                                icon = Icons.Rounded.Star,
-                                text = "150",
+                                iconRes = R.drawable.ic_apartment,
+                                text = it,
                             )
                         }
+                        user.location?.let {
+                            UserDetailsItemIconInfo(
+                                iconRes = R.drawable.ic_location,
+                                text = it,
+                            )
+                        }
+                        UserDetailsItemIconInfo(
+                            iconRes = R.drawable.ic_groups,
+                            text = stringResource(R.string.followers_title, user.followers ?: 0),
+                        )
+                        UserDetailsItemIconInfo(
+                            iconRes = R.drawable.ic_group,
+                            text = stringResource(R.string.following_title, user.following ?: 0),
+                        )
                     }
                 }
             }
@@ -318,24 +340,24 @@ fun UserDetailsHeaderItem(
 
 @Composable
 fun UserDetailsItemIconInfo(
-    icon: ImageVector,
+    @DrawableRes
+    iconRes: Int,
     text: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier,
     ) {
         Icon(
-            imageVector = icon,
+            painter = painterResource(id = iconRes),
             contentDescription = null,
             modifier = Modifier.size(16.dp),
         )
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 4.dp),
+            modifier = Modifier.padding(start = 2.dp),
         )
     }
 }
@@ -345,7 +367,7 @@ fun UserDetailsItemIconInfo(
 private fun UserDetailsItemIconInfoPreview() {
     AndroidLabTheme {
         UserDetailsItemIconInfo(
-            icon = Icons.Rounded.Star,
+            iconRes = R.drawable.ic_group,
             text = "150",
         )
     }
