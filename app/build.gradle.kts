@@ -270,6 +270,8 @@ dependencies {
         implementation(paging.runtime)
         implementation(paging.compose)
 
+        implementation(generativeai)
+
         kotlinx.apply {
             implementation(collections.immutable)
             implementation(coroutines.android)
