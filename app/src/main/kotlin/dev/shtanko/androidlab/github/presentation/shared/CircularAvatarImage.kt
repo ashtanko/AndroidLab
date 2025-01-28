@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
@@ -26,6 +27,7 @@ import dev.shtanko.androidlab.utils.ThemesPreviews
 import dev.shtanko.androidlab.utils.forwardingPainter
 
 @Composable
+@NonRestartableComposable
 fun CircularAvatarImage(
     imageUrl: String?,
     modifier: Modifier = Modifier,

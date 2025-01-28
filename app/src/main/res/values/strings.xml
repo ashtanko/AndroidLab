@@ -16,4 +16,6 @@
     <string name="repositories_title">Repositories</string>
     <string name="followers_title">%s followers</string>
     <string name="following_title">%s following</string>
+    <string name="wifi_level">Signal Strength: %d dBm</string>
+    <string name="wifi_frequency">Frequency: %d MHz</string>
 </resources>

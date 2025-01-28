@@ -6,6 +6,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -15,6 +16,7 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.utils.ThemesPreviews
 
 @Composable
+@NonRestartableComposable
 fun ErrorContent(
     modifier: Modifier = Modifier,
     onTryAgainClick: () -> Unit = {},

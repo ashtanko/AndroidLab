@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,7 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.utils.ThemesPreviews
 
 @Composable
+@NonRestartableComposable
 fun ItemNoMoreItems(
     modifier: Modifier = Modifier,
 ) {

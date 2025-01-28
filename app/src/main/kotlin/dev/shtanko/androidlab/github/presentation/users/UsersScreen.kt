@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,9 +67,9 @@ fun UsersScreen(
                 uiState = uiState,
                 modifier = Modifier.padding(contentPadding),
                 isRefreshing = isRefreshing,
-                onTryAgainClick = { viewModel.retry() },
+                onTryAgainClick = remember { { viewModel.retry() } },
                 onUserClick = onUserClick,
-                onRefresh = { viewModel.refresh() },
+                onRefresh = remember { { viewModel.refresh() } },
             )
         }
     }
@@ -136,6 +137,9 @@ private fun UsersListContent(
                 items(
                     users.size,
                     key = { index -> users[index].id + index },
+                    contentType = { index ->
+                        users[index].login
+                    },
                 ) { index ->
                     val item = users[index]
                     UserItem(

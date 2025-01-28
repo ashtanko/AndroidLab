@@ -1,5 +1,6 @@
 package dev.shtanko.androidlab.github.presentation.users
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -76,6 +77,7 @@ sealed interface UserUiState {
 
     data object Loading : UserUiState
 
+    @Immutable
     data class Success(val users: ImmutableList<UserResource>) : UserUiState
 
     data object Error : UserUiState

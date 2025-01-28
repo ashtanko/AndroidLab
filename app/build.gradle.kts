@@ -26,7 +26,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.shtanko.androidlab"
-        minSdk = 26
+        minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -302,6 +302,7 @@ dependencies {
         implementation(profileinstaller)
 
         implementation(accompanist.adaptive)
+        implementation(accompanist.permissions)
 
         implementation(libs.androidx.window)
         implementation(libs.androidx.window.core)
