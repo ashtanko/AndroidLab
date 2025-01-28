@@ -33,7 +33,7 @@
             tools:targetApi="33" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SunflowerActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AndroidLab">

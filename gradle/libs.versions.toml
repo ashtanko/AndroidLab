@@ -1,7 +1,7 @@
 [versions]
 jvmTarget = "17"
 agp = "8.9.0-alpha09"                   # https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
-kotlin = "2.1.10"                       # https://github.com/JetBrains/kotlin
+kotlin = "2.1.20-Beta1"                 # https://github.com/JetBrains/kotlin
 coreKtx = "1.15.0"                      # https://mvnrepository.com/artifact/androidx.core/core-ktx
 junit5 = "5.11.4"                       # https://junit.org/junit5 | https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter
 junitVersion = "1.2.1"                  # https://mvnrepository.com/artifact/androidx.test.ext/junit
@@ -22,7 +22,7 @@ mockk = "1.13.16"                       # https://mockk.io
 kover = "0.9.0"                         # https://github.com/Kotlin/kotlinx-kover
 diktat = "2.0.0"                        # https://github.com/saveourtool/diktat
 turbine = "1.2.0"                       # https://github.com/cashapp/turbine/releases
-ksp = "2.1.0-1.0.29"                    # https://mvnrepository.com/artifact/com.google.devtools.ksp/symbol-processing-api
+ksp = "2.1.20-Beta1-1.0.29"             # https://mvnrepository.com/artifact/com.google.devtools.ksp/symbol-processing-api
 dependencyGuard = "0.5.0"               # https://mvnrepository.com/artifact/com.dropbox.dependency-guard/dependency-guard
 immutable = "0.3.8"                     # https://github.com/Kotlin/kotlinx.collections.immutable
 hilt = "2.55"                           # https://mvnrepository.com/artifact/com.google.dagger/hilt-android
