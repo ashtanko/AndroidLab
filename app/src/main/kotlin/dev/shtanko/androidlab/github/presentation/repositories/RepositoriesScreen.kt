@@ -79,13 +79,13 @@ fun RepositoriesScreen(
 ) {
     val repositoriesState = viewModel.repositoriesState.collectAsLazyPagingItems()
     val userState by viewModel.userState.collectAsStateWithLifecycle()
-    val isRefreshing = viewModel.isRefreshing.collectAsStateWithLifecycle().value
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     RepositoriesScreen(
         modifier = modifier,
         repositoriesState = repositoriesState,
         userState = userState,
-        isRefreshing = repositoriesState.loadState.refresh is LoadState.Loading,
+        isRefreshing = isRefreshing,
         navigateBack = navigateBack,
         onRefresh = remember { { viewModel.refresh() } },
         onTryAgainClick = remember { { viewModel.retry() } },

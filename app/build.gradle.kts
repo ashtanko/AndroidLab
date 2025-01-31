@@ -1,6 +1,10 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetContainer
+import java.util.Properties
+
+val isGithubActions = System.getenv("GITHUB_ACTIONS")?.toBoolean() == true
+val isCI = providers.environmentVariable("CI").isPresent
 
 plugins {
     alias(libs.plugins.android.application)
@@ -34,6 +38,30 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        register("release") {
+            enableV1Signing = true
+            enableV2Signing = true
+
+            if (isCI) {
+                storeFile = file("keystore.jks")
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            } else if (isGithubActions) {
+                storeFile = file("keystore.jks")
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            } else {
+                storeFile = getReleaseValue("storeFile")?.let { file(it) }
+                keyAlias = getReleaseValue("keyAlias")
+                keyPassword = getReleaseValue("keyPassword")
+                storePassword = getReleaseValue("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -42,12 +70,13 @@ android {
                 "proguard-rules.pro"
             )
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
 
             // To publish on the Play store a private signing key is required, but to allow anyone
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
         }
+
         create("benchmark") {
             initWith(buildTypes.getByName("release"))
             matchingFallbacks += listOf("release")
@@ -55,6 +84,7 @@ android {
             proguardFiles("benchmark-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility(libs.versions.jvmTarget.get())
         targetCompatibility(libs.versions.jvmTarget.get())
@@ -105,7 +135,27 @@ android {
     }
 }
 
-val isGithubActions = System.getenv("GITHUB_ACTIONS")?.toBoolean() == true
+fun getReleaseValue(key: String): String? {
+    return getValueFromConfig(key, false, configFile = "key.properties")
+}
+
+fun getValueFromConfig(
+    key: String,
+    quot: Boolean,
+    configFile: String = "local.properties"
+): String? {
+    val properties = Properties()
+    properties.load(project.rootProject.file(configFile).inputStream())
+    var value = if (properties.containsKey(key)) {
+        properties[key].toString()
+    } else {
+        ""
+    }
+    if (quot) {
+        value = "\"" + value + "\""
+    }
+    return value.takeIf { it.isNotEmpty() }
+}
 
 project.gradle.startParameter.excludedTaskNames.apply {
     val excludedTasks = listOf(
@@ -118,8 +168,7 @@ project.gradle.startParameter.excludedTaskNames.apply {
         "testReleaseUnitTest",
         "finalizeTestRoborazziRelease",
     )
-    println("TEST_CI_ENV: ${providers.environmentVariable("CI").isPresent} isGithubActions: $isGithubActions")
-    if (providers.environmentVariable("CI").isPresent || isGithubActions) {
+    if (isCI || isGithubActions) {
         excludedTasks.forEach(::add)
     }
 }

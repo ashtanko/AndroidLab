@@ -13,6 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+key.properties
 # Created by .ignore support plugin (hsz.mobi)
 ### macOS template
 # General

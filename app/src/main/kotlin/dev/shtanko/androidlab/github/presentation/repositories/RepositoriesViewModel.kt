@@ -1,5 +1,6 @@
 package dev.shtanko.androidlab.github.presentation.repositories
 
+import android.util.Log
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -19,9 +20,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,10 +44,13 @@ class RepositoriesViewModel @Inject constructor(
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     val repositoriesState: StateFlow<PagingData<RepositoryResource>> = fetchTrigger.flatMapLatest {
-        _isRefreshing.value = true
-        repository.getRepos(username = username).cachedIn(viewModelScope).onCompletion {
-            _isRefreshing.value = false
-        }
+        repository.getRepos(username = username).cachedIn(viewModelScope)
+            .onStart {
+                Log.d("RepositoriesViewModel", "repositories onStart")
+            }
+            .onCompletion {
+                Log.d("RepositoriesViewModel", "repositories onCompletion")
+            }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -54,16 +58,17 @@ class RepositoriesViewModel @Inject constructor(
     )
 
     val userState: StateFlow<RepositoriesUiState> = fetchTrigger.flatMapLatest {
-        _isRefreshing.value = true
-        userRepository.getFullUser(login = username).flatMapLatest { user ->
+        userRepository.getFullUser(login = username).map { user ->
             if (user.isSuccess) {
-                repository.getRepos(username = username).cachedIn(viewModelScope).map {
-                    RepositoriesUiState.Success(user.getOrNull()!!)
-                }
+                RepositoriesUiState.Success(user.getOrNull()!!)
             } else {
-                flowOf(RepositoriesUiState.Error)
+                RepositoriesUiState.Error
             }
+        }.onStart {
+            Log.d("RepositoriesViewModel", "onStart")
+            _isRefreshing.value = true
         }.onCompletion {
+            Log.d("RepositoriesViewModel", "onCompletion")
             _isRefreshing.value = false
         }
     }.stateIn(
