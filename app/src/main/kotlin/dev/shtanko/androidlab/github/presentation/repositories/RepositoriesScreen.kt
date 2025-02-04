@@ -59,14 +59,14 @@ import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
-import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
-import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
-import dev.shtanko.androidlab.github.presentation.shared.ItemLoading
-import dev.shtanko.androidlab.github.presentation.shared.ItemNoMoreItems
-import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
-import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
+import dev.shtanko.androidlab.ui.shared.EmptyContent
+import dev.shtanko.androidlab.ui.shared.ErrorContent
+import dev.shtanko.androidlab.ui.shared.ItemLoading
+import dev.shtanko.androidlab.ui.shared.ItemNoMoreItems
+import dev.shtanko.androidlab.ui.shared.LoadingContent
+import dev.shtanko.androidlab.ui.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -363,7 +363,7 @@ fun UserDetailsItemIconInfo(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun UserDetailsItemIconInfoPreview() {
     AndroidLabTheme {
@@ -374,7 +374,7 @@ private fun UserDetailsItemIconInfoPreview() {
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun UserDetailsHeaderItemPreview() {
     AndroidLabTheme {
@@ -391,7 +391,7 @@ private fun UserDetailsHeaderItemPreview() {
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoriesTopAppBarPreview() {
     AndroidLabTheme {
@@ -399,7 +399,7 @@ private fun RepositoriesTopAppBarPreview() {
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoriesScreenItemsPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -417,7 +417,7 @@ private fun RepositoriesScreenItemsPreview(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoriesScreenItemsLoadingPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -435,7 +435,7 @@ private fun RepositoriesScreenItemsLoadingPreview(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoriesScreenItemsEmptyPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -453,7 +453,7 @@ private fun RepositoriesScreenItemsEmptyPreview(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoriesScreenItemsErrorPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,

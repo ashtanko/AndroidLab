@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import dev.shtanko.androidlab.github.presentation.shared.thumbnailPlaceholderDefaultBrush
+import dev.shtanko.androidlab.ui.shared.thumbnailPlaceholderDefaultBrush
 
 @Suppress("ModifierReused", "TrailingCommaOnDeclarationSite")
 @Composable

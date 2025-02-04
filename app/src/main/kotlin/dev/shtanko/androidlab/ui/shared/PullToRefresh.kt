@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package dev.shtanko.androidlab.github.presentation.shared
+package dev.shtanko.androidlab.ui.shared
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 
 @Composable
 @NonRestartableComposable
@@ -52,7 +52,7 @@ fun PullToRefresh(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun PullToRefreshPreview() {
     AndroidLabTheme {

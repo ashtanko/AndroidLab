@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 
 @Composable
 fun WiFiItem(
@@ -42,7 +42,7 @@ fun WiFiItem(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun WiFiItemPreview() {
     AndroidLabTheme {

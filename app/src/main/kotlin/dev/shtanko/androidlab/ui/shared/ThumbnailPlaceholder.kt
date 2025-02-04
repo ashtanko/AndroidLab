@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation.shared
+package dev.shtanko.androidlab.ui.shared
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

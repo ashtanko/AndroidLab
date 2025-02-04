@@ -18,4 +18,10 @@
     <string name="following_title">%s following</string>
     <string name="wifi_level">Signal Strength: %d dBm</string>
     <string name="wifi_frequency">Frequency: %d MHz</string>
+    <string name="empty_screen_title">Screen under construction</string>
+    <string name="empty_screen_subtitle">This screen is still under construction. This sample will help you learn about adaptive layouts in Jetpack Compose</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_settings">Settings</string>
 </resources>

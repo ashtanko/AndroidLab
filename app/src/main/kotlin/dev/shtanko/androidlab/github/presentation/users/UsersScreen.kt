@@ -38,13 +38,13 @@ import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.designsystem.ScreenBackground
 import dev.shtanko.androidlab.github.presentation.model.UserResource
 import dev.shtanko.androidlab.github.presentation.preview.UsersPreviewDataProvider
-import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
-import dev.shtanko.androidlab.github.presentation.shared.EmptyContent
-import dev.shtanko.androidlab.github.presentation.shared.ErrorContent
-import dev.shtanko.androidlab.github.presentation.shared.LoadingContent
-import dev.shtanko.androidlab.github.presentation.shared.PullToRefresh
+import dev.shtanko.androidlab.ui.shared.CircularAvatarImage
+import dev.shtanko.androidlab.ui.shared.EmptyContent
+import dev.shtanko.androidlab.ui.shared.ErrorContent
+import dev.shtanko.androidlab.ui.shared.LoadingContent
+import dev.shtanko.androidlab.ui.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -251,7 +251,7 @@ private fun UsersEmptyContentPreview() {
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun UserItemPreview(
     @PreviewParameter(UsersPreviewDataProvider::class) preview: ImmutableList<UserResource>,

@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 
 @Composable
 fun UserDetailsDescription(
@@ -72,7 +72,7 @@ fun UserDetailsDescription(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun UserDetailsDescriptionExpandedPreview() {
     AndroidLabTheme {
@@ -83,7 +83,7 @@ private fun UserDetailsDescriptionExpandedPreview() {
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun UserDetailsDescriptionPreview() {
     AndroidLabTheme {

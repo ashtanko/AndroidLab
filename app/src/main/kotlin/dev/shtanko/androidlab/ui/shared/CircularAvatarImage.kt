@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation.shared
+package dev.shtanko.androidlab.ui.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 import dev.shtanko.androidlab.utils.forwardingPainter
 
 @Composable
@@ -60,7 +60,7 @@ fun CircularAvatarImage(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun CircularAvatarImagePreview() {
     AndroidLabTheme {

@@ -25,4 +25,4 @@ annotation class FontScalePreviews
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-annotation class ThemesPreviews
+annotation class ThemePreviews

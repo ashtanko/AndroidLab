@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetContainer
@@ -63,6 +64,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            val apiKey: String =
+                gradleLocalProperties(rootDir, providers).getProperty("TMDB_API_KEY") ?: ""
+            buildConfigField("String", "TMDB_API_KEY", "\"$apiKey\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -72,9 +78,9 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
             signingConfig = signingConfigs.getByName("release")
 
-            // To publish on the Play store a private signing key is required, but to allow anyone
-            // who clones the code to sign and run the release variant, use the debug signing key.
-            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
+            val apiKey: String =
+                gradleLocalProperties(rootDir, providers).getProperty("TMDB_API_KEY") ?: ""
+            buildConfigField("String", "TMDB_API_KEY", "\"$apiKey\"")
         }
 
         create("benchmark") {
@@ -289,13 +295,17 @@ dependencies {
             implementation(hilt.navigation.compose)
             implementation(runtime.tracing)
             implementation(tracing.ktx)
-            implementation(libs.androidx.compose.material3.adaptive)
-            implementation(libs.androidx.compose.material3.adaptive.layout)
-            implementation(libs.androidx.compose.material3.adaptive.navigation)
+
+            compose.apply {
+                implementation(material3.adaptive)
+                implementation(material3.adaptive.layout)
+                implementation(material3.adaptive.navigation)
+                implementation(material3.adaptive.navigationSuite)
+                implementation(materialWindow)
+                implementation(icons.extended)
+            }
 
             androidTestImplementation(junit)
-            // androidTestImplementation(espresso.core)
-            // androidTestImplementation(espresso.contrib)
             androidTestImplementation(platform(compose.bom))
             androidTestImplementation(ui.test.junit4)
             testImplementation(ui.test.junit4)

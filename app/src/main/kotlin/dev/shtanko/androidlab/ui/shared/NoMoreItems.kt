@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.presentation.shared
+package dev.shtanko.androidlab.ui.shared
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 
 @Composable
 @NonRestartableComposable
@@ -40,7 +40,7 @@ fun ItemNoMoreItems(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoryNoMoreItemsPreview() {
     AndroidLabTheme {

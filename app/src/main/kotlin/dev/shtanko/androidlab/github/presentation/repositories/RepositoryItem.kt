@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
-import dev.shtanko.androidlab.github.presentation.shared.CircularAvatarImage
+import dev.shtanko.androidlab.ui.shared.CircularAvatarImage
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -116,7 +116,7 @@ fun RepositoryItem(
     }
 }
 
-@ThemesPreviews
+@ThemePreviews
 @Composable
 private fun RepositoryItemPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,

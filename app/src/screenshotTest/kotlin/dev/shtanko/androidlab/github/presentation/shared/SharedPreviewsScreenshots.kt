@@ -8,11 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.shtanko.androidlab.ui.shared.CircularAvatarImage
+import dev.shtanko.androidlab.ui.shared.EmptyContent
+import dev.shtanko.androidlab.ui.shared.ErrorContent
+import dev.shtanko.androidlab.ui.shared.ItemLoading
+import dev.shtanko.androidlab.ui.shared.ItemNoMoreItems
+import dev.shtanko.androidlab.ui.shared.LoadingContent
+import dev.shtanko.androidlab.ui.shared.PullToRefresh
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 
 class SharedPreviewsScreenshots {
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun PullToRefreshPreview() {
         AndroidLabTheme {
@@ -32,7 +39,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoryNoMoreItemsPreview() {
         AndroidLabTheme {
@@ -40,7 +47,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun LoadingContentPreview() {
         AndroidLabTheme {
@@ -48,7 +55,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun ItemLoadingPreview() {
         AndroidLabTheme {
@@ -56,7 +63,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun ErrorContentPreview() {
         AndroidLabTheme {
@@ -64,7 +71,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun EmptyContentPreview() {
         AndroidLabTheme {
@@ -72,7 +79,7 @@ class SharedPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun CircularAvatarImagePreview() {
         AndroidLabTheme {

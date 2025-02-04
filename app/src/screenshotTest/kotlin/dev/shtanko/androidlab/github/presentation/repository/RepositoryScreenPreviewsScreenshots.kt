@@ -17,13 +17,13 @@ import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesUiSta
 import dev.shtanko.androidlab.github.presentation.repositories.UserDetailsHeaderItem
 import dev.shtanko.androidlab.github.presentation.repositories.UserDetailsItemIconInfo
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemesPreviews
+import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 
 class RepositoryScreenPreviewsScreenshots {
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun UserDetailsItemIconInfoPreview() {
         AndroidLabTheme {
@@ -34,7 +34,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun UserDetailsHeaderItemPreview() {
         AndroidLabTheme {
@@ -51,7 +51,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoriesTopAppBarPreview() {
         AndroidLabTheme {
@@ -59,7 +59,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoriesScreenItemsPreview(
         @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -77,7 +77,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoriesScreenItemsLoadingPreview(
         @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -95,7 +95,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoriesScreenItemsEmptyPreview(
         @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
@@ -113,7 +113,7 @@ class RepositoryScreenPreviewsScreenshots {
         }
     }
 
-    @ThemesPreviews
+    @ThemePreviews
     @Composable
     private fun RepositoriesScreenItemsErrorPreview(
         @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
