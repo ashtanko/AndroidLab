@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidLab"
 include(":app")
+include(":movies")
 include(":benchmark")
