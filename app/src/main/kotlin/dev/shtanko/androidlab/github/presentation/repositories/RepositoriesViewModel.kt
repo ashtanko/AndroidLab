@@ -14,13 +14,14 @@ import dev.shtanko.androidlab.github.data.repository.UserRepository
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.model.UserFullResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -30,8 +31,8 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class RepositoriesViewModel @Inject constructor(
-    private val repository: RepositoriesRepository,
-    private val userRepository: UserRepository,
+    repository: RepositoriesRepository,
+    userRepository: UserRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -43,39 +44,28 @@ class RepositoriesViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
-    val repositoriesState: StateFlow<PagingData<RepositoryResource>> = fetchTrigger.flatMapLatest {
-        repository.getRepos(username = username).cachedIn(viewModelScope)
-            .onStart {
-                Log.d("RepositoriesViewModel", "repositories onStart")
-            }
-            .onCompletion {
-                Log.d("RepositoriesViewModel", "repositories onCompletion")
-            }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = PagingData.empty(),
-    )
-
-    val userState: StateFlow<RepositoriesUiState> = fetchTrigger.flatMapLatest {
-        userRepository.getFullUser(login = username).map { user ->
+    val repositoriesUiState: StateFlow<RepositoriesUiState> =
+        combine(
+            fetchTrigger,
+            userRepository.getFullUser(login = username),
+            repository.getRepos(username = username).cachedIn(viewModelScope),
+        ) { _, user, repos ->
             if (user.isSuccess) {
-                RepositoriesUiState.Success(user.getOrNull()!!)
+                RepositoriesUiState.Success(user.getOrNull()!!, flowOf(repos))
             } else {
                 RepositoriesUiState.Error
             }
         }.onStart {
-            Log.d("RepositoriesViewModel", "onStart")
             _isRefreshing.value = true
+            Log.d("TEST_TEST", "onStart")
         }.onCompletion {
-            Log.d("RepositoriesViewModel", "onCompletion")
+            Log.d("TEST_TEST", "onCompletion")
             _isRefreshing.value = false
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = RepositoriesUiState.Loading,
-    )
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = RepositoriesUiState.Loading,
+        )
 
     init {
         fetchTrigger.tryEmit(false)
@@ -100,6 +90,7 @@ sealed interface RepositoriesUiState {
 
     data class Success(
         val user: UserFullResource,
+        val repositories: Flow<PagingData<RepositoryResource>>,
     ) : RepositoriesUiState
 
     data object Error : RepositoriesUiState

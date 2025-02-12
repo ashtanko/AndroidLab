@@ -3,7 +3,6 @@ package dev.shtanko.androidlab.github.presentation.repository
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.shtanko.androidlab.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesScreen
@@ -36,10 +35,10 @@ class RepositoriesScreenThemesScreenshotTests {
                 val pagingData = PagingData.from(preview.second)
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
+                    uiState = RepositoriesUiState.Success(
                         user = preview.first,
+                        repositories = flow,
                     ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }

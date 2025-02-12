@@ -69,7 +69,6 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun RepositoriesScreen(
@@ -77,14 +76,12 @@ fun RepositoriesScreen(
     navigateBack: () -> Unit = {},
     viewModel: RepositoriesViewModel = hiltViewModel(),
 ) {
-    val repositoriesState = viewModel.repositoriesState.collectAsLazyPagingItems()
-    val userState by viewModel.userState.collectAsStateWithLifecycle()
+    val repositoriesUiState by viewModel.repositoriesUiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     RepositoriesScreen(
+        uiState = repositoriesUiState,
         modifier = modifier,
-        repositoriesState = repositoriesState,
-        userState = userState,
         isRefreshing = isRefreshing,
         navigateBack = navigateBack,
         onRefresh = remember { { viewModel.refresh() } },
@@ -94,8 +91,7 @@ fun RepositoriesScreen(
 
 @Composable
 fun RepositoriesScreen(
-    repositoriesState: LazyPagingItems<RepositoryResource>,
-    userState: RepositoriesUiState,
+    uiState: RepositoriesUiState,
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = true,
     onTryAgainClick: () -> Unit = {},
@@ -107,6 +103,7 @@ fun RepositoriesScreen(
         ScreenBackground(
             modifier = modifier.windowInsetsPadding(WindowInsets.navigationBars),
         ) {
+
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 topBar = {
@@ -117,26 +114,62 @@ fun RepositoriesScreen(
                 },
                 containerColor = Color.Transparent,
             ) { contentPadding ->
-
-                when (repositoriesState.loadState.refresh) {
-                    is LoadState.Loading -> LoadingContent(
-                        testTag = "RepositoriesLoadingContent",
-                    )
-
-                    is LoadState.Error -> ErrorContent(
+                when (uiState) {
+                    RepositoriesUiState.Error -> ErrorContent(
+                        modifier = Modifier.padding(contentPadding),
                         onTryAgainClick = onTryAgainClick,
                     )
 
-                    is LoadState.NotLoading -> RepositoriesList(
-                        userState = userState,
-                        pagingItems = repositoriesState,
-                        isRefreshing = isRefreshing,
+                    RepositoriesUiState.Loading -> LoadingContent(
                         modifier = Modifier.padding(contentPadding),
-                        onClick = onClick,
-                        onRefresh = onRefresh,
+                        testTag = "RepositoriesLoadingContent",
                     )
+
+                    is RepositoriesUiState.Success -> {
+                        val repos = uiState.repositories.collectAsLazyPagingItems()
+                        val user = uiState.user
+                        RepositoriesList(
+                            user = user,
+                            pagingItems = repos,
+                            isRefreshing = isRefreshing,
+                            modifier = Modifier.padding(contentPadding),
+                            onClick = onClick,
+                            onRefresh = onRefresh,
+                        )
+                    }
                 }
             }
+
+//            Scaffold(
+//                modifier = Modifier.fillMaxSize(),
+//                topBar = {
+//                    RepositoriesTopAppBar(
+//                        navigateBack = navigateBack,
+//                        modifier = Modifier.fillMaxWidth(),
+//                    )
+//                },
+//                containerColor = Color.Transparent,
+//            ) { contentPadding ->
+//
+//                when (repositoriesState.loadState.refresh) {
+//                    is LoadState.Loading -> LoadingContent(
+//                        testTag = "RepositoriesLoadingContent",
+//                    )
+//
+//                    is LoadState.Error -> ErrorContent(
+//                        onTryAgainClick = onTryAgainClick,
+//                    )
+//
+//                    is LoadState.NotLoading -> RepositoriesList(
+//                        userState = userState,
+//                        pagingItems = repositoriesState,
+//                        isRefreshing = isRefreshing,
+//                        modifier = Modifier.padding(contentPadding),
+//                        onClick = onClick,
+//                        onRefresh = onRefresh,
+//                    )
+//                }
+//            }
         }
     }
 }
@@ -144,7 +177,7 @@ fun RepositoriesScreen(
 @Composable
 private fun RepositoriesList(
     pagingItems: LazyPagingItems<RepositoryResource>,
-    userState: RepositoriesUiState,
+    user: UserFullResource?,
     modifier: Modifier = Modifier,
     isRefreshing: Boolean = true,
     onClick: (Int) -> Unit = {},
@@ -171,11 +204,9 @@ private fun RepositoriesList(
                     modifier = Modifier,
                     content = {
                         item {
-                            when (userState) {
-                                RepositoriesUiState.Error -> Box(modifier = Modifier)
-                                RepositoriesUiState.Loading -> Box(modifier = Modifier)
-                                is RepositoriesUiState.Success -> UserDetailsHeaderItem(
-                                    user = userState.user,
+                            user?.let {
+                                UserDetailsHeaderItem(
+                                    user = it,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 8.dp),
@@ -406,12 +437,12 @@ private fun RepositoriesScreenItemsPreview(
 ) {
     AndroidLabTheme {
         val pagingData = PagingData.from(preview.second)
-        val flow = MutableStateFlow(pagingData)
+        val repositories = MutableStateFlow(pagingData)
         RepositoriesScreen(
-            userState = RepositoriesUiState.Success(
+            uiState = RepositoriesUiState.Success(
                 user = preview.first,
+                repositories = repositories,
             ),
-            repositoriesState = flow.collectAsLazyPagingItems(),
             isRefreshing = false,
         )
     }
@@ -423,13 +454,8 @@ private fun RepositoriesScreenItemsLoadingPreview(
     @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
 ) {
     AndroidLabTheme {
-        val pagingData = PagingData.from(preview.second)
-        val flow = flowOf(pagingData)
         RepositoriesScreen(
-            userState = RepositoriesUiState.Success(
-                user = preview.first,
-            ),
-            repositoriesState = flow.collectAsLazyPagingItems(),
+            uiState = RepositoriesUiState.Loading,
             isRefreshing = false,
         )
     }
@@ -444,10 +470,10 @@ private fun RepositoriesScreenItemsEmptyPreview(
         val pagingData = PagingData.empty<RepositoryResource>()
         val flow = MutableStateFlow(pagingData)
         RepositoriesScreen(
-            userState = RepositoriesUiState.Success(
+            uiState = RepositoriesUiState.Success(
                 user = preview.first,
+                repositories = flow,
             ),
-            repositoriesState = flow.collectAsLazyPagingItems(),
             isRefreshing = false,
         )
     }
@@ -469,10 +495,10 @@ private fun RepositoriesScreenItemsErrorPreview(
         )
         val flow = MutableStateFlow(pagingData)
         RepositoriesScreen(
-            userState = RepositoriesUiState.Success(
+            uiState = RepositoriesUiState.Success(
                 user = preview.first,
+                repositories = flow,
             ),
-            repositoriesState = flow.collectAsLazyPagingItems(),
             isRefreshing = false,
         )
     }

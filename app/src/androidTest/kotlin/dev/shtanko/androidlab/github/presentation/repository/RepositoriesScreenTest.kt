@@ -9,7 +9,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
 import dev.shtanko.androidlab.MainActivity
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
@@ -20,7 +19,6 @@ import dev.shtanko.androidlab.github.presentation.repositories.RepositoriesUiSta
 import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,10 +34,10 @@ class RepositoriesScreenTest {
                 val pagingData = PagingData.empty<RepositoryResource>()
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
+                    uiState = RepositoriesUiState.Success(
                         user = mockUser,
+                        repositories = flow,
                     ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }
@@ -54,13 +52,8 @@ class RepositoriesScreenTest {
     fun whenLoadingState_thenLoadingContentIsDisplayed() {
         composeTestRule.activity.setContent {
             AndroidLabTheme {
-                val pagingData = PagingData.from<RepositoryResource>(mockRepos)
-                val flow = flowOf(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
-                        user = mockUser,
-                    ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
+                    uiState = RepositoriesUiState.Loading,
                     isRefreshing = false,
                 )
             }
@@ -84,10 +77,7 @@ class RepositoriesScreenTest {
                 )
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
-                        user = mockUser,
-                    ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
+                    uiState = RepositoriesUiState.Error,
                     isRefreshing = false,
                 )
             }
@@ -104,10 +94,10 @@ class RepositoriesScreenTest {
                 val pagingData = PagingData.from<RepositoryResource>(mockRepos)
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
+                    uiState = RepositoriesUiState.Success(
                         user = mockUser,
+                        repositories = flow,
                     ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }
@@ -124,10 +114,10 @@ class RepositoriesScreenTest {
                 val pagingData = PagingData.from<RepositoryResource>(mockRepos)
                 val flow = MutableStateFlow(pagingData)
                 RepositoriesScreen(
-                    userState = RepositoriesUiState.Success(
+                    uiState = RepositoriesUiState.Success(
                         user = mockUser,
+                        repositories = flow,
                     ),
-                    repositoriesState = flow.collectAsLazyPagingItems(),
                     isRefreshing = false,
                 )
             }
