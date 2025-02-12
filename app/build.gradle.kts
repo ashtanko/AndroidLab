@@ -282,6 +282,8 @@ configure<DetektExtension> {
 }
 
 dependencies {
+    // implementation(projects.core.designsystem)
+
     libs.apply {
         androidx.apply {
             implementation(core.ktx)

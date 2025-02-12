@@ -1,4 +1,4 @@
-package dev.shtanko.androidlab.github.designsystem
+package dev.shtanko.androidlab.core.designsystem.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
-import dev.shtanko.androidlab.utils.ThemePreviews
 
 @Composable
-fun ScreenBackground(
+fun Background(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
@@ -27,16 +24,6 @@ fun ScreenBackground(
                     .fillMaxSize(),
             )
             content()
-        }
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun ScreenBackgroundPreview() {
-    AndroidLabTheme {
-        ScreenBackground {
-            Text("Background")
         }
     }
 }
