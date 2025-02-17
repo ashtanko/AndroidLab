@@ -70,7 +70,7 @@ android {
             buildConfigField("String", "TMDB_API_KEY", "\"$apiKey\"")
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
