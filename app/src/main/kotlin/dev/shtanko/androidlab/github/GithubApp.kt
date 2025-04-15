@@ -50,8 +50,9 @@ fun GithubApp(
 }
 
 sealed class GithubScreenRoutes(val route: String) {
-    object UsersScreen : GithubScreenRoutes(route = "users_screen")
-    object RepositoriesScreen : GithubScreenRoutes(route = "repositories_screen/{$ARG_USERNAME}") {
+    data object UsersScreen : GithubScreenRoutes(route = "users_screen")
+    data object RepositoriesScreen :
+        GithubScreenRoutes(route = "repositories_screen/{$ARG_USERNAME}") {
         fun createRoute(username: String) = "repositories_screen/$username"
     }
 

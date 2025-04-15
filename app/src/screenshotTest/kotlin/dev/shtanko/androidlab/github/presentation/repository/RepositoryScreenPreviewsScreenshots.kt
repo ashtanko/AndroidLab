@@ -6,7 +6,6 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
 import dev.shtanko.androidlab.R
 import dev.shtanko.androidlab.github.presentation.model.RepositoryResource
 import dev.shtanko.androidlab.github.presentation.model.UserFullResource
@@ -20,7 +19,6 @@ import dev.shtanko.androidlab.ui.theme.AndroidLabTheme
 import dev.shtanko.androidlab.utils.ThemePreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 
 class RepositoryScreenPreviewsScreenshots {
     @ThemePreviews
@@ -66,12 +64,12 @@ class RepositoryScreenPreviewsScreenshots {
     ) {
         AndroidLabTheme {
             val pagingData = PagingData.from(preview.second)
-            val flow = MutableStateFlow(pagingData)
+            val repositories = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                userState = RepositoriesUiState.Success(
+                uiState = RepositoriesUiState.Success(
                     user = preview.first,
+                    repositories = repositories,
                 ),
-                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }
@@ -83,13 +81,8 @@ class RepositoryScreenPreviewsScreenshots {
         @PreviewParameter(RepositoriesDataProvider::class) preview: Pair<UserFullResource, ImmutableList<RepositoryResource>>,
     ) {
         AndroidLabTheme {
-            val pagingData = PagingData.from(preview.second)
-            val flow = flowOf(pagingData)
             RepositoriesScreen(
-                userState = RepositoriesUiState.Success(
-                    user = preview.first,
-                ),
-                repositoriesState = flow.collectAsLazyPagingItems(),
+                uiState = RepositoriesUiState.Loading,
                 isRefreshing = false,
             )
         }
@@ -104,10 +97,10 @@ class RepositoryScreenPreviewsScreenshots {
             val pagingData = PagingData.empty<RepositoryResource>()
             val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                userState = RepositoriesUiState.Success(
+                uiState = RepositoriesUiState.Success(
                     user = preview.first,
+                    repositories = flow,
                 ),
-                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }
@@ -129,10 +122,10 @@ class RepositoryScreenPreviewsScreenshots {
             )
             val flow = MutableStateFlow(pagingData)
             RepositoriesScreen(
-                userState = RepositoriesUiState.Success(
+                uiState = RepositoriesUiState.Success(
                     user = preview.first,
+                    repositories = flow,
                 ),
-                repositoriesState = flow.collectAsLazyPagingItems(),
                 isRefreshing = false,
             )
         }

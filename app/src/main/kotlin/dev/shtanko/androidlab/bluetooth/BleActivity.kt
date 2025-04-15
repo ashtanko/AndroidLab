@@ -108,7 +108,7 @@ class BluetoothScanViewModel : ViewModel() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val device = result.device
             if (device.name != null && device !in _devices.value) {
-                _devices.value = _devices.value + device
+                _devices.value += device
             }
         }
     }

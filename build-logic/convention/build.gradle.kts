@@ -18,6 +18,7 @@ dependencies {
     compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.detekt.gradle)
     compileOnly(libs.spotless.gradlePlugin)
+    compileOnly(libs.compose.guardPlugin)
 }
 
 gradlePlugin {

@@ -34,7 +34,7 @@ fun Navigation() {
 }
 
 sealed class ScreenRoutes(val route: String) {
-    object FirstScreen : ScreenRoutes(route = "first_screen")
-    object SecondScreen : ScreenRoutes(route = "second_screen")
-    object ThirdScreen : ScreenRoutes(route = "third_screen")
+    data object FirstScreen : ScreenRoutes(route = "first_screen")
+    data object SecondScreen : ScreenRoutes(route = "second_screen")
+    data object ThirdScreen : ScreenRoutes(route = "third_screen")
 }

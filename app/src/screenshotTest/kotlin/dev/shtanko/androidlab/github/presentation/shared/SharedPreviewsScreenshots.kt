@@ -51,7 +51,9 @@ class SharedPreviewsScreenshots {
     @Composable
     private fun LoadingContentPreview() {
         AndroidLabTheme {
-            LoadingContent()
+            LoadingContent(
+                testTag = "test_loading",
+            )
         }
     }
 
@@ -75,7 +77,10 @@ class SharedPreviewsScreenshots {
     @Composable
     private fun EmptyContentPreview() {
         AndroidLabTheme {
-            EmptyContent(content = "Empty content")
+            EmptyContent(
+                content = "Empty content",
+                testTag = "test_empty",
+            )
         }
     }
 
