@@ -1,10 +1,14 @@
 name: Android CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ '*' ]
+    branches: [ '**' ]
+    paths-ignore:
+      - 'README.md'
+      - 'assets/**'
+      - '.github/**/*.md'
+      - '.github/ISSUE_TEMPLATE/**'
 
 jobs:
   build:
