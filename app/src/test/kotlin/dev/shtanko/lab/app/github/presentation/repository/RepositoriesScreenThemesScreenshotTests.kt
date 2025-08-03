@@ -5,10 +5,10 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.paging.PagingData
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.shtanko.androidlab.core.designsystem.theme.AndroidLabTheme
+import dev.shtanko.androidlab.core.screenshottesting.captureMultiTheme
 import dev.shtanko.lab.app.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.lab.app.github.presentation.repositories.RepositoriesScreen
 import dev.shtanko.lab.app.github.presentation.repositories.RepositoriesUiState
-import dev.shtanko.androidlab.core.screenshottesting.captureMultiTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test

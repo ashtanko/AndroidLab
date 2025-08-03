@@ -1,6 +1,5 @@
 package dev.shtanko.androidlab.core.designsystem
 
-
 import androidx.activity.ComponentActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert

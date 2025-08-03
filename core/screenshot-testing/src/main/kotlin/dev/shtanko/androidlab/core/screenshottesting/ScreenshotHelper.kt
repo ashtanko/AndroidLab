@@ -125,7 +125,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
                 FileOutputStream(
                     file,
                 ).use {
-                    viewImage.bitmap.compress(PNG, 100, it)
+                    viewImage.bitmap.compress(PNG, PNG_COMPRESSION_QUALITY, it)
                 }
             }
         }
@@ -133,6 +133,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         throw accessibilityException
     }
 }
+
+// PNG compression quality: 100 = best quality, 0 = worst (ignored for PNG but required by API)
+private const val PNG_COMPRESSION_QUALITY = 100
 
 /**
  * Takes six screenshots combining light/dark and default/Android themes and whether dynamic color
@@ -244,12 +247,20 @@ private fun generateDescription(
 /**
  * Extracts some properties from the spec string. Note that this function is not exhaustive.
  */
+private const val DEFAULT_WIDTH = 640
+private const val DEFAULT_HEIGHT = 480
+private const val DEFAULT_DPI = 480
+
 private fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
     val specs = deviceSpec.substringAfter("spec:")
-        .split(",").map { it.split("=") }.associate { it[0] to it[1] }
-    val width = specs["width"]?.toInt() ?: 640
-    val height = specs["height"]?.toInt() ?: 480
-    val dpi = specs["dpi"]?.toInt() ?: 480
+        .split(",")
+        .map { it.split("=") }
+        .associate { it[0] to it[1] }
+
+    val width = specs["width"]?.toIntOrNull() ?: DEFAULT_WIDTH
+    val height = specs["height"]?.toIntOrNull() ?: DEFAULT_HEIGHT
+    val dpi = specs["dpi"]?.toIntOrNull() ?: DEFAULT_DPI
+
     return TestDeviceSpecs(width, height, dpi)
 }
 
