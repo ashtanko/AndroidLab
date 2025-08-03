@@ -1,83 +1,85 @@
 [versions]
 jvmTarget = "17"
-agp = "8.9.0"                               # https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
-kotlin = "2.1.20-Beta1"                     # https://github.com/JetBrains/kotlin
-coreKtx = "1.15.0"                          # https://mvnrepository.com/artifact/androidx.core/core-ktx
-junit5 = "5.12.0"                           # https://junit.org/junit5 | https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter
-junitVersion = "1.2.1"                      # https://mvnrepository.com/artifact/androidx.test.ext/junit
-espressoCore = "3.6.1"                      # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
-lifecycleRuntimeKtx = "2.8.7"               # https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime-ktx
+agp = "8.11.1"                              # https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin
+kotlin = "2.2.0"                            # https://github.com/JetBrains/kotlin
+coreKtx = "1.16.0"                          # https://mvnrepository.com/artifact/androidx.core/core-ktx
+junit5 = "5.13.4"                           # https://junit.org/junit5 | https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter
+junitVersion = "1.3.0"                      # https://mvnrepository.com/artifact/androidx.test.ext/junit
+espressoCore = "3.7.0"                      # https://mvnrepository.com/artifact/androidx.test.espresso/espresso-core
+lifecycleRuntimeKtx = "2.9.2"               # https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime-ktx
 activityCompose = "1.10.1"                  # https://mvnrepository.com/artifact/androidx.activity/activity-compose
-composeBom = "2025.02.00"                   # https://mvnrepository.com/artifact/androidx.compose/compose-bom
+androidxComposeBom = "2025.07.01"           # https://mvnrepository.com/artifact/androidx.compose/compose-bom
 composeGuard = "2.4.0"                      # https://mvnrepository.com/artifact/com.joetr.compose.guard/core
 detekt = "1.23.8"                           # https://github.com/detekt/detekt
-coroutines = "1.10.1"                       # https://github.com/Kotlin/kotlinx.coroutines
+coroutines = "1.10.2"                       # https://github.com/Kotlin/kotlinx.coroutines
 dokka = "2.0.0"                             # https://github.com/Kotlin/dokka
-spotless = "7.0.2"                          # https://github.com/diffplug/spotless
-ktlint = "12.2.0"                           # https://github.com/JLLeitschuh/ktlint-gradle
-serialization = "1.8.0"                     # https://github.com/Kotlin/kotlinx.serialization
-mockito = "5.15.2"                          # https://mvnrepository.com/artifact/org.mockito/mockito-core
+spotless = "7.1.0"                          # https://github.com/diffplug/spotless
+ktlint = "13.0.0"                           # https://github.com/JLLeitschuh/ktlint-gradle
+serialization = "1.9.0"                     # https://github.com/Kotlin/kotlinx.serialization
+mockito = "5.18.0"                          # https://mvnrepository.com/artifact/org.mockito/mockito-core
 mockito_kotlin = "5.4.0"                    # https://github.com/mockito/mockito-kotlin
-mockk = "1.13.17"                           # https://mockk.io
+mockk = "1.14.5"                            # https://mockk.io
 kover = "0.9.1"                             # https://github.com/Kotlin/kotlinx-kover
 diktat = "2.0.0"                            # https://github.com/saveourtool/diktat
-turbine = "1.2.0"                           # https://github.com/cashapp/turbine/releases
-ksp = "2.1.20-Beta1-1.0.29"                 # https://mvnrepository.com/artifact/com.google.devtools.ksp/symbol-processing-api
+turbine = "1.2.1"                           # https://github.com/cashapp/turbine/releases
+ksp = "2.2.0-2.0.2"                         # https://mvnrepository.com/artifact/com.google.devtools.ksp/symbol-processing-api
 dependencyGuard = "0.5.0"                   # https://mvnrepository.com/artifact/com.dropbox.dependency-guard/dependency-guard
-immutable = "0.3.8"                         # https://github.com/Kotlin/kotlinx.collections.immutable
-hilt = "2.55"                               # https://mvnrepository.com/artifact/com.google.dagger/hilt-android
-sonarqube = "6.0.1.5171"                    # https://mvnrepository.com/artifact/org.sonarqube/org.sonarqube.gradle.plugin
+immutable = "0.4.0"                         # https://github.com/Kotlin/kotlinx.collections.immutable
+hilt = "2.57"                               # https://mvnrepository.com/artifact/com.google.dagger/hilt-android
+sonarqube = "6.2.0.5505"                    # https://mvnrepository.com/artifact/org.sonarqube/org.sonarqube.gradle.plugin
 hiltNavigationCompose = "1.2.0"             # https://mvnrepository.com/artifact/androidx.hilt/hilt-navigation-compose
-jacoco = "0.8.12"                           # https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core
-composeDetekt = "0.4.5"                     # https://mrmans0n.github.io/compose-rules/
-formattingDetekt = "1.23.7"                 # https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-formatting
+jacoco = "0.8.13"                           # https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core
+composeDetekt = "0.4.26"                    # https://mrmans0n.github.io/compose-rules/
+formattingDetekt = "1.23.8"                 # https://mvnrepository.com/artifact/io.gitlab.arturbosch.detekt/detekt-formatting
 archCore = "2.2.0"                          # https://mvnrepository.com/artifact/androidx.arch.core/core-common
-screenshot = "0.0.1-alpha09"                # https://mvnrepository.com/artifact/com.android.compose.screenshot/screenshot-test-gradle-plugin
+screenshot = "0.0.1-alpha10"                # https://mvnrepository.com/artifact/com.android.compose.screenshot/screenshot-test-gradle-plugin
 mockitoKotlin2 = "2.2.0"                    # https://github.com/mockito/mockito-kotlin
-okhttp = "5.0.0-alpha.14"                   # https://square.github.io/okhttp/changelogs/changelog
+okhttp = "5.1.0"                            # https://square.github.io/okhttp/changelogs/changelog
 retrofitKotlinxSerializationJson = "1.0.0"  # https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
-retrofit = "2.11.0"                         # https://square.github.io/retrofit/
-sandwich = "2.1.0"                          # https://github.com/skydoves/sandwich
-kotlinxDatetime = "0.6.2"                   # https://github.com/Kotlin/kotlinx-datetime
-room = "2.6.1"                              # https://mvnrepository.com/artifact/androidx.room/room-runtime
+retrofit = "3.0.0"                          # https://square.github.io/retrofit/
+sandwich = "2.1.2"                          # https://github.com/skydoves/sandwich
+kotlinxDatetime = "0.7.1"                   # https://github.com/Kotlin/kotlinx-datetime
+room = "2.7.2"                              # https://mvnrepository.com/artifact/androidx.room/room-runtime
 coil = "2.7.0"                              # https://github.com/coil-kt/coil
 truth = "1.4.4"                             # https://github.com/google/truth
-androidTools = "31.9.0"                     # https://mvnrepository.com/artifact/com.android.tools.lint/lint
-androidxWork = "2.10.0"                     # https://mvnrepository.com/artifact/androidx.work/work-runtime-ktx
-androidxSplash = "1.2.0-beta01"             # https://mvnrepository.com/artifact/androidx.core/core-splashscreen
-androidXSecurityCrypto = "1.1.0-alpha06"    # https://mvnrepository.com/artifact/androidx.security/security-crypto
-androdixAutofill = "1.3.0-rc01"       #     https://mvnrepository.com/artifact/androidx.autofill/autofill
-androidXBiometrics = "1.4.0-alpha02"        # https://mvnrepository.com/artifact/androidx.biometric/biometric
-androidxBrowser = "1.8.0"                   # https://mvnrepository.com/artifact/androidx.browser/browser
-androidxCamera = "1.5.0-alpha06"            # https://mvnrepository.com/artifact/androidx.camera/camera-camera2
-androidxCredentials = "1.5.0-rc01"          # https://mvnrepository.com/artifact/androidx.credentials/credentials-play-services-auth
-androidxNavigation = "2.9.0-alpha07"        # https://mvnrepository.com/artifact/androidx.navigation/navigation-compose
+androidTools = "31.12.0"                    # https://mvnrepository.com/artifact/com.android.tools.lint/lint
+androidxWork = "2.10.3"                     # https://mvnrepository.com/artifact/androidx.work/work-runtime-ktx
+androidxSplash = "1.2.0-rc01"               # https://mvnrepository.com/artifact/androidx.core/core-splashscreen
+androidXSecurityCrypto = "1.1.0"            # https://mvnrepository.com/artifact/androidx.security/security-crypto
+androdixAutofill = "1.3.0"                  # https://mvnrepository.com/artifact/androidx.autofill/autofill
+androidXBiometrics = "1.4.0-alpha04"        # https://mvnrepository.com/artifact/androidx.biometric/biometric
+androidxBrowser = "1.9.0"                   # https://mvnrepository.com/artifact/androidx.browser/browser
+androidxCamera = "1.5.0-beta02"             # https://mvnrepository.com/artifact/androidx.camera/camera-camera2
+androidxCredentials = "1.5.0"               # https://mvnrepository.com/artifact/androidx.credentials/credentials-play-services-auth
+androidxNavigation = "2.9.3"                # https://mvnrepository.com/artifact/androidx.navigation/navigation-compose
 googleReview = "2.0.2"                      # https://mvnrepository.com/artifact/com.google.android.play/review
-retrofitBom = "2.11.0"                      # https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit-bom
-fonts = "1.8.0-beta03"                      # https://mvnrepository.com/artifact/androidx.compose.ui/ui-text-google-fonts
-robolectric = "4.14.1"                      # https://mvnrepository.com/artifact/org.robolectric/robolectric
+retrofitBom = "3.0.0"                       # https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit-bom
+fonts = "1.8.3"                             # https://mvnrepository.com/artifact/androidx.compose.ui/ui-text-google-fonts
+robolectric = "4.15.1"                      # https://mvnrepository.com/artifact/org.robolectric/robolectric
 perfetto = "1.0.0"                          # https://mvnrepository.com/artifact/androidx.tracing/tracing-perfetto
-tracing-ktx = "1.3.0-beta01"                # https://mvnrepository.com/artifact/androidx.tracing/tracing-ktx
-benchmark = "1.4.0-alpha08"                 # https://mvnrepository.com/artifact/androidx.benchmark/benchmark-junit4
+tracing-ktx = "1.3.0"                       # https://mvnrepository.com/artifact/androidx.tracing/tracing-ktx
+benchmark = "1.4.0"                         # https://mvnrepository.com/artifact/androidx.benchmark/benchmark-junit4
 profileinstaller = "1.4.1"                  # https://mvnrepository.com/artifact/androidx.profileinstaller/profileinstaller
-androidx-baselineprofile = "1.4.0-alpha08"  # https://mvnrepository.com/artifact/androidx.baselineprofile/androidx.baselineprofile.gradle.plugin
-runtime-tracing = "1.8.0-beta03"            # https://mvnrepository.com/artifact/androidx.compose.runtime/runtime-tracing
-desugar_jdk_libs = "2.1.5"                  # https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
+androidx-baselineprofile = "1.4.0"          # https://mvnrepository.com/artifact/androidx.baselineprofile/androidx.baselineprofile.gradle.plugin
+runtime-tracing = "1.8.3"                   # https://mvnrepository.com/artifact/androidx.compose.runtime/runtime-tracing
 uiautomatorVersion = "2.3.0"                # https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
-roborazzi = "1.40.1"                        # https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
+roborazzi = "1.46.1"                        # https://mvnrepository.com/artifact/io.github.takahirom.roborazzi/roborazzi
 paging = "3.3.6"                            # https://mvnrepository.com/artifact/androidx.paging/paging-runtime
-accompanist = "0.37.0"                      # https://mvnrepository.com/artifact/com.google.accompanist/accompanist-adaptive
-androidx-window = "1.3.0"                   # https://mvnrepository.com/artifact/androidx.window/window
+accompanist = "0.37.3"                      # https://mvnrepository.com/artifact/com.google.accompanist/accompanist-adaptive
+androidx-window = "1.4.0"                   # https://mvnrepository.com/artifact/androidx.window/window
 generativeai = "0.9.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 iconsExtended = "1.7.8"
-androidxComposeAlpha = "1.7.8"
+androidxComposeAlpha = "1.8.3"
+assertj = "3.27.3"
+androidDesugarJdkLibs = "2.1.5"             # https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
+hiltExt = "1.2.0"
 
 [libraries]
 
 # region compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom-alpha", version.ref = "androidxComposeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -99,7 +101,11 @@ androidx-compose-materialWindow = { module = "androidx.compose.material3:materia
 androidx-compose-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "iconsExtended" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxComposeAlpha" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 # endregion
+
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 
@@ -128,7 +134,6 @@ androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = 
 androidx-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "runtime-tracing" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark" }
 profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
-desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window" }
 # endregion
@@ -142,6 +147,7 @@ truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 robolectric-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 roborazzi-accessibility-check = { group = "io.github.takahirom.roborazzi", name = "roborazzi-accessibility-check", version.ref = "roborazzi" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 # endregion
 
 # region kotlinx
@@ -162,6 +168,7 @@ junit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
 junit5-vintageEngine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
 jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 # endregion
 
 # lint
@@ -205,9 +212,12 @@ coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 
 # region hilt
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-google-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-google-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 # endregion
 
 # region code style

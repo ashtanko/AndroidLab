@@ -1,34 +1,22 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 plugins {
     alias(libs.plugins.android.test)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.baselineprofile)
 }
 
 android {
     namespace = "dev.shtanko.benchmark"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 35
+        minSdk = 28
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
         testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
     }
 
-    testOptions {
-        managedDevices {
-            devices {
-                create("pixel2Api31", ManagedVirtualDevice::class) {
-                    device = "pixel_2"
-                    apiLevel = 31
-                    systemImageSource = "aosp"
-                }
-            }
-        }
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -42,19 +30,20 @@ android {
         }
     }
 
+    testOptions.managedDevices.devices {
+        create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel6Api33") {
+            device = "Pixel 6"
+            apiLevel = 33
+            systemImageSource = "aosp"
+        }
+    }
+
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
-
-    compileOptions {
-        sourceCompatibility(libs.versions.jvmTarget.get())
-        targetCompatibility(libs.versions.jvmTarget.get())
-    }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 }
 
 baselineProfile {
+    managedDevices.clear()
     managedDevices += "pixel9Api35"
     useConnectedDevices = false
 }

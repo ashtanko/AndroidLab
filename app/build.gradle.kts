@@ -2,18 +2,32 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetContainer
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.util.Properties
 
 val isGithubActions = System.getenv("GITHUB_ACTIONS")?.toBoolean() == true
 val isCI = providers.environmentVariable("CI").isPresent
+private val compilerArgs = listOf(
+    "-opt-in=kotlin.RequiresOptIn",
+    "-Xcontext-parameters",
+    "-Xcontext-sensitive-resolution",
+    "-Xannotation-target-all",
+    "-Xannotation-default-target=param-property",
+    "-Xnested-type-aliases",
+    "-Xannotations-in-metadata",
+    "-Xnon-local-break-continue",
+)
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.androidlab.android.application)
+    alias(libs.plugins.androidlab.android.application.compose)
+    alias(libs.plugins.androidlab.android.application.jacoco)
+    alias(libs.plugins.androidlab.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.compose.guard)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.serialization)
     alias(libs.plugins.kover)
@@ -26,13 +40,12 @@ plugins {
 }
 
 android {
-    namespace = "dev.shtanko.androidlab"
-    compileSdk = 35
+    namespace = "dev.shtanko.lab.app"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "dev.shtanko.androidlab"
+        applicationId = "dev.shtanko.lab.app"
         minSdk = 33
-        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -95,9 +108,6 @@ android {
         sourceCompatibility(libs.versions.jvmTarget.get())
         targetCompatibility(libs.versions.jvmTarget.get())
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -131,14 +141,15 @@ android {
             imageDifferenceThreshold = 0.0001f // 0.01%
         }
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 fun getReleaseValue(key: String): String? {
@@ -241,6 +252,13 @@ tasks {
             xml.outputLocation.set(file("$projectBuildDirectory/reports/jacoco/report.xml"))
         }
     }
+
+    withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
+            compilerArgs.forEach(freeCompilerArgs::add)
+        }
+    }
 }
 
 composeGuardCheck {
@@ -282,7 +300,7 @@ configure<DetektExtension> {
 }
 
 dependencies {
-    // implementation(projects.core.designsystem)
+    implementation(project(":core:designsystem"))
 
     libs.apply {
         androidx.apply {
@@ -354,13 +372,10 @@ dependencies {
             implementation(kt.svg)
         }
 
-        google.hilt.apply {
-            implementation(android)
-            ksp(compiler)
-            kspTest(compiler)
-            kspAndroidTest(compiler)
-            testImplementation(android.testing)
-        }
+        ksp(libs.hilt.compiler)
+        kspTest(libs.hilt.compiler)
+        testImplementation(libs.hilt.android.testing)
+        androidTestImplementation(libs.hilt.android.testing)
 
         implementation(profileinstaller)
 
@@ -405,5 +420,14 @@ dependencies {
             testRuntimeOnly(jupiterEngine)
             testRuntimeOnly(vintageEngine)
         }
+
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        baselineProfile(project(":benchmark"))
     }
+}
+
+baselineProfile {
+    automaticGenerationDuringBuild = false
+    dexLayoutOptimization = true
 }
