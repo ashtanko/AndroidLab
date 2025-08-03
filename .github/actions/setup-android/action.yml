@@ -20,7 +20,7 @@ runs:
         java-version: ${{ inputs.java-version }}
 
     - name: Download Android SDK tools
-      uses: android-actions/setup-android@v2
+      uses: android-actions/setup-android@v3
       with:
         api-level: ${{ inputs.sdk-version }}
         build-tools: '33.0.2'
