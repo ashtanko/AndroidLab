@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import dev.shtanko.androidlab.configureGradleManagedDevices
 import dev.shtanko.androidlab.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,7 +15,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 35
+                defaultConfig.targetSdk = 36
+                @Suppress("UnstableApiUsage")
+                testOptions.animationsDisabled = true
+                configureGradleManagedDevices(this)
             }
         }
     }

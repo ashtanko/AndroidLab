@@ -18,7 +18,7 @@
         android:usesPermissionFlags="neverForLocation" />
 
     <application
-        android:name=".App"
+        android:name="dev.shtanko.lab.app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,7 +33,7 @@
             tools:targetApi="35" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="dev.shtanko.lab.app.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AndroidLab">

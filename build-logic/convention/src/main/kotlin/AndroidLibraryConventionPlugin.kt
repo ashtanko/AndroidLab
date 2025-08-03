@@ -1,7 +1,9 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import dev.shtanko.androidlab.configureDetekt
+import dev.shtanko.androidlab.configureGradleManagedDevices
 import dev.shtanko.androidlab.configureKotlinAndroid
+import dev.shtanko.androidlab.disableUnnecessaryAndroidTests
 import dev.shtanko.androidlab.libs
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
@@ -31,8 +33,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = 35
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testOptions.animationsDisabled = true
-                //configureFlavors(this)
-                //configureGradleManagedDevices(this)
+                // configureFlavors(this)
+                configureGradleManagedDevices(this)
 
                 // The resource prefix is derived from the module name,
                 // so resources inside ":core:module1" must be prefixed with "core_module1_"
@@ -42,7 +44,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
                 //configurePrintApksTask(this)
-                //disableUnnecessaryAndroidTests(target)
+                disableUnnecessaryAndroidTests(target)
             }
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
