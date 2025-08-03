@@ -1,4 +1,4 @@
-package dev.shtanko.lab.app.util
+package dev.shtanko.androidlab.core.screenshottesting
 
 import android.graphics.Bitmap.CompressFormat.PNG
 import androidx.activity.ComponentActivity

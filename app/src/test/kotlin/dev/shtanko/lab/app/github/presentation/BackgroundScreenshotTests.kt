@@ -8,7 +8,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.testing.HiltTestApplication
 import dev.shtanko.lab.app.github.designsystem.ScreenBackground
-import dev.shtanko.lab.app.util.captureMultiTheme
+import dev.shtanko.androidlab.core.screenshottesting.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

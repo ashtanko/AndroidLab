@@ -36,5 +36,9 @@ dependencies {
                 androidTestApi(test)
             }
         }
+
+        testImplementation(libs.hilt.android.testing)
+        testImplementation(libs.robolectric.robolectric)
+        testImplementation(project(":core:screenshot-testing"))
     }
 }

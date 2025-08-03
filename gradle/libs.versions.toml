@@ -74,9 +74,12 @@ androidxComposeAlpha = "1.8.3"
 assertj = "3.27.3"
 androidDesugarJdkLibs = "2.1.5"             # https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
 hiltExt = "1.2.0"
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+
+[bundles]
+androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-ui-test-manifest"]
 
 [libraries]
-
 # region compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom-alpha", version.ref = "androidxComposeBom" }
@@ -87,6 +90,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-ui-test = { group = "androidx.compose.ui", name = "ui-test" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }

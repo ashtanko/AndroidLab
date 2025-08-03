@@ -7,7 +7,7 @@ import dev.shtanko.androidlab.core.designsystem.theme.AndroidLabTheme
 import dev.shtanko.lab.app.github.presentation.preview.UsersPreviewDataProvider
 import dev.shtanko.lab.app.github.presentation.users.UserUiState
 import dev.shtanko.lab.app.github.presentation.users.UsersContent
-import dev.shtanko.lab.app.util.captureMultiDevice
+import dev.shtanko.androidlab.core.screenshottesting.captureMultiDevice
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

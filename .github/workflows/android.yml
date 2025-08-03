@@ -64,7 +64,7 @@ jobs:
             gradle-home-cache-cleanup: true
 
         - name: Unit tests
-          run: ./gradlew testDebugUnitTest validateDebugScreenshotTest verifyRoborazziDebug
+          run: ./gradlew testDebugUnitTest validateDebugScreenshotTest verifyRoborazziDebug compareRoborazziDebug verifyRoborazziDebug validateDebugScreenshotTest
 
     instrumentation-tests:
       name: Instrumentation tests

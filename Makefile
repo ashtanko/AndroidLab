@@ -21,7 +21,7 @@ default:
 
 # Build the project
 run:
-	./gradlew build
+	./gradlew testDebugUnitTest validateDebugScreenshotTest verifyRoborazziDebug detekt
 
 # Run tests
 test:

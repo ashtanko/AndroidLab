@@ -8,7 +8,7 @@ import dev.shtanko.androidlab.core.designsystem.theme.AndroidLabTheme
 import dev.shtanko.lab.app.github.presentation.preview.RepositoriesDataProvider
 import dev.shtanko.lab.app.github.presentation.repositories.RepositoriesScreen
 import dev.shtanko.lab.app.github.presentation.repositories.RepositoriesUiState
-import dev.shtanko.lab.app.util.captureMultiTheme
+import dev.shtanko.androidlab.core.screenshottesting.captureMultiTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test

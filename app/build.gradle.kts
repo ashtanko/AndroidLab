@@ -301,6 +301,7 @@ configure<DetektExtension> {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    testImplementation(project(":core:screenshot-testing"))
 
     libs.apply {
         androidx.apply {
