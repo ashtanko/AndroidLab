@@ -1,0 +1,31 @@
+# .github/actions/setup-android/action.yml
+name: 'Setup Android SDK and JDK'
+description: 'Set up JDK and Android SDK for building Android projects'
+
+inputs:
+  java-version:
+    description: 'Java version to install'
+    default: '17'
+  sdk-version:
+    description: 'Android SDK version to install'
+    default: '33'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java-version }}
+
+    - name: Download Android SDK tools
+      uses: android-actions/setup-android@v2
+      with:
+        api-level: ${{ inputs.sdk-version }}
+        build-tools: '33.0.2'
+        ndk: '21.4.7075529'
+        cmake: '3.22.1'
+
+    - name: Accept licenses
+      run: yes | sdkmanager --licenses

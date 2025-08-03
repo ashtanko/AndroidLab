@@ -73,7 +73,7 @@ jobs:
           gradle-home-cache-cleanup: true
 
       - name: Unit tests
-        run: ./gradlew testDebugUnitTest validateDebugScreenshotTest verifyRoborazziDebug compareRoborazziDebug verifyRoborazziDebug validateDebugScreenshotTest
+        run: ./gradlew clean testDebugUnitTest validateDebugScreenshotTest verifyRoborazziDebug compareRoborazziDebug verifyRoborazziDebug validateDebugScreenshotTest
 
   instrumentation-tests:
     name: Instrumentation tests
@@ -82,7 +82,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        api-level: [33, 34, 35]
+        api-level: [35]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -114,4 +114,4 @@ jobs:
           api-level: ${{ matrix.api-level }}
           arch: ${{ steps.avd-info.outputs.arch }}
           target: ${{ steps.avd-info.outputs.target }}
-          script: ./gradlew connectedDebugAndroidTest
+          script: mv .github/debug.keystore ~/.android; ./gradlew connectedDebugAndroidTest

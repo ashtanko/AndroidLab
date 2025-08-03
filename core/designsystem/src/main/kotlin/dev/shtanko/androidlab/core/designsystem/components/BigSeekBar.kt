@@ -64,7 +64,7 @@ fun BigSeekBar(
 
 @Preview(name = "BigSeekBar - 0% progress", showBackground = true)
 @Composable
-fun PreviewBigSeekBarZero() {
+private fun PreviewBigSeekBarZero() {
     var progress by remember { mutableFloatStateOf(0f) }
     BigSeekBar(
         progressProvider = { progress },
@@ -75,7 +75,7 @@ fun PreviewBigSeekBarZero() {
 
 @Preview(name = "BigSeekBar - 50% progress", showBackground = true)
 @Composable
-fun PreviewBigSeekBarHalf() {
+private fun PreviewBigSeekBarHalf() {
     var progress by remember { mutableFloatStateOf(0.5f) }
     BigSeekBar(
         progressProvider = { progress },
@@ -87,7 +87,7 @@ fun PreviewBigSeekBarHalf() {
 
 @Preview(name = "BigSeekBar - Full progress", showBackground = true)
 @Composable
-fun PreviewBigSeekBarFull() {
+private fun PreviewBigSeekBarFull() {
     var progress by remember { mutableFloatStateOf(1f) }
     BigSeekBar(
         progressProvider = { progress },
@@ -99,7 +99,7 @@ fun PreviewBigSeekBarFull() {
 
 @Preview(name = "BigSeekBar - Custom background", showBackground = true)
 @Composable
-fun PreviewBigSeekBarCustomBackground() {
+private fun PreviewBigSeekBarCustomBackground() {
     var progress by remember { mutableFloatStateOf(0.3f) }
     BigSeekBar(
         progressProvider = { progress },
