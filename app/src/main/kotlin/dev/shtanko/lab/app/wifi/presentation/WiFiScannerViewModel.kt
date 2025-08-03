@@ -1,5 +1,6 @@
 package dev.shtanko.lab.app.wifi.presentation
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context.WIFI_SERVICE
 import android.net.wifi.WifiManager
@@ -29,6 +30,7 @@ class WiFiScannerViewModel(application: Application) : AndroidViewModel(applicat
     private val _isScanning = MutableStateFlow(false)
     val isScanning: StateFlow<Boolean> = _isScanning
 
+    @SuppressLint("MissingPermission")
     fun onScanReceived() {
         val connectionInfo = wifiManager.connectionInfo
         _currentConnection.value = WifiCurrentConnectionResource(

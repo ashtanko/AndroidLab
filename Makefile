@@ -52,4 +52,7 @@ screenshot:
 robo:
 	 ./gradlew clearRoborazziDebug && ./gradlew recordRoborazziDebug && ./gradlew compareRoborazziDebug && ./gradlew verifyRoborazziDebug
 
+lint:
+	 ./gradlew lintDebug -Dlint.baselines.continue=true
+
 .DEFAULT_GOAL := default
