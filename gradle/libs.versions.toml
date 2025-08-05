@@ -67,14 +67,35 @@ roborazzi = "1.46.1"                        # https://mvnrepository.com/artifact
 paging = "3.3.6"                            # https://mvnrepository.com/artifact/androidx.paging/paging-runtime
 accompanist = "0.37.3"                      # https://mvnrepository.com/artifact/com.google.accompanist/accompanist-adaptive
 androidx-window = "1.4.0"                   # https://mvnrepository.com/artifact/androidx.window/window
-generativeai = "0.9.0"
-googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
-iconsExtended = "1.7.8"
-androidxComposeAlpha = "1.8.3"
-assertj = "3.27.3"
+generativeai = "0.9.0"                      # https://mvnrepository.com/artifact/com.google.ai.client.generativeai/generativeai
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1" # https://mvnrepository.com/artifact/com.google.android.libraries.mapsplatform.secrets-gradle-plugin/secrets-gradle-plugin
+iconsExtended = "1.7.8"                     # https://mvnrepository.com/artifact/androidx.compose.material/material-icons-extended
+androidxComposeAlpha = "1.8.3"              # https://mvnrepository.com/artifact/androidx.compose/ui
+assertj = "3.27.3"                          # https://mvnrepository.com/artifact/org.assertj/assertj-core
 androidDesugarJdkLibs = "2.1.5"             # https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
-hiltExt = "1.2.0"
-androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+hiltExt = "1.2.0"                           # https://mvnrepository.com/artifact/androidx.hilt/hilt-navigation-compose
+androidxTestExt = "1.3.0"                   # https://mvnrepository.com/artifact/androidx.test.ext/junit
+androidxTestRules = "1.7.0"                 # https://mvnrepository.com/artifact/androidx.test/rules
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" } # https://mvnrepository.com/artifact/androidx.compose.ui/ui-test-manifest
+leakcanary = "2.14"                         # https://mvnrepository.com/artifact/com.squareup.leakcanary/leakcanary-android
+easymock = "5.6.0"                          # https://mvnrepository.com/artifact/org.easymock/easymock
+powermock = "2.0.9"                         # https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
+wiremock = "3.0.1"                          # https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock-jre8
+konsist = "0.17.3"                          # https://mvnrepository.com/artifact/com.lemonappdev/konsist
+fixture = "1.2.0"                           # https://mvnrepository.com/artifact/com.appmattus/fixture
+hamkrest = "1.8.0.1"                        # https://mvnrepository.com/artifact/com.natpryce/hamkrest
+atrium = "1.2.0"                            # https://mvnrepository.com/artifact/ch.tutteli.atrium/atrium-fluent-en_GB
+kluent = "1.73"                             # https://mvnrepository.com/artifact/org.amshove.kluent/kluent
+assertk = "0.28.1"                          # https://mvnrepository.com/artifact/com.willowtreeapps/assertk
+strikt = "0.35.1"                           # https://mvnrepository.com/artifact/strikt/strikt-core
+spek = "2.0.19"                             # https://mvnrepository.com/artifact/org.spekframework.spek2/spek-dsl-jvm
+kotest = "5.9.1"                            # https://mvnrepository.com/artifact/io.kotest/kotest-runner-junit5
+junit = "4.13.2"                            # https://mvnrepository.com/artifact/junit/junit
+dropshots = "0.5.0"                         # https://mvnrepository.com/artifact/com.dropbox.dropshots/dropshots
+paparazzi = "1.3.5"                         # https://mvnrepository.com/artifact/app.cash.paparazzi/paparazzi
+barista = "4.3.0"                           # https://mvnrepository.com/artifact/com.adevinta.android/barista
+kakao = "3.6.5"                             # https://mvnrepository.com/artifact/com.agoda.kakao/kakao
+androidxTest = "1.7.0"                      # https://mvnrepository.com/artifact/androidx.test/core
 
 [bundles]
 androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-ui-test-manifest"]
@@ -109,49 +130,79 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 # endregion
 
-android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
-
-generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
-
-accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
-
 # region androidx
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espressoCore" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidxWork" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxSplash" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidXSecurityCrypto" }
 androidx-autofill = { group = "androidx.autofill", name = "autofill", version.ref = "androdixAutofill" }
 androidx-biometrics = { group = "androidx.biometric", name = "biometric", version.ref = "androidXBiometrics" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidxCredentials" }
-androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidxCamera" }
-androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
-androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "androidxCamera" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidxBrowser" }
-androidx-tracing-perfetto = { module = "androidx.tracing:tracing-perfetto", version.ref = "perfetto" }
-androidx-tracing-perfetto-binary = { module = "androidx.tracing:tracing-perfetto-binary", version.ref = "perfetto" }
-androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = "tracing-ktx" }
-androidx-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "runtime-tracing" }
-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark" }
-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-window-core = { module = "androidx.window:window-core", version.ref = "androidx-window" }
 # endregion
 
-google-play-review = { module = "com.google.android.play:review", version.ref = "googleReview" }
+# region androidx-camera
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidxCamera" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "androidxCamera" }
+# endregion
 
-# other testing libs
-arch-core-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCore" }
-square-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
-robolectric-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
-roborazzi-accessibility-check = { group = "io.github.takahirom.roborazzi", name = "roborazzi-accessibility-check", version.ref = "roborazzi" }
-kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+# region androidx-testing
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTest" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTest" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
+androidx-test-orchestrator = { group = "androidx.test", name = "orchestrator", version.ref = "androidxTest" }
+# endregion
+# Espresso Testing Framework
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espressoCore" }
+androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoCore" }
+androidx-espresso-accessibility = { group = "androidx.test.espresso", name = "espresso-accessibility", version.ref = "espressoCore" }
+androidx-espresso-web = { group = "androidx.test.espresso", name = "espresso-web", version.ref = "espressoCore" }
+androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
+
+# UI Automator
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomatorVersion" }
+
+# Compose Testing
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+
+# Kakao Testing Framework
+kakao = { module = "io.github.kakaocup:kakao", version.ref = "kakao" }
+kakao-compose = { module = "io.github.kakaocup:compose", version.ref = "kakao" }
+
+# Barista Testing Framework
+barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
+
+# Screenshot Testing
+paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+paparazzi-gradle-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
+dropshots = { module = "com.dropbox.dropshots:dropshots", version.ref = "dropshots" }
+# endregion
+
+# region androidx-tracing
+androidx-tracing-perfetto = { module = "androidx.tracing:tracing-perfetto", version.ref = "perfetto" }
+androidx-tracing-perfetto-binary = { module = "androidx.tracing:tracing-perfetto-binary", version.ref = "perfetto" }
+androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = "tracing-ktx" }
+androidx-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "runtime-tracing" }
+# endregion
+
+# region androidx-room
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+# endregion
+
+# region androidx-paging
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 # endregion
 
 # region kotlinx
@@ -166,54 +217,6 @@ kotlinx-coroutines-slf4j = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 # endregion
 
-# region junit
-junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
-junit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
-junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
-junit5-vintageEngine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
-jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
-assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
-# endregion
-
-# lint
-lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
-lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
-lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
-# endregion
-
-# room
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
-# endregion
-
-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
-
-# networking
-square-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-square-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-square-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
-square-retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-skydoves-sandwich-retrofit = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
-square-okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
-square-retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofitBom" }
-# endregion
-
-# region mock libs
-mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-mockito-kotlin2 = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockitoKotlin2" }
-mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
-# endregion
-
-# region image processinge
-coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
-# endregion
-
 # region hilt
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -224,15 +227,129 @@ hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.r
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 # endregion
 
-# region code style
+# region networking
+square-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+square-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+square-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+square-retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+square-retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofitBom" }
+skydoves-sandwich-retrofit = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
+# endregion
+
+# region image-processing
+coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+# endregion
+
+# region testing-frameworks
+# JUnit 4 & 5
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-jupiterEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
+junit5-vintageEngine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit5" }
+
+# Kotlin Test Frameworks
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+kotlin-test-junit5 = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5", version.ref = "kotlin" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-framework-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-framework-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+spek-dsl-jvm = { module = "org.spekframework.spek2:spek-dsl-jvm", version.ref = "spek" }
+spek-runner-junit5 = { module = "org.spekframework.spek2:spek-runner-junit5", version.ref = "spek" }
+
+# Kotlin Assertion Libraries
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+strikt-core = { module = "io.strikt:strikt-core", version.ref = "strikt" }
+strikt-arrow = { module = "io.strikt:strikt-arrow", version.ref = "strikt" }
+assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
+assertk-jvm = { module = "com.willowtreeapps.assertk:assertk-jvm", version.ref = "assertk" }
+kluent = { module = "org.amshove.kluent:kluent", version.ref = "kluent" }
+kluent-android = { module = "org.amshove.kluent:kluent-android", version.ref = "kluent" }
+atrium-core = { module = "ch.tutteli.atrium:atrium-core", version.ref = "atrium" }
+atrium-fluent = { module = "ch.tutteli.atrium:atrium-fluent", version.ref = "atrium" }
+hamkrest = { module = "com.natpryce:hamkrest", version.ref = "hamkrest" }
+
+# Testing Utilities
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+truth-java8-extension = { group = "com.google.truth.extensions", name = "truth-java8-extension", version.ref = "truth" }
+arch-core-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCore" }
+square-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+robolectric-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+robolectric-shadows = { module = "org.robolectric:shadows-framework", version.ref = "robolectric" }
+fixture = { module = "com.appmattus.fixture:fixture", version.ref = "fixture" }
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
+# endregion
+
+# region mock-libraries
+# Mockito
+mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockito" }
+mockito-kotlin2 = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockitoKotlin2" }
+
+# MockK
+mockk-kotlin = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
+
+# WireMock for Network Testing
+wiremock = { module = "com.github.tomakehurst:wiremock-jre8", version.ref = "wiremock" }
+square-okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+
+# Other Mock Libraries
+easymock = { module = "org.easymock:easymock", version.ref = "easymock" }
+powermock-junit4 = { module = "org.powermock:powermock-module-junit4", version.ref = "powermock" }
+powermock-api-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "powermock" }
+# endregion
+
+# region code-quality
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "formattingDetekt" }
 detekt-rules = { module = "io.nlopez.compose.rules:detekt", version.ref = "composeDetekt" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 # endregion
 
-androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomatorVersion" }
+# region lint
+lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
+lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
+lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
+# endregion
 
-# Dependencies of the included build-logic
+# region performance-testing
+# Benchmark
+benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmark" }
+benchmark-junit4 = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmark" }
+profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
+
+# Memory Testing
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+leakcanary-android-instrumentation = { module = "com.squareup.leakcanary:leakcanary-android-instrumentation", version.ref = "leakcanary" }
+
+# Coverage
+jacoco-core = { module = "org.jacoco:org.jacoco.core", version.ref = "jacoco" }
+# endregion
+
+# region roborazzi
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-accessibility-check = { group = "io.github.takahirom.roborazzi", name = "roborazzi-accessibility-check", version.ref = "roborazzi" }
+# endregion
+
+# region accompanist
+accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+# endregion
+
+# region google-services
+generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
+google-play-review = { module = "com.google.android.play:review", version.ref = "googleReview" }
+# endregion
+
+# region build-dependencies
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
@@ -241,6 +358,7 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 compose-guardPlugin = { group = "com.joetr.compose.guard", name = "com.joetr.compose.guard.gradle.plugin", version.ref = "composeGuard" }
+# endregion
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
