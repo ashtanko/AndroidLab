@@ -5,6 +5,10 @@ plugins {
 
 android {
     namespace = "dev.shtanko.androidlab.core.designsystem.feature.testing"
+
+    sourceSets {
+        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
+    }
 }
 
 dependencies {
